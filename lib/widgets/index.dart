@@ -1,3 +1,5 @@
+export 'package:horno/theme/theme.dart';
+
 export 'package:horno/widgets/avatar_widget.dart';
 export 'package:horno/widgets/localitem_widget.dart';
 export 'package:horno/widgets/title_widget.dart';
