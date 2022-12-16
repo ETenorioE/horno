@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:horno/page/avatar_widget.dart';
 import 'package:horno/services/index.dart';
 import 'package:horno/widgets/index.dart';
 import 'package:provider/provider.dart';
@@ -15,8 +14,16 @@ class ColorsApp {
   static Color colorError = const Color(0xffD0021B);
 }
 
-class LocalsPage extends StatelessWidget {
+class LocalsPage extends StatefulWidget {
   const LocalsPage({super.key});
+
+  @override
+  State<LocalsPage> createState() => _LocalsPageState();
+}
+
+class _LocalsPageState extends State<LocalsPage> {
+  final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
+      GlobalKey<RefreshIndicatorState>();
 
   void handleNavigation(int value) {
     print(value);
@@ -84,52 +91,62 @@ class LocalsPage extends StatelessWidget {
           ],
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.only(
-          top: 20,
-          right: 20,
-          left: 20,
-        ),
-        child: Column(
-          children: [
-            Row(
-              children: [
-                SizedBox(
-                  width: 320,
-                  height: 42,
-                  child: TextFormField(
-                    style: inputStyle(ColorsApp.colorSecondary),
-                    decoration: inputDecoration(),
-                    onChanged: (value) {
-                      service.search(value);
-                    },
-                  ),
-                ),
-                const SizedBox(
-                  width: 3,
-                ),
-                IconButton(
-                    onPressed: (() {}),
-                    icon: Icon(
-                      Icons.filter_list,
-                      color: ColorsApp.colorSecondary,
-                    ))
-              ],
-            ),
-            service.isLoading
-                ? const Padding(
-                    padding: EdgeInsets.only(top: 26),
-                    child: Center(
-                      child: CircularProgressIndicator(),
+      body: RefreshIndicator(
+        key: _refreshIndicatorKey,
+        color: ColorsApp.colorLight,
+        backgroundColor: ColorsApp.colorSecondary,
+        strokeWidth: 4.0,
+        onRefresh: () async {
+          print('refresh');
+          service.getAll();
+        },
+        child: Padding(
+          padding: const EdgeInsets.only(
+            top: 20,
+            right: 20,
+            left: 20,
+          ),
+          child: Column(
+            children: [
+              Row(
+                children: [
+                  SizedBox(
+                    width: 320,
+                    height: 42,
+                    child: TextFormField(
+                      style: inputStyle(ColorsApp.colorSecondary),
+                      decoration: inputDecoration(),
+                      onChanged: (value) {
+                        service.search(value);
+                      },
                     ),
-                  )
-                : const SpaceHeight(26),
-            service.locals.isEmpty && service.isLoading == false
-                ? const Center(
-                    child: TextWidget('Locales encontrados 0.'),
-                  )
-                : renderList(service)
-          ],
+                  ),
+                  const SizedBox(
+                    width: 3,
+                  ),
+                  IconButton(
+                      onPressed: (() {}),
+                      icon: Icon(
+                        Icons.filter_list,
+                        color: ColorsApp.colorSecondary,
+                      ))
+                ],
+              ),
+              service.isLoading
+                  ? const Padding(
+                      padding: EdgeInsets.only(top: 26),
+                      child: Center(
+                        child: CircularProgressIndicator(),
+                      ),
+                    )
+                  : const SpaceHeight(26),
+              service.locals.isEmpty && service.isLoading == false
+                  ? const Center(
+                      child: TextWidget('Locales encontrados 0.'),
+                    )
+                  : renderList(service)
+            ],
+          ),
         ),
       ),
       bottomNavigationBar: BottomNavigationWidget(
