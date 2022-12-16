@@ -33,7 +33,10 @@ class LocalsService extends ChangeNotifier {
 
     final response = await http.get(url, headers: headers);
 
-    _processData(response);
+    locals.clear();
+    temps.clear();
+
+    _processData(response, isCached: true);
 
     isLoading = false;
     notifyListeners();
@@ -41,9 +44,6 @@ class LocalsService extends ChangeNotifier {
 
   void _processData(http.Response response, {bool isCached = false}) {
     final List<dynamic> localsMap = json.decode(response.body);
-
-    locals.clear();
-    temps.clear();
 
     for (var element in localsMap) {
       final temp = LocalModel.fromMap(element);
@@ -76,6 +76,7 @@ class LocalsService extends ChangeNotifier {
 
     final response = await http.get(url, headers: headers);
 
+    locals.clear();
     _processData(response);
 
     isLoading = false;
