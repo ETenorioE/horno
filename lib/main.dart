@@ -1,9 +1,22 @@
 import 'package:flutter/material.dart';
-
+import 'package:horno/services/index.dart';
+import 'package:provider/provider.dart';
 import 'page/index.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(const ProviderStateWidget());
+}
+
+class ProviderStateWidget extends StatelessWidget {
+  const ProviderStateWidget({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MultiProvider(
+      providers: [ChangeNotifierProvider(create: ((_) => LocalsService()))],
+      child: const MyApp(),
+    );
+  }
 }
 
 class MyApp extends StatelessWidget {
@@ -19,7 +32,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
         primarySwatch: Colors.blue,
       ),
-      home: const OnboardingScreen(),
+      home: const LocalsPage(),
     );
   }
 }
