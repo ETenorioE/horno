@@ -7,6 +7,7 @@ class LocalItemWidget extends StatelessWidget {
   final String schedule;
   final String state;
   final String image;
+  final Function()? onTap;
 
   const LocalItemWidget({
     Key? key,
@@ -14,12 +15,13 @@ class LocalItemWidget extends StatelessWidget {
     required this.schedule,
     required this.state,
     required this.image,
+    this.onTap,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {},
+      onTap: () => onTap == null ? null : onTap!(),
       child: SizedBox(
         width: 372,
         child: Stack(
