@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:horno/routes/index.dart';
 import 'package:horno/services/index.dart';
 import 'package:provider/provider.dart';
 import 'page/index.dart';
@@ -32,7 +33,8 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
         primarySwatch: Colors.blue,
       ),
-      home: const LocalsPage(),
+      onGenerateRoute: MyRoutes.generateRoute,
+      initialRoute: MyRoutes.rLOCALS,
     );
   }
 }
