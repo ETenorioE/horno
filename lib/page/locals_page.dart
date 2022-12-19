@@ -13,7 +13,7 @@ class LocalsPage extends StatefulWidget {
   State<LocalsPage> createState() => _LocalsPageState();
 }
 
-class _LocalsPageState extends State<LocalsPage> {
+class _LocalsPageState extends State<LocalsPage> with RenderPage {
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
       GlobalKey<RefreshIndicatorState>();
 
@@ -26,47 +26,11 @@ class _LocalsPageState extends State<LocalsPage> {
     final service = Provider.of<LocalsService>(context);
 
     return Scaffold(
-      appBar: AppBar(
-        title: const TitleWidget(
-          'Locales',
-          color: Colors.white,
-        ),
-        centerTitle: true,
-        backgroundColor: ColorsApp.colorSecondary,
-        leading: Builder(
-          builder: (context) {
-            return IconButton(
-              onPressed: () {
-                Scaffold.of(context).openDrawer();
-              },
-              icon: Icon(
-                Icons.menu,
-                color: ColorsApp.colorLight,
-              ),
-            );
-          },
-        ),
-        actions: [
-          IconButton(
-              onPressed: () {},
-              icon: Stack(children: [
-                Icon(
-                  Icons.notifications,
-                  color: ColorsApp.colorLight,
-                ),
-                Positioned(
-                  right: 3,
-                  top: 0,
-                  child: Container(
-                    height: 8,
-                    width: 8,
-                    decoration: BoxDecoration(
-                        shape: BoxShape.circle, color: ColorsApp.colorError),
-                  ),
-                )
-              ]))
-        ],
-      ),
+
+      appBar: appBarRender(
+          title: "Locales",
+          actions: [_iconNotify(context)],
+          leading: _iconDrawer()),
       drawer: const CustomDrawer(),
       // Drawer(
       //   child: ListView(
@@ -84,6 +48,7 @@ class _LocalsPageState extends State<LocalsPage> {
       //     ],
       //   ),
       // ),
+
       body: RefreshIndicator(
         key: _refreshIndicatorKey,
         color: ColorsApp.colorLight,
@@ -124,6 +89,45 @@ class _LocalsPageState extends State<LocalsPage> {
         context: context,
       ),
     );
+  }
+
+  Builder _iconDrawer() {
+    return Builder(
+      builder: (context) {
+        return IconButton(
+          onPressed: () {
+            Scaffold.of(context).openDrawer();
+          },
+          icon: Icon(
+            Icons.menu,
+            color: ColorsApp.colorLight,
+          ),
+        );
+      },
+    );
+  }
+
+  IconButton _iconNotify(BuildContext context) {
+    return IconButton(
+        onPressed: () {
+          Navigator.pushReplacementNamed(context, MyRoutes.rNOTIFY);
+        },
+        icon: Stack(children: [
+          Icon(
+            Icons.notifications,
+            color: ColorsApp.colorLight,
+          ),
+          Positioned(
+            right: 3,
+            top: 0,
+            child: Container(
+              height: 8,
+              width: 8,
+              decoration: BoxDecoration(
+                  shape: BoxShape.circle, color: ColorsApp.colorError),
+            ),
+          )
+        ]));
   }
 
   Row _controls(LocalsService service) {
