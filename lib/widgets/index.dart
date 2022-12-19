@@ -1,3 +1,5 @@
+export 'package:horno/widgets/item_notify_widget.dart';
+export 'package:horno/widgets/methods_widget.dart';
 export 'package:horno/widgets/image_widget.dart';
 export 'package:horno/widgets/item_service_widget.dart';
 export 'package:horno/widgets/botton_navigation_widget.dart';
