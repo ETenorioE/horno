@@ -1,22 +1,19 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:horno/models/index.dart';
+import 'package:horno/services/index.dart';
 import 'package:http/http.dart' as http;
 
 class LocalsService extends ChangeNotifier {
-  final String baseUrl =
-      'https://sfqxztleugofniwjptbq.supabase.co/rest/v1/locals';
+  final String baseUrl = "${BaseService.baseURL}/locals";
 
   List<LocalModel> locals = [];
 
   final List<LocalModel> temps = [];
 
   final Map<String, String> headers = {
-    'apikey':
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNmcXh6dGxldWdvZm5pd2pwdGJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NzEwMzY3MDMsImV4cCI6MTk4NjYxMjcwM30.15cjGyHUNkoGCJajMFvM1ngvC3EU5bnK8JsX-7sCnxs',
-    'Authorization':
-        'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNmcXh6dGxldWdvZm5pd2pwdGJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NzEwMzY3MDMsImV4cCI6MTk4NjYxMjcwM30.15cjGyHUNkoGCJajMFvM1ngvC3EU5bnK8JsX-7sCnxs'
+    'apikey': BaseService.apiKey,
+    'Authorization': BaseService.authorization
   };
 
   bool isLoading = false;
