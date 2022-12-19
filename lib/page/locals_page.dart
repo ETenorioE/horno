@@ -4,7 +4,7 @@ import 'package:horno/routes/index.dart';
 import 'package:horno/services/index.dart';
 import 'package:horno/widgets/index.dart';
 import 'package:provider/provider.dart';
-import 'package:avatar_circle_bapp/avatar_circle_bapp.dart';
+// import 'package:avatar_circle_bapp/avatar_circle_bapp.dart';
 
 class LocalsPage extends StatefulWidget {
   const LocalsPage({super.key});
@@ -67,22 +67,23 @@ class _LocalsPageState extends State<LocalsPage> {
               ]))
         ],
       ),
-      drawer: Drawer(
-        child: ListView(
-          children: const [
-            DrawerHeader(
-                child: Center(
-              child: AvatarSmartWidget(text: 'JS', radius: 60),
-            )),
-            Center(
-              child: AvatarSmartWidgetApp(
-                  image:
-                      'https://cdn.pixabay.com/photo/2016/03/31/20/27/avatar-1295773_960_720.png',
-                  radius: 60),
-            )
-          ],
-        ),
-      ),
+      drawer: const CustomDrawer(),
+      // Drawer(
+      //   child: ListView(
+      //     children: const [
+      //       DrawerHeader(
+      //           child: Center(
+      //         child: AvatarSmartWidget(text: 'JS', radius: 60),
+      //       )),
+      //       Center(
+      //         child: AvatarSmartWidgetApp(
+      //             image:
+      //                 'https://cdn.pixabay.com/photo/2016/03/31/20/27/avatar-1295773_960_720.png',
+      //             radius: 60),
+      //       )
+      //     ],
+      //   ),
+      // ),
       body: RefreshIndicator(
         key: _refreshIndicatorKey,
         color: ColorsApp.colorLight,

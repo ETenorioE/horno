@@ -14,14 +14,9 @@ class HomeScreen extends StatelessWidget {
         centerTitle: true,
         elevation: 0,
       ),
-      body: Column(
-        children: const [
-          SizedBox(
-            height: 10,
-          ),
-          TitleWidget('title'),
-          TextWidget('texto'),
-        ],
+      drawer: CustomDrawer(),
+      body: const Center(
+        child: Text('bienvenidoS'),
       ),
     );
   }
