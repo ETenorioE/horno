@@ -8,4 +8,11 @@ class ColorsApp {
   static Color colorPrimary = const Color(0xffFBC92C);
   static Color colorLight = Colors.white;
   static Color colorError = const Color(0xffD0021B);
+  static Color colorBlack = const Color(0xff252525);
+}
+
+class Medidas {
+  static double mypadding = 20;
+  static double mysize = 16;
+  static double myborderbutton = 15;
 }

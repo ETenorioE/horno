@@ -7,6 +7,7 @@ class MyRoutes {
   static const String rHome = '/home';
   static const String rNOTIFY = '/notifications';
   static const String rVOUCHER = '/voucher';
+  static const String rLOGIN = '/login';
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -20,6 +21,8 @@ class MyRoutes {
         return MaterialPageRoute(builder: (_) => const NotificationPage());
       case ('/voucher'):
         return MaterialPageRoute(builder: (_) => const VoucherPage());
+      case ('/login'):
+        return MaterialPageRoute(builder: (_) => const LoginScreen());
 
       default:
         return MaterialPageRoute(builder: (_) => const HomeScreen());
