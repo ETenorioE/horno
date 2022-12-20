@@ -15,7 +15,7 @@ class CustomDrawer extends StatelessWidget {
           children: [
             const DrawerHeader(
               child: Center(
-                child: TitleWidget('Jheremy Saavedra'),
+                child: TitleWidget('Eduardo Tenorio'),
               ),
             ),
             ListTileCustom(
@@ -96,7 +96,13 @@ class CustomDrawer extends StatelessWidget {
                           'Si',
                           style: TextStyle(color: Colors.black26),
                         ),
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const LoginScreen()),
+                          );
+                        },
                       ),
                       TextButton(
                         child: const Text('No'),
