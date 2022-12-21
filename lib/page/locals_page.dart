@@ -25,9 +25,7 @@ class _LocalsPageState extends State<LocalsPage> with RenderPage {
   Widget build(BuildContext context) {
     final service = Provider.of<LocalsService>(context);
 
-    return Theme(
-      data: ThemeData(
-          primaryIconTheme: IconThemeData(color: ColorsApp.colorLight)),
+    return ThemeCustomWidget(
       child: Scaffold(
         appBar: appBarRender(title: "Locales", actions: [_iconNotify(context)]),
         drawer: const CustomDrawer(),
@@ -37,7 +35,6 @@ class _LocalsPageState extends State<LocalsPage> with RenderPage {
           backgroundColor: ColorsApp.colorSecondary,
           strokeWidth: 4.0,
           onRefresh: () async {
-            print('refresh');
             service.getAll();
           },
           child: Padding(

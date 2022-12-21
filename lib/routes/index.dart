@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:horno/page/index.dart';
+import 'package:horno/widgets/index.dart';
 
 class MyRoutes {
   static const String rLOCALS = '/locals';
@@ -10,6 +11,7 @@ class MyRoutes {
   static const String rLOGIN = '/login';
   static const String rMyORDER = '/my-order';
   static const String rHISTORY = '/history';
+  static const String rPAYMENT = '/payment';
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -29,6 +31,8 @@ class MyRoutes {
         return MaterialPageRoute(builder: (_) => const MyOrderPage());
       case ('/history'):
         return MaterialPageRoute(builder: (_) => const HistorialPage());
+      case ('/payment'):
+        return MaterialPageRoute(builder: (_) => const PaymentPage());
 
       default:
         return MaterialPageRoute(builder: (_) => const HomeScreen());
