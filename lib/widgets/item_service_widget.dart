@@ -37,7 +37,7 @@ class ItemServiceWidget extends StatelessWidget {
                   TextWidget("Precio por kilo"),
                   SpaceWidth(29),
                   TitleWidget(
-                    'S/.30.0',
+                    'S/. 30.0',
                     fontSize: 19,
                   ),
                 ],

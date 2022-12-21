@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:horno/widgets/index.dart';
 
 enum StateNotify { completed, notify }
@@ -48,51 +49,53 @@ class ItemNotify extends StatelessWidget {
             padding: const EdgeInsets.only(right: 36),
             child: Image.asset(_asset),
           ),
-          Container(
-            width: 325,
-            decoration: BoxDecoration(
-                border: Border(
-                    bottom: BorderSide(width: 1, color: ColorsApp.colorText))),
-            padding: const EdgeInsets.only(right: 20, bottom: 10),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    const TextWidget('Buenas tardes'),
-                    const SpaceWidth(10),
-                    TextWidget(
-                      client,
-                      color: ColorsApp.colorTitle,
-                    )
-                  ],
-                ),
-                Row(
-                  children: [
-                    const TextWidget('su pedido de la orden'),
-                    const SpaceWidth(10),
-                    TextWidget(
-                      "#$order",
-                      color: ColorsApp.colorTitle,
-                    )
-                  ],
-                ),
-                TextWidget('Se encuentra $_message'),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    TextWidget(
-                      'hace 3min',
-                      fontSize: 14,
-                      color: ColorsApp.colorTitle,
-                    ),
-                  ],
-                )
-              ],
+          Expanded(
+            child: Container(
+              width: 325,
+              decoration: BoxDecoration(
+                  border: Border(
+                      bottom:
+                          BorderSide(width: 1, color: ColorsApp.colorText))),
+              padding: const EdgeInsets.only(right: 20, bottom: 10),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  RichText(
+                      text: TextSpan(
+                          text: 'Buenas tardes,',
+                          style: _styleText(),
+                          children: [
+                        TextSpan(text: " $client ", style: _styletTitle()),
+                        const TextSpan(text: 'su pedido de la orden'),
+                        TextSpan(text: " #$order ", style: _styletTitle()),
+                        TextSpan(text: ",se encuentra $_message")
+                      ])),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      TextWidget(
+                        'hace 3min',
+                        fontSize: 14,
+                        color: ColorsApp.colorTitle,
+                      ),
+                    ],
+                  )
+                ],
+              ),
             ),
           )
         ],
       ),
     );
+  }
+
+  TextStyle _styleText() {
+    return GoogleFonts.openSans(
+        fontSize: 16, color: ColorsApp.colorText, fontWeight: FontWeight.bold);
+  }
+
+  TextStyle _styletTitle() {
+    return GoogleFonts.openSans(
+        color: ColorsApp.colorTitle, fontSize: 16, fontWeight: FontWeight.bold);
   }
 }

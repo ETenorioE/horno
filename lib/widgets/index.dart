@@ -1,4 +1,6 @@
-
+export 'package:horno/widgets/item_detail_widget.dart';
+export 'package:horno/widgets/line_dashed_widget.dart';
+export 'package:horno/widgets/group_widget.dart';
 export 'package:horno/widgets/drawer.dart';
 export 'package:horno/page/home.dart';
 export 'package:horno/widgets/item_notify_widget.dart';
