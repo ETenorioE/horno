@@ -1,3 +1,7 @@
+export 'package:horno/widgets/textwidget2.dart';
+
+export 'package:horno/page/acerca/politicas.dart';
+
 export 'package:horno/widgets/select_payment_widget.dart';
 export 'package:horno/widgets/theme_custom_widget.dart';
 export 'package:horno/page/payment_page.dart';
