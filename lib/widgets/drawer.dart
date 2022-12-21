@@ -65,7 +65,7 @@ class CustomDrawer extends StatelessWidget {
               texto: 'Acerca de Nosotros',
               icon: Icons.info,
               color: ColorsApp.colorTitle,
-              ontap: const HomeScreen(),
+              ontap: const AboutUsScreen(),
             ),
             ListTile(
               title: Text(

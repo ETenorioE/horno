@@ -1,3 +1,7 @@
+export 'package:horno/page/acerca/politicas.dart';
+export 'package:horno/page/acerca/proteccion.dart';
+export 'package:horno/page/acerca/software.dart';
+export 'package:horno/page/acerca/termino.dart';
 export 'package:horno/page/my_order_page.dart';
 export 'package:horno/page/login_screen.dart';
 export 'package:horno/page/voucher_page.dart';
@@ -7,3 +11,4 @@ export 'package:horno/page/historial_page.dart';
 export 'package:horno/page/onboarding_screen.dart';
 export 'package:horno/page/locals_page.dart';
 export 'package:horno/page/home.dart';
+export 'package:horno/page/about_us.dart';
