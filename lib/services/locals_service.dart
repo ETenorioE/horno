@@ -9,6 +9,8 @@ class LocalsService extends ChangeNotifier {
 
   List<LocalModel> locals = [];
 
+  LocalModel? local;
+
   final List<LocalModel> temps = [];
 
   final Map<String, String> headers = {
@@ -26,7 +28,8 @@ class LocalsService extends ChangeNotifier {
     isLoading = true;
     notifyListeners();
 
-    final url = Uri.parse('$baseUrl?select=*');
+    final url =
+        Uri.parse('$baseUrl?select=*,services(*), contacts(*)&order=name');
 
     final response = await http.get(url, headers: headers);
 
@@ -35,6 +38,7 @@ class LocalsService extends ChangeNotifier {
 
     _processData(response, isCached: true);
 
+    print(locals);
     isLoading = false;
     notifyListeners();
   }
@@ -77,6 +81,11 @@ class LocalsService extends ChangeNotifier {
     _processData(response);
 
     isLoading = false;
+    notifyListeners();
+  }
+
+  void setLocal(local) {
+    this.local = local;
     notifyListeners();
   }
 }

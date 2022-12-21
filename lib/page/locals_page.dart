@@ -38,14 +38,10 @@ class _LocalsPageState extends State<LocalsPage> with RenderPage {
             service.getAll();
           },
           child: Padding(
-            padding: const EdgeInsets.only(
-              top: 20,
-              right: 20,
-              left: 20,
-            ),
+            padding: const EdgeInsets.only(top: 20, right: 20, left: 20),
             child: ListView(
               children: [
-                _controls(service),
+                _controls(service, context),
                 service.isLoading
                     ? Padding(
                         padding: const EdgeInsets.only(top: 26),
@@ -108,56 +104,52 @@ class _LocalsPageState extends State<LocalsPage> with RenderPage {
         ]));
   }
 
-  Row _controls(LocalsService service) {
-    return Row(
-      children: [
-        SizedBox(
-          width: 320,
-          height: 42,
-          child: TextFormField(
-            style: inputStyle(ColorsApp.colorSecondary),
-            decoration: inputDecoration(),
-            onChanged: (value) {
-              service.search(value);
-            },
+  SingleChildScrollView _controls(LocalsService service, BuildContext context) {
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          SizedBox(
+            width: MediaQuery.of(context).size.width - 80,
+            height: 42,
+            child: TextFormField(
+              style: inputStyle(ColorsApp.colorSecondary),
+              decoration: inputDecoration(),
+              onChanged: (value) {
+                service.search(value);
+              },
+            ),
           ),
-        ),
-        const SizedBox(
-          width: 3,
-        ),
-        IconButton(
-            onPressed: (() {}),
-            icon: Icon(
-              Icons.filter_list,
-              color: ColorsApp.colorSecondary,
-            ))
-      ],
+          IconButton(
+              onPressed: (() {}),
+              icon: Icon(
+                Icons.filter_list,
+                color: ColorsApp.colorSecondary,
+              ))
+        ],
+      ),
     );
   }
 
   SizedBox renderList(LocalsService service, BuildContext contextLocal) {
     return SizedBox(
-      height: 500,
-      child: ListView.separated(
-        itemCount: service.locals.length,
-        separatorBuilder: ((context, index) => const SpaceHeight(20)),
-        itemBuilder: (context, index) {
-          final item = service.locals[index];
-          return LocalItemWidget(
-            name: item.name,
-            schedule: item.officeHours,
-            state: item.stateAttention,
-            image: item.image,
-            onTap: () {
-              Navigator.pushReplacementNamed(context, MyRoutes.rLOCAL);
-
-              // Navigator.pushNamedAndRemoveUntil(
-              //     contextLocal, MyRoutes.rLOCAL, (route) => false);
-            },
-          );
-        },
-      ),
-    );
+        height: 500,
+        child: ListView.separated(
+            itemCount: service.locals.length,
+            separatorBuilder: ((context, index) => const SpaceHeight(20)),
+            itemBuilder: (context, index) {
+              final item = service.locals[index];
+              return LocalItemWidget(
+                  name: item.name,
+                  schedule: item.officeHours,
+                  state: item.stateAttention,
+                  image: item.banner,
+                  onTap: () {
+                    service.setLocal(item);
+                    Navigator.pushReplacementNamed(context, MyRoutes.rLOCAL);
+                  });
+            }));
   }
 
   InputDecoration inputDecoration() {
