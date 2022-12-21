@@ -9,6 +9,7 @@ class MyRoutes {
   static const String rVOUCHER = '/voucher';
   static const String rLOGIN = '/login';
   static const String rMyORDER = '/my-order';
+  static const String rHISTORY = '/history';
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -26,6 +27,8 @@ class MyRoutes {
         return MaterialPageRoute(builder: (_) => const LoginScreen());
       case ('/my-order'):
         return MaterialPageRoute(builder: (_) => const MyOrderPage());
+      case ('/history'):
+        return MaterialPageRoute(builder: (_) => const HistorialPage());
 
       default:
         return MaterialPageRoute(builder: (_) => const HomeScreen());
