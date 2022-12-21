@@ -1,43 +1,42 @@
 import 'package:flutter/material.dart';
+import 'package:horno/models/index.dart';
 import 'package:horno/page/index.dart';
 import 'package:horno/routes/index.dart';
+import 'package:horno/services/index.dart';
 import 'package:horno/widgets/index.dart';
+import 'package:provider/provider.dart';
 
 class LocalPage extends StatelessWidget {
   const LocalPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<LocalsService>(context);
+
     return Scaffold(
-      backgroundColor: ColorsApp.colorSecondary,
-      bottomNavigationBar: BottomNavigationWidget(
-        currentIndex: -1,
-        context: context,
-      ),
-      body: ListView(
-        children: [
-          _header(context),
-          _details(),
+        backgroundColor: ColorsApp.colorSecondary,
+        bottomNavigationBar:
+            BottomNavigationWidget(currentIndex: -1, context: context),
+        body: ListView(children: [
+          _header(context, provider.local),
+          _details(provider.local),
           _services(),
           Container(
-            height: 320,
-            padding: const EdgeInsets.only(top: 20, right: 20, left: 20),
-            color: ColorsApp.colorLight,
-            child: ListView.separated(
-              itemCount: 3,
-              separatorBuilder: (context, index) => const SpaceHeight(20),
-              itemBuilder: (context, index) {
-                return ItemServiceWidget(
-                  onTap: () {
-                    Navigator.pushReplacementNamed(context, MyRoutes.rPAYMENT);
-                  },
-                );
-              },
-            ),
-          )
-        ],
-      ),
-    );
+              height: 320,
+              padding: const EdgeInsets.only(top: 20, right: 20, left: 20),
+              color: ColorsApp.colorLight,
+              child: ListView.separated(
+                  itemCount: provider.local!.services.length,
+                  separatorBuilder: (context, index) => const SpaceHeight(20),
+                  itemBuilder: (context, index) {
+                    return ItemServiceWidget(
+                        service: provider.local!.services[index],
+                        onTap: () {
+                          Navigator.pushReplacementNamed(
+                              context, MyRoutes.rPAYMENT);
+                        });
+                  }))
+        ]));
   }
 
   Container _services() {
@@ -46,18 +45,14 @@ class LocalPage extends StatelessWidget {
       decoration: BoxDecoration(
           color: ColorsApp.colorLight,
           border: Border.symmetric(
-              horizontal: BorderSide(
-            width: 3,
-            color: ColorsApp.colorText,
-          ))),
+              horizontal: BorderSide(width: 3, color: ColorsApp.colorText))),
       child: Row(
         children: [
           IconAndTextWidget(
-            text: "Servicios",
-            icon: Icons.room_service,
-            color: ColorsApp.colorSecondary,
-            colorText: ColorsApp.colorSecondary,
-          ),
+              text: "Servicios",
+              icon: Icons.room_service,
+              color: ColorsApp.colorSecondary,
+              colorText: ColorsApp.colorSecondary),
           const SpaceWidth(23),
           MaterialButton(
               onPressed: () {},
@@ -70,7 +65,7 @@ class LocalPage extends StatelessWidget {
     );
   }
 
-  Container _details() {
+  Container _details(LocalModel? local) {
     return Container(
       color: ColorsApp.colorLight,
       padding: const EdgeInsets.only(right: 20, top: 17, left: 20, bottom: 27),
@@ -79,26 +74,9 @@ class LocalPage extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const TitleWidget(
-                'La Pastana - Los Olivos',
-                fontSize: 18,
-              ),
-              TitleWidget(
-                'Abierto',
-                fontSize: 16,
-                color: ColorsApp.colorSuccess,
-              )
-            ],
-          ),
-          const SpaceHeight(10),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: const [
-              IconAndTextWidget(
-                icon: Icons.location_on_outlined,
-                text: "Av. Los rios",
-              ),
-              IconAndTextWidget(text: "10:00 - 22:00", icon: Icons.access_time)
+              TitleWidget(local!.name, fontSize: 18),
+              TitleWidget(local.stateAttention,
+                  fontSize: 16, color: ColorsApp.colorSuccess)
             ],
           ),
           const SpaceHeight(10),
@@ -106,26 +84,24 @@ class LocalPage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               IconAndTextWidget(
-                text: "4.8",
-                icon: Icons.star,
-                color: ColorsApp.colorSecondary,
-              ),
+                  icon: Icons.location_on_outlined, text: local.address),
+              IconAndTextWidget(
+                  text: local.officeHours, icon: Icons.access_time)
+            ],
+          ),
+          const SpaceHeight(10),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              IconAndTextWidget(
+                  text: local.rating.toString(),
+                  icon: Icons.star,
+                  color: ColorsApp.colorSecondary),
               Row(
-                children: const [
-                  _IconButtonImageWidget(
-                    contact: 'whatsapp',
-                  ),
-                  _IconButtonImageWidget(
-                    contact: 'facebook',
-                  ),
-                  _IconButtonImageWidget(
-                    contact: 'instagram',
-                  ),
-                  _IconButtonImageWidget(
-                    contact: 'tiktok',
-                  ),
-                ],
-              )
+                  children: local.contacts
+                      .map(
+                          (e) => _IconButtonImageWidget(contact: e.contactName))
+                      .toList())
             ],
           ),
         ],
@@ -133,52 +109,37 @@ class LocalPage extends StatelessWidget {
     );
   }
 
-  Container _header(BuildContext context) {
+  Container _header(BuildContext context, LocalModel? local) {
     return Container(
-      color: ColorsApp.colorLight,
-      height: 160,
-      child: Stack(
-        clipBehavior: Clip.none,
-        children: [
+        color: ColorsApp.colorLight,
+        height: 160,
+        child: Stack(clipBehavior: Clip.none, children: [
           Positioned(
-            bottom: 25,
-            top: 0,
-            right: 0,
-            left: 0,
-            child: Image.network(
-              'https://cdn.pixabay.com/photo/2016/11/29/10/09/bakery-1868925_960_720.jpg',
-              fit: BoxFit.cover,
-            ),
-          ),
-          const Positioned(
-            bottom: 0,
-            left: 20,
-            child: _LogoWidget(),
-          ),
+              bottom: 25,
+              top: 0,
+              right: 0,
+              left: 0,
+              child: Image.network(local!.banner, fit: BoxFit.cover)),
+          Positioned(bottom: 0, left: 20, child: _LogoWidget(url: local.image)),
           Positioned(
-            top: 20,
-            left: 20,
-            right: 20,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                _IconButtonBgWidget(
-                  icon: Icons.arrow_back,
-                  color: ColorsApp.colorTitle,
-                  onPressed: () {
-                    Navigator.pushReplacementNamed(context, MyRoutes.rLOCALS);
-                  },
-                ),
-                _IconButtonBgWidget(
-                  icon: Icons.favorite_border,
-                  color: ColorsApp.colorSecondary,
-                )
-              ],
-            ),
-          )
-        ],
-      ),
-    );
+              top: 20,
+              left: 20,
+              right: 20,
+              child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    _IconButtonBgWidget(
+                        icon: Icons.arrow_back,
+                        color: ColorsApp.colorTitle,
+                        onPressed: () {
+                          Navigator.pushReplacementNamed(
+                              context, MyRoutes.rLOCALS);
+                        }),
+                    _IconButtonBgWidget(
+                        icon: Icons.favorite_border,
+                        color: ColorsApp.colorSecondary)
+                  ]))
+        ]));
   }
 }
 
@@ -193,18 +154,13 @@ class _IconButtonImageWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 30,
-      width: 30,
-      child: IconButton(
-          padding: const EdgeInsets.all(0),
-          onPressed: () {},
-          icon: Image.asset(
-            'assets/contact/$contact.png',
-            height: 22,
-            width: 22,
-            fit: BoxFit.cover,
-          )),
-    );
+        height: 30,
+        width: 30,
+        child: IconButton(
+            padding: const EdgeInsets.all(0),
+            onPressed: () {},
+            icon: Image.asset('assets/contact/$contact.png',
+                height: 22, width: 22, fit: BoxFit.cover)));
   }
 }
 
@@ -226,34 +182,28 @@ class _IconButtonBgWidget extends StatelessWidget {
         radius: 16,
         backgroundColor: ColorsApp.colorLight,
         child: IconButton(
-          onPressed: () => onPressed == null ? null : onPressed!(),
-          icon: Icon(
-            icon,
-            size: 17,
-            color: color,
-          ),
-        ));
+            onPressed: () => onPressed == null ? null : onPressed!(),
+            icon: Icon(icon, size: 17, color: color)));
   }
 }
 
 class _LogoWidget extends StatelessWidget {
+  final String url;
+
   const _LogoWidget({
     Key? key,
+    required this.url,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 52,
-      width: 60,
-      decoration: BoxDecoration(
-          color: ColorsApp.colorLight, borderRadius: BorderRadius.circular(9)),
-      padding: const EdgeInsets.all(2),
-      child: const ImageNetworkRoundedWidget(
-        radius: 9,
-        url:
-            'https://img.freepik.com/vector-premium/concepto-logo-panaderia-retro_23-2148469649.jpg',
-      ),
-    );
+        height: 52,
+        width: 60,
+        decoration: BoxDecoration(
+            color: ColorsApp.colorLight,
+            borderRadius: BorderRadius.circular(9)),
+        padding: const EdgeInsets.all(2),
+        child: ImageNetworkRoundedWidget(radius: 9, url: url));
   }
 }
