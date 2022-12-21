@@ -48,7 +48,7 @@ class LocalPage extends StatelessWidget {
           ))),
       child: Row(
         children: [
-          _IconAndTextWidget(
+          IconAndTextWidget(
             text: "Servicios",
             icon: Icons.room_service,
             color: ColorsApp.colorSecondary,
@@ -90,18 +90,18 @@ class LocalPage extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: const [
-              _IconAndTextWidget(
+              IconAndTextWidget(
                 icon: Icons.location_on_outlined,
                 text: "Av. Los rios",
               ),
-              _IconAndTextWidget(text: "10:00 - 22:00", icon: Icons.access_time)
+              IconAndTextWidget(text: "10:00 - 22:00", icon: Icons.access_time)
             ],
           ),
           const SpaceHeight(10),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              _IconAndTextWidget(
+              IconAndTextWidget(
                 text: "4.8",
                 icon: Icons.star,
                 color: ColorsApp.colorSecondary,
@@ -200,42 +200,6 @@ class _IconButtonImageWidget extends StatelessWidget {
             width: 22,
             fit: BoxFit.cover,
           )),
-    );
-  }
-}
-
-class _IconAndTextWidget extends StatelessWidget {
-  final String text;
-  final IconData icon;
-  final Color? color;
-  final Color? colorText;
-
-  const _IconAndTextWidget({
-    Key? key,
-    required this.text,
-    required this.icon,
-    this.color,
-    this.colorText,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    Color colorIcon = color ?? ColorsApp.colorText;
-    Color _colorText = colorText ?? ColorsApp.colorText;
-
-    return Row(
-      children: [
-        Icon(
-          icon,
-          color: colorIcon,
-          size: 17,
-        ),
-        const SpaceWidth(5),
-        TextWidget(
-          text,
-          color: _colorText,
-        )
-      ],
     );
   }
 }

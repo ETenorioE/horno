@@ -25,68 +25,49 @@ class _LocalsPageState extends State<LocalsPage> with RenderPage {
   Widget build(BuildContext context) {
     final service = Provider.of<LocalsService>(context);
 
-    return Scaffold(
-
-      appBar: appBarRender(
-          title: "Locales",
-          actions: [_iconNotify(context)],
-          leading: _iconDrawer()),
-      drawer: const CustomDrawer(),
-      // Drawer(
-      //   child: ListView(
-      //     children: const [
-      //       DrawerHeader(
-      //           child: Center(
-      //         child: AvatarSmartWidget(text: 'JS', radius: 60),
-      //       )),
-      //       Center(
-      //         child: AvatarSmartWidgetApp(
-      //             image:
-      //                 'https://cdn.pixabay.com/photo/2016/03/31/20/27/avatar-1295773_960_720.png',
-      //             radius: 60),
-      //       )
-      //     ],
-      //   ),
-      // ),
-
-      body: RefreshIndicator(
-        key: _refreshIndicatorKey,
-        color: ColorsApp.colorLight,
-        backgroundColor: ColorsApp.colorSecondary,
-        strokeWidth: 4.0,
-        onRefresh: () async {
-          print('refresh');
-          service.getAll();
-        },
-        child: Padding(
-          padding: const EdgeInsets.only(
-            top: 20,
-            right: 20,
-            left: 20,
-          ),
-          child: ListView(
-            children: [
-              _controls(service),
-              service.isLoading
-                  ? Padding(
-                      padding: const EdgeInsets.only(top: 26),
-                      child: Center(
-                        child: CircularProgressIndicator(
-                            color: ColorsApp.colorSecondary),
-                      ),
-                    )
-                  : const SpaceHeight(26),
-              service.locals.isEmpty && service.isLoading == false
-                  ? const Center(
-                      child: TextWidget('Locales encontrados 0.'),
-                    )
-                  : renderList(service, context)
-            ],
+    return Theme(
+      data: ThemeData(
+          primaryIconTheme: IconThemeData(color: ColorsApp.colorLight)),
+      child: Scaffold(
+        appBar: appBarRender(title: "Locales", actions: [_iconNotify(context)]),
+        drawer: const CustomDrawer(),
+        body: RefreshIndicator(
+          key: _refreshIndicatorKey,
+          color: ColorsApp.colorLight,
+          backgroundColor: ColorsApp.colorSecondary,
+          strokeWidth: 4.0,
+          onRefresh: () async {
+            print('refresh');
+            service.getAll();
+          },
+          child: Padding(
+            padding: const EdgeInsets.only(
+              top: 20,
+              right: 20,
+              left: 20,
+            ),
+            child: ListView(
+              children: [
+                _controls(service),
+                service.isLoading
+                    ? Padding(
+                        padding: const EdgeInsets.only(top: 26),
+                        child: Center(
+                          child: CircularProgressIndicator(
+                              color: ColorsApp.colorSecondary),
+                        ),
+                      )
+                    : const SpaceHeight(26),
+                service.locals.isEmpty && service.isLoading == false
+                    ? const Center(
+                        child: TextWidget('Locales encontrados 0.'),
+                      )
+                    : renderList(service, context)
+              ],
+            ),
           ),
         ),
-      ),
-      bottomNavigationBar: BottomNavigationWidget(
-        context: context,
+        bottomNavigationBar: BottomNavigationWidget(context: context),
       ),
     );
   }
