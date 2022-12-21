@@ -3,7 +3,6 @@ import 'package:horno/routes/index.dart';
 import 'package:horno/services/index.dart';
 import 'package:horno/services/voucher_service.dart';
 import 'package:provider/provider.dart';
-import 'page/index.dart';
 
 void main() {
   runApp(const ProviderStateWidget());
@@ -38,7 +37,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       onGenerateRoute: MyRoutes.generateRoute,
-      initialRoute: MyRoutes.rLOCALS,
+      initialRoute: MyRoutes.rABOUT,
     );
   }
 }

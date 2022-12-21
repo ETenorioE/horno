@@ -11,7 +11,9 @@ class MyRoutes {
   static const String rLOGIN = '/login';
   static const String rMyORDER = '/my-order';
   static const String rHISTORY = '/history';
+  static const String rABOUT = '/about';
   static const String rPAYMENT = '/payment';
+
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -31,8 +33,11 @@ class MyRoutes {
         return MaterialPageRoute(builder: (_) => const MyOrderPage());
       case ('/history'):
         return MaterialPageRoute(builder: (_) => const HistorialPage());
+      case ('/about'):
+        return MaterialPageRoute(builder: (_) => const AboutUsScreen());
       case ('/payment'):
         return MaterialPageRoute(builder: (_) => const PaymentPage());
+
 
       default:
         return MaterialPageRoute(builder: (_) => const HomeScreen());
