@@ -27,7 +27,11 @@ class LocalPage extends StatelessWidget {
               itemCount: 3,
               separatorBuilder: (context, index) => const SpaceHeight(20),
               itemBuilder: (context, index) {
-                return const ItemServiceWidget();
+                return ItemServiceWidget(
+                  onTap: () {
+                    Navigator.pushReplacementNamed(context, MyRoutes.rPAYMENT);
+                  },
+                );
               },
             ),
           )

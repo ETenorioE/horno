@@ -7,28 +7,18 @@ class MyOrderPage extends StatelessWidget with RenderPage {
 
   @override
   Widget build(BuildContext context) {
-    return Theme(
-      data: ThemeData(
-          primaryIconTheme: IconThemeData(color: ColorsApp.colorLight)),
+    return ThemeCustomWidget(
       child: Scaffold(
         appBar: appBarRender(title: "Mi Pedido"),
         body: Stack(children: [
-          Container(
-            width: MediaQuery.of(context).size.width,
-            decoration: const BoxDecoration(
-                image: DecorationImage(
-                    image: AssetImage('assets/images/bg.png'),
-                    fit: BoxFit.cover)),
-          ),
+          backgroundImageRender(context),
           Padding(
             padding: const EdgeInsets.only(top: 20, right: 20, left: 20),
             child: Container(
               padding: const EdgeInsets.symmetric(vertical: 11, horizontal: 17),
               decoration: BoxDecoration(
                   color: ColorsApp.colorLight,
-                  borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(10),
-                      topRight: Radius.circular(10))),
+                  borderRadius: borderRadiusTopRender()),
               child: SingleChildScrollView(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,

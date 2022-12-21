@@ -15,8 +15,6 @@ class BottomNavigationWidget extends StatelessWidget {
   }) : super(key: key);
 
   void handleTap(int value) {
-    print(currentIndex);
-    print(value);
     switch (value) {
       case 0:
         if (currentIndex! != 0) {
