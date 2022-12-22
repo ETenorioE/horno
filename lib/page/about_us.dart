@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:horno/page/index.dart';
-import 'package:horno/theme/theme.dart';
+
+import '../widgets/index.dart';
 
 class AboutUsScreen extends StatelessWidget {
   const AboutUsScreen({Key? key}) : super(key: key);
@@ -51,25 +52,110 @@ class AboutUsScreen extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                     fontSize: 20),
               ),
+              SizedBox(height: 50),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: const [
-                  Icon(Icons.home),
-                  Icon(Icons.home),
-                  Icon(Icons.home),
-                  Icon(Icons.home),
+                children: [
+                  MaterialButton(
+                    child: Container(
+                      width: 50,
+                      height: 50,
+                      decoration: BoxDecoration(
+                          image: const DecorationImage(
+                            image: AssetImage('assets/images/whatsapp.png'),
+                            fit: BoxFit.cover,
+                          ),
+                          borderRadius: BorderRadius.circular(15),
+                          color: Colors.transparent,
+                          border: Border.all(
+                            width: 1,
+                            color: ColorsApp.colorPrimary,
+                          )),
+                    ),
+                    onPressed: () {
+                      // const url = "https://wa.me/51902870396?text=hola";
+                      // var encodes = Uri.encodeFull(url);
+                    },
+                  ),
+                  MaterialButton(
+                    child: Container(
+                      width: 50,
+                      height: 50,
+                      decoration: BoxDecoration(
+                          image: const DecorationImage(
+                            image: AssetImage('assets/images/facebook2.png'),
+                            fit: BoxFit.cover,
+                          ),
+                          borderRadius: BorderRadius.circular(15),
+                          color: Colors.transparent,
+                          border: Border.all(
+                            width: 1,
+                            color: ColorsApp.colorPrimary,
+                          )),
+                    ),
+                    onPressed: () {},
+                  ),
+                  MaterialButton(
+                    child: Container(
+                      width: 50,
+                      height: 50,
+                      decoration: BoxDecoration(
+                          image: const DecorationImage(
+                            image: AssetImage('assets/images/instagram.png'),
+                            fit: BoxFit.cover,
+                          ),
+                          borderRadius: BorderRadius.circular(15),
+                          color: Colors.transparent,
+                          border: Border.all(
+                            width: 1,
+                            color: ColorsApp.colorPrimary,
+                          )),
+                    ),
+                    onPressed: () {},
+                  ),
+                  MaterialButton(
+                    child: Container(
+                      width: 50,
+                      height: 50,
+                      decoration: BoxDecoration(
+                          image: const DecorationImage(
+                            image: AssetImage('assets/images/tiktok.png'),
+                            fit: BoxFit.cover,
+                          ),
+                          borderRadius: BorderRadius.circular(15),
+                          color: Colors.transparent,
+                          border: Border.all(
+                            width: 1,
+                            color: ColorsApp.colorPrimary,
+                          )),
+                    ),
+                    onPressed: () {},
+                  ),
                 ],
               ),
-              const SizedBox(
-                height: 10,
-              ),
+              SizedBox(height: 50),
             ],
           ),
         ],
       ),
+      bottomNavigationBar: BottomNavigationWidget(
+        context: context,
+        currentIndex: -1,
+      ),
     );
   }
 }
+
+// _enviarMensajeWhatsapp() async {
+//   var numero = "+51902870396";
+//   var cadena = Uri.parse("whatsapp://send?$numero&text=hola");
+//   if (await canLaunchUrl(cadena)) {
+//     await launchUrl(cadena);
+//   } else {
+//     // ScaffoldMessenger.of(context)
+//     //     .showSnackBar(const SnackBar(content: Text('data')));
+//   }
+// }
 
 class _ListTileCustom extends StatelessWidget {
   final String Titulo;
