@@ -1,3 +1,4 @@
+export 'package:horno/page/payment_page.dart';
 export 'package:horno/page/order_detail_page.dart';
 export 'package:horno/page/acerca/politicas.dart';
 export 'package:horno/page/acerca/proteccion.dart';

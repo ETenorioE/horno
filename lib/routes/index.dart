@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:horno/page/index.dart';
-import 'package:horno/widgets/index.dart';
 
 class MyRoutes {
   static const String rLOCALS = '/locals';
