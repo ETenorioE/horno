@@ -46,6 +46,12 @@ mixin RenderPage {
       )),
     );
   }
+
+  BoxDecoration borderRadiusAndColorRender() {
+    return BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
+        border: Border.all(color: ColorsApp.colorPrimary));
+  }
 }
 
 Image imageNetworkCustom(String url) => Image.network(url, fit: BoxFit.cover);
