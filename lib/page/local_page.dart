@@ -128,14 +128,14 @@ class LocalPage extends StatelessWidget {
               child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    _IconButtonBgWidget(
+                    IconButtonBgWidget(
                         icon: Icons.arrow_back,
                         color: ColorsApp.colorTitle,
                         onPressed: () {
                           Navigator.pushReplacementNamed(
                               context, MyRoutes.rLOCALS);
                         }),
-                    _IconButtonBgWidget(
+                    IconButtonBgWidget(
                         icon: Icons.favorite_border,
                         color: ColorsApp.colorSecondary)
                   ]))
@@ -161,29 +161,6 @@ class _IconButtonImageWidget extends StatelessWidget {
             onPressed: () {},
             icon: Image.asset('assets/contact/$contact.png',
                 height: 22, width: 22, fit: BoxFit.cover)));
-  }
-}
-
-class _IconButtonBgWidget extends StatelessWidget {
-  final IconData icon;
-  final Color color;
-  final Function()? onPressed;
-
-  const _IconButtonBgWidget({
-    Key? key,
-    required this.icon,
-    required this.color,
-    this.onPressed,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return CircleAvatar(
-        radius: 16,
-        backgroundColor: ColorsApp.colorLight,
-        child: IconButton(
-            onPressed: () => onPressed == null ? null : onPressed!(),
-            icon: Icon(icon, size: 17, color: color)));
   }
 }
 

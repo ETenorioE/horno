@@ -22,31 +22,18 @@ class PaymentPage extends StatelessWidget with RenderPage {
                   const SpaceHeight(20),
                   _payment(context),
                   const SpaceHeight(20),
-                  _button()
+                  ButtonWidget(
+                      onPressed: () {},
+                      child:
+                          TitleWidget('Confirmar', color: ColorsApp.colorLight))
                 ])))
           ])),
     );
   }
 
-  SizedBox _button() {
-    return SizedBox(
-      width: 372,
-      height: 58,
-      child: MaterialButton(
-        color: ColorsApp.colorSecondary,
-        onPressed: () {},
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        child: TitleWidget(
-          'Confirmar',
-          color: ColorsApp.colorLight,
-        ),
-      ),
-    );
-  }
-
   Container _payment(BuildContext context) {
     return Container(
-      decoration: _borderRadiusAndColor(),
+      decoration: borderRadiusAndColorRender(),
       padding: _paddingCard(),
       width: MediaQuery.of(context).size.width,
       child: Column(
@@ -70,7 +57,7 @@ class PaymentPage extends StatelessWidget with RenderPage {
     return Container(
       width: MediaQuery.of(context).size.width,
       padding: _paddingCard(),
-      decoration: _borderRadiusAndColor(),
+      decoration: borderRadiusAndColorRender(),
       child: Column(
         children: [
           const TitleWidget('Detalle de la ordern #453', fontSize: 16),
@@ -107,11 +94,5 @@ class PaymentPage extends StatelessWidget with RenderPage {
 
   EdgeInsets _paddingCard() {
     return const EdgeInsets.symmetric(vertical: 11, horizontal: 17);
-  }
-
-  BoxDecoration _borderRadiusAndColor() {
-    return BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
-        border: Border.all(color: ColorsApp.colorPrimary));
   }
 }
