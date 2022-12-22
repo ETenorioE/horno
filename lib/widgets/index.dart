@@ -1,3 +1,5 @@
+export 'package:horno/widgets/item_order_widget.dart';
+export 'package:horno/widgets/card_widget.dart';
 export 'package:horno/widgets/select_payment_widget.dart';
 export 'package:horno/widgets/theme_custom_widget.dart';
 export 'package:horno/page/payment_page.dart';
@@ -14,6 +16,6 @@ export 'package:horno/widgets/botton_navigation_widget.dart';
 export 'package:horno/widgets/space_widget.dart';
 export 'package:horno/theme/theme.dart';
 export 'package:horno/widgets/avatar_widget.dart';
-export 'package:horno/widgets/localitem_widget.dart';
+export 'package:horno/widgets/item_local_widget.dart';
 export 'package:horno/widgets/title_widget.dart';
 export 'package:horno/widgets/text_widget.dart';

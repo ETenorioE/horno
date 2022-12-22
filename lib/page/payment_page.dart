@@ -9,38 +9,22 @@ class PaymentPage extends StatelessWidget with RenderPage {
   Widget build(BuildContext context) {
     return ThemeCustomWidget(
       child: Scaffold(
-        appBar: appBarRender(
-            title: 'Pagar',
-            leading: InkWell(
-              child: const Icon(Icons.arrow_back),
-              onTap: () {
-                Navigator.pushReplacementNamed(context, MyRoutes.rLOCAL);
-              },
-            )),
-        body: Stack(children: [
-          backgroundImageRender(context),
-          Padding(
-            padding: const EdgeInsets.only(top: 63),
-            child: Container(
-              height: double.infinity,
-              padding: const EdgeInsets.only(
-                  right: 20, left: 20, top: 38, bottom: 20),
-              decoration: BoxDecoration(
-                  color: ColorsApp.colorLight,
-                  borderRadius: borderRadiusTopRender(radius: 20)),
-              child: ListView(
-                children: [
+          appBar: appBarRender(
+              title: 'Pagar',
+              leading: backLeadingRender(context, MyRoutes.rORDER_DETAIL)),
+          body: Stack(children: [
+            backgroundImageRender(context),
+            Padding(
+                padding: const EdgeInsets.only(top: 63),
+                child: CardWidget(
+                    child: ListView(children: [
                   _details(context),
                   const SpaceHeight(20),
                   _payment(context),
                   const SpaceHeight(20),
                   _button()
-                ],
-              ),
-            ),
-          ),
-        ]),
-      ),
+                ])))
+          ])),
     );
   }
 

@@ -16,6 +16,23 @@ mixin RenderPage {
       backgroundColor: ColorsApp.colorSecondary,
       leading: leading,
       actions: actions,
+      elevation: 0,
+    );
+  }
+
+  BorderRadius borderRadiusTopRender({double? radius = 10}) {
+    return BorderRadius.only(
+      topLeft: Radius.circular(radius!),
+      topRight: Radius.circular(radius),
+    );
+  }
+
+  InkWell backLeadingRender(BuildContext context, String route) {
+    return InkWell(
+      child: const Icon(Icons.arrow_back),
+      onTap: () {
+        Navigator.pushReplacementNamed(context, route);
+      },
     );
   }
 
@@ -29,11 +46,6 @@ mixin RenderPage {
       )),
     );
   }
-
-  BorderRadius borderRadiusTopRender({double? radius = 10}) {
-    return BorderRadius.only(
-      topLeft: Radius.circular(radius!),
-      topRight: Radius.circular(radius),
-    );
-  }
 }
+
+Image imageNetworkCustom(String url) => Image.network(url, fit: BoxFit.cover);
