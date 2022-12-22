@@ -33,7 +33,7 @@ class LocalPage extends StatelessWidget {
                         service: provider.local!.services[index],
                         onTap: () {
                           Navigator.pushReplacementNamed(
-                              context, MyRoutes.rPAYMENT);
+                              context, MyRoutes.rORDER_DETAIL);
                         });
                   }))
         ]));
@@ -119,7 +119,7 @@ class LocalPage extends StatelessWidget {
               top: 0,
               right: 0,
               left: 0,
-              child: Image.network(local!.banner, fit: BoxFit.cover)),
+              child: imageNetworkCustom(local!.banner)),
           Positioned(bottom: 0, left: 20, child: _LogoWidget(url: local.image)),
           Positioned(
               top: 20,

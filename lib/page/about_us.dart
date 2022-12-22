@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:horno/page/index.dart';
-
-import '../widgets/index.dart';
+import 'package:horno/widgets/index.dart';
 
 class AboutUsScreen extends StatelessWidget {
   const AboutUsScreen({Key? key}) : super(key: key);

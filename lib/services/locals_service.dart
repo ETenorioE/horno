@@ -29,7 +29,7 @@ class LocalsService extends ChangeNotifier {
     notifyListeners();
 
     final url =
-        Uri.parse('$baseUrl?select=*,services(*), contacts(*)&order=name');
+        Uri.parse('$baseUrl?select=*,services(*),contacts(*)&order=name');
 
     final response = await http.get(url, headers: headers);
 
@@ -71,7 +71,8 @@ class LocalsService extends ChangeNotifier {
     isLoading = true;
     notifyListeners();
 
-    final query = 'select=*&name=like.%25$text%25&order=name';
+    final query =
+        'select=*,services(*),contacts(*)&name=like.%25$text%25&order=name';
 
     final url = Uri.parse('$baseUrl?$query');
 

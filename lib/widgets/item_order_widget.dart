@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:horno/page/index.dart';
 import 'package:horno/widgets/index.dart';
 
-class LocalItemWidget extends StatelessWidget {
+class ItemOrderWidget extends StatelessWidget {
   final String name;
   final String schedule;
   final String state;
   final String image;
   final Function()? onTap;
 
-  const LocalItemWidget({
+  const ItemOrderWidget({
     Key? key,
     required this.name,
     required this.schedule,

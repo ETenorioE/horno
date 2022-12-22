@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../theme/theme.dart';
+import 'package:horno/widgets/index.dart';
 
 class TextWidget2 extends StatelessWidget {
   final String text;
