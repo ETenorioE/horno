@@ -77,7 +77,7 @@ class OrderService extends ChangeNotifier {
     notifyListeners();
   }
 
-  void clearData(int localId) async {
+  Future clearData() async {
     await DBOrders.deleteRows(order!);
 
     order = null;

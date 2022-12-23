@@ -33,7 +33,7 @@ class MyRoutes {
       case ('/my-order'):
         return MaterialPageRoute(builder: (_) => const MyOrderPage());
       case ('/history'):
-        return MaterialPageRoute(builder: (_) => const HistorialPage());
+        return MaterialPageRoute(builder: (_) => const HistoryPage());
       case ('/about'):
         return MaterialPageRoute(builder: (_) => const AboutUsScreen());
       case ('/payment'):
@@ -41,7 +41,7 @@ class MyRoutes {
       case ('/order-detail'):
         return MaterialPageRoute(builder: (_) => const OrderDetailPage());
       case ('/historial'):
-        return MaterialPageRoute(builder: (_) => const HistorialPage());
+        return MaterialPageRoute(builder: (_) => const HistoryPage());
       case ('/onboard'):
         return MaterialPageRoute(builder: (_) => const OnboardingScreen());
 

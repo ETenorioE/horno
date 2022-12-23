@@ -40,7 +40,7 @@ class CustomDrawer extends StatelessWidget {
               icon: Icons.history,
               texto: 'Historial',
               color: ColorsApp.colorTitle,
-              ontap: const HistorialPage(),
+              ontap: const HistoryPage(),
             ),
             ListTileCustom(
               icon: Icons.add_business,

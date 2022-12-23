@@ -18,7 +18,8 @@ class StateMessageProcess {
 }
 
 class PaymentService extends ChangeNotifier {
-  String orderText = '';
+  int orderId = 38;
+
   final String baseUrl = "${BaseService.baseURL}/orders";
 
   Future<StateMessageProcess> save({
@@ -48,6 +49,10 @@ class PaymentService extends ChangeNotifier {
       await supabase.from('details').insert(detailsMap);
 
       String orderText = orderId.toString().padLeft(5, '0');
+
+      this.orderId = orderId;
+
+      notifyListeners();
       // EasyLoading.dismiss();
 
       return StateMessageProcess(
@@ -63,6 +68,36 @@ class PaymentService extends ChangeNotifier {
         msg: 'No se pudo completar la orden',
       );
     }
+  }
+
+  Future<OrderModel> findById(int id) async {
+    final supabase = Supabase.instance.client;
+
+    final response = await supabase
+        .from('orders')
+        .select('*,details(*)')
+        .eq('id', id)
+        .single();
+
+    final orderSave = OrderModel.fromMap(response);
+
+    return orderSave;
+  }
+
+  Future<List<OrderModel>> findAll() async {
+    final supabase = Supabase.instance.client;
+    List<OrderModel> list = [];
+
+    final List<dynamic> response =
+        await supabase.from('orders').select('*').order('id', ascending: false);
+
+    for (var item in response) {
+      final order = OrderModel.fromMapSave(item);
+
+      list.add(order);
+    }
+
+    return list;
   }
 
   List<Map<String, dynamic>> _convertDetails(

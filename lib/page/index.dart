@@ -1,5 +1,4 @@
 export 'package:horno/page/onboarding_screen.dart';
-
 export 'package:horno/page/register_screen.dart';
 export 'package:horno/page/payment_page.dart';
 export 'package:horno/page/order_detail_page.dart';
@@ -12,7 +11,7 @@ export 'package:horno/page/login_screen.dart';
 export 'package:horno/page/voucher_page.dart';
 export 'package:horno/page/notification_page.dart';
 export 'package:horno/page/local_page.dart';
-export 'package:horno/page/historial_page.dart';
+export 'package:horno/page/history_page.dart';
 export 'package:horno/page/onboarding_screen.dart';
 export 'package:horno/page/locals_page.dart';
 export 'package:horno/page/home.dart';
