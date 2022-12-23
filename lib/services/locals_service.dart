@@ -21,6 +21,8 @@ class LocalsService extends ChangeNotifier {
   bool isLoading = false;
 
   LocalsService() {
+    locals.clear();
+    temps.clear();
     getAll();
   }
 
@@ -36,9 +38,8 @@ class LocalsService extends ChangeNotifier {
     locals.clear();
     temps.clear();
 
-    _processData(response, isCached: true);
+    _processData(response, isCached: false);
 
-    print(locals);
     isLoading = false;
     notifyListeners();
   }
@@ -58,6 +59,7 @@ class LocalsService extends ChangeNotifier {
 
   Future search(String text) async {
     if (text.isEmpty) {
+      locals.clear();
       locals = temps;
       isLoading = false;
       notifyListeners();

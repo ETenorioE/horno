@@ -145,19 +145,20 @@ class CustomOnboarding extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            const Text('Omitir'),
-            IconButton(
-              iconSize: 30,
-              icon: const Icon(Icons.chevron_right_outlined),
-              onPressed: () {
-                // ...
-                Navigator.pushReplacementNamed(context, MyRoutes.rLOGIN);
-              },
-            ),
-          ],
+        InkWell(
+          onTap: () {
+            Navigator.pushReplacementNamed(context, MyRoutes.rLOGIN);
+          },
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: const [
+              Text('Omitir'),
+              Icon(
+                Icons.chevron_right_outlined,
+                size: 30,
+              ),
+            ],
+          ),
         ),
         const Spacer(),
         Image.asset(
