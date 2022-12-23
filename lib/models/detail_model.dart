@@ -1,7 +1,7 @@
 class DetailModel {
   DetailModel({
-    required this.id,
-    required this.createdAt,
+    this.id,
+    this.createdAt,
     required this.orderId,
     required this.serviceName,
     required this.serviceImage,
@@ -10,14 +10,14 @@ class DetailModel {
     required this.total,
   });
 
-  int id;
-  DateTime createdAt;
+  int? id;
+  DateTime? createdAt;
   int orderId;
   String serviceName;
   String serviceImage;
-  int servicePrice;
+  double servicePrice;
   int weight;
-  int total;
+  double total;
 
   factory DetailModel.fromJson(Map<String, dynamic> json) => DetailModel(
         id: json["id"],
@@ -32,7 +32,16 @@ class DetailModel {
 
   Map<String, dynamic> toJson() => {
         "id": id,
-        "created_at": createdAt.toIso8601String(),
+        "created_at": createdAt?.toIso8601String(),
+        "order_id": orderId,
+        "service_name": serviceName,
+        "service_image": serviceImage,
+        "service_price": servicePrice,
+        "weight": weight,
+        "total": total,
+      };
+
+  Map<String, dynamic> toJsonSave() => {
         "order_id": orderId,
         "service_name": serviceName,
         "service_image": serviceImage,

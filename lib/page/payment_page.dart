@@ -1,7 +1,9 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:horno/database/index.dart';
+import 'package:horno/models/index.dart';
 import 'package:horno/routes/index.dart';
 import 'package:horno/services/index.dart';
 import 'package:horno/widgets/index.dart';
@@ -14,9 +16,9 @@ class PaymentPage extends StatelessWidget with RenderPage {
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<OrderService>(context);
-    final orientation = MediaQuery.of(context).orientation;
+    final service = Provider.of<PaymentService>(context, listen: false);
 
-    void handleSelectPayment(String value) {}
+    final orientation = MediaQuery.of(context).orientation;
 
     return ThemeCustomWidget(
       child: Scaffold(
@@ -35,7 +37,32 @@ class PaymentPage extends StatelessWidget with RenderPage {
                   _payment(context, provider),
                   const SpaceHeight(20),
                   ButtonWidget(
-                      onPressed: () {},
+                      onPressed: () async {
+                        final orderLocal = provider.order;
+                        if (orderLocal == null) return;
+
+                        final response = await service.save(
+                          order: orderLocal,
+                          details: provider.details,
+                          paymentMethod: provider.paymentMethod,
+                          total: provider.total,
+                        );
+
+                        if (response.state == StateProcess.success) {
+                          EasyLoading.instance.backgroundColor =
+                              ColorsApp.colorSuccess;
+                          EasyLoading.showSuccess(response.msg);
+
+                          // ignore: use_build_context_synchronously
+                          Navigator.pushReplacementNamed(
+                              context, MyRoutes.rLOCAL);
+                        } else {
+                          EasyLoading.instance.backgroundColor =
+                              ColorsApp.colorError;
+
+                          EasyLoading.showError(response.msg);
+                        }
+                      },
                       child:
                           TitleWidget('Confirmar', color: ColorsApp.colorLight))
                 ])))
@@ -73,14 +100,14 @@ class PaymentPage extends StatelessWidget with RenderPage {
 
   Container _details(BuildContext context, OrderService provider) {
     final orientation = MediaQuery.of(context).orientation;
-    final orderText = provider.order?.id.toString().padLeft(5, '0');
+
     return Container(
       width: MediaQuery.of(context).size.width,
       padding: _paddingCard(),
       decoration: borderRadiusAndColorRender(),
       child: Column(
         children: [
-          TitleWidget('Detalle de la order #$orderText', fontSize: 16),
+          const TitleWidget('Detalle de la orden', fontSize: 16),
           const SpaceHeight(18),
           SizedBox(
               height: orientation == Orientation.portrait ? 140 : 140 / 2,
