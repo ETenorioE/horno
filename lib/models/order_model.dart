@@ -1,6 +1,8 @@
 import 'package:horno/models/index.dart';
 import 'dart:convert';
 
+import 'package:intl/intl.dart';
+
 class OrderModel {
   OrderModel({
     this.id,
@@ -72,4 +74,16 @@ class OrderModel {
       };
 
   String toRawJson() => json.encode(toJsonSave());
+
+  String get totalText => "S/. ${total.toStringAsFixed(2)}";
+
+  String get orderText {
+    return id.toString().padLeft(5, '0');
+  }
+
+  String get createdText {
+    final DateFormat formatter = DateFormat('dd-MM-yyyy');
+    final String formatted = formatter.format(createdAt!);
+    return formatted;
+  }
 }

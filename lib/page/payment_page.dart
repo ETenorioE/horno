@@ -51,6 +51,9 @@ class PaymentPage extends StatelessWidget with RenderPage {
                         if (response.state == StateProcess.success) {
                           EasyLoading.instance.backgroundColor =
                               ColorsApp.colorSuccess;
+
+                          await provider.clearData();
+
                           EasyLoading.showSuccess(response.msg);
 
                           // ignore: use_build_context_synchronously

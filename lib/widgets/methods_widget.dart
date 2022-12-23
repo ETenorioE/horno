@@ -39,11 +39,7 @@ mixin RenderPage {
   Container backgroundImageRender(BuildContext context) {
     return Container(
       width: MediaQuery.of(context).size.width,
-      decoration: const BoxDecoration(
-          image: DecorationImage(
-        image: AssetImage('assets/images/bg.png'),
-        fit: BoxFit.cover,
-      )),
+      decoration: onlyDecorationBackground(),
     );
   }
 
@@ -52,6 +48,14 @@ mixin RenderPage {
         borderRadius: BorderRadius.circular(10),
         border: Border.all(color: ColorsApp.colorPrimary));
   }
+}
+
+BoxDecoration onlyDecorationBackground() {
+  return const BoxDecoration(
+      image: DecorationImage(
+    image: AssetImage('assets/images/bg.png'),
+    fit: BoxFit.cover,
+  ));
 }
 
 Image imageNetworkCustom(String url) => Image.network(url, fit: BoxFit.cover);

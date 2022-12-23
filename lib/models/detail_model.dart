@@ -49,4 +49,8 @@ class DetailModel {
         "weight": weight,
         "total": total,
       };
+
+  String get totalText => "S/. ${total.toStringAsFixed(2)}";
+
+  String get text => "$serviceName de ${weight}kg";
 }
