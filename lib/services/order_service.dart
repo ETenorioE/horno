@@ -76,4 +76,14 @@ class OrderService extends ChangeNotifier {
     paymentMethod = value;
     notifyListeners();
   }
+
+  void clearData(int localId) async {
+    await DBOrders.deleteRows(order!);
+
+    order = null;
+    total = 0;
+    details = [];
+
+    notifyListeners();
+  }
 }

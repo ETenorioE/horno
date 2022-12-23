@@ -1,10 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:horno/routes/index.dart';
 import 'package:horno/services/index.dart';
+import 'package:horno/theme/theme.dart';
 import 'package:provider/provider.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await Supabase.initialize(url: BaseService.sURL, anonKey: BaseService.apiKey);
+
   runApp(const ProviderStateWidget());
+
+  configLoading();
+}
+
+void configLoading() {
+  EasyLoading.instance
+    ..progressColor = ColorsApp.colorSecondary
+    ..loadingStyle = EasyLoadingStyle.custom
+    ..backgroundColor = ColorsApp.colorSecondary
+    ..indicatorColor = ColorsApp.colorLight
+    ..textColor = ColorsApp.colorLight
+    ..maskColor = ColorsApp.colorSecondary.withOpacity(0.5);
 }
 
 class ProviderStateWidget extends StatelessWidget {
@@ -17,6 +36,7 @@ class ProviderStateWidget extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => LocalsService()),
         ChangeNotifierProvider(create: (_) => VoucherService()),
         ChangeNotifierProvider(create: (_) => OrderService()),
+        ChangeNotifierProvider(create: (_) => PaymentService()),
       ],
       child: const MyApp(),
     );
@@ -38,6 +58,7 @@ class MyApp extends StatelessWidget {
       ),
       onGenerateRoute: MyRoutes.generateRoute,
       initialRoute: MyRoutes.rABOUT,
+      builder: EasyLoading.init(),
     );
   }
 }

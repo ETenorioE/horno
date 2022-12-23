@@ -1,4 +1,5 @@
 import 'package:horno/database/db.dart';
+import 'package:horno/database/db_details.dart';
 import 'package:horno/database/models/orderDbModel.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -43,5 +44,15 @@ class DBOrders {
     final order = OrderDbModel.fromMap(first);
 
     return order;
+  }
+
+  static Future deleteRows(OrderDbModel order) async {
+    Database? db = await DbApp.instance.database;
+
+    await db!
+        .delete(table, where: "$columnLocalId = ?", whereArgs: [order.localId]);
+
+    await db!.delete(DBDetails.table,
+        where: "${DBDetails.columnOrderId} = ?", whereArgs: [order.id]);
   }
 }
