@@ -24,13 +24,11 @@ class ItemServiceWidget extends StatelessWidget {
             child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const SizedBox(
+                  SizedBox(
                       width: 52,
                       height: 49,
                       child: ImageNetworkRoundedWidget(
-                          radius: 10,
-                          url:
-                              'https://cdn.pixabay.com/photo/2013/12/21/18/02/thanksgiving-231781_960_720.jpg')),
+                          radius: 10, url: service.image)),
                   Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -39,7 +37,8 @@ class ItemServiceWidget extends StatelessWidget {
                         Row(children: [
                           const TextWidget("Precio por kilo"),
                           const SpaceWidth(29),
-                          TitleWidget("S/. ${service.price}", fontSize: 19),
+                          TitleWidget("S/. ${service.price.toStringAsFixed(2)}",
+                              fontSize: 19),
                         ])
                       ]),
                   Icon(Icons.arrow_forward, color: ColorsApp.colorPrimary)
