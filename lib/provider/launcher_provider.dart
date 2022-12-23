@@ -75,5 +75,28 @@ class LauncherProvider extends ChangeNotifier {
     }
     //
   }
-  //
+
+//Instagram
+  void goInstagram() async {
+    String nativeUrl = "instagram://user?username=eduardo_tenorio7";
+    String webUrl = "https://www.instagram.com/eduardo_tenorio7";
+    try {
+      await launchUrlString(nativeUrl, mode: LaunchMode.externalApplication);
+    } catch (e) {
+      await launchUrlString(webUrl, mode: LaunchMode.platformDefault);
+    }
+  }
+
+  //Facebook
+  void goFacebook() async {
+    String WebUrl = "https://www.facebook.com/eduardo.tenorio.357/";
+    String nativeUrl =
+        "fb://profile/408834569303957"; //Funciona la idea es saber el ID
+    // String nativeUrl = "fb://facewebmodal/f?href";
+    try {
+      await launchUrlString(nativeUrl, mode: LaunchMode.externalApplication);
+    } catch (e) {
+      await launchUrlString(WebUrl, mode: LaunchMode.platformDefault);
+    }
+  }
 }

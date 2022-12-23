@@ -92,7 +92,7 @@ class AboutUsScreen extends StatelessWidget {
                             color: ColorsApp.colorPrimary,
                           )),
                     ),
-                    onPressed: () {},
+                    onPressed: () => launcherProvider.goFacebook(),
                   ),
                   MaterialButton(
                     child: Container(
@@ -110,7 +110,7 @@ class AboutUsScreen extends StatelessWidget {
                             color: ColorsApp.colorPrimary,
                           )),
                     ),
-                    onPressed: () {},
+                    onPressed: () => launcherProvider.goInstagram(),
                   ),
                   MaterialButton(
                     child: Container(
@@ -128,7 +128,7 @@ class AboutUsScreen extends StatelessWidget {
                             color: ColorsApp.colorPrimary,
                           )),
                     ),
-                    onPressed: () {},
+                    onPressed: () => launcherProvider.goInstagram(),
                   ),
                 ],
               ),
