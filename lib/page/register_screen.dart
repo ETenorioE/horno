@@ -263,7 +263,7 @@ class _LoginFormState extends State<_LoginForm> {
                 ),
                 disabledColor: ColorsApp.colorPrimary,
                 elevation: 1,
-                color: ColorsApp.colorPrimary,
+                color: ColorsApp.colorSecondary,
                 onPressed: loginProvider.isLoading
                     ? null
                     : () async {

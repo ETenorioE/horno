@@ -46,7 +46,8 @@ class MyRoutes {
         return MaterialPageRoute(builder: (_) => const OnboardingScreen());
 
       default:
-        return MaterialPageRoute(builder: (_) => const HomeScreen());
+        print(settings.name);
+        return MaterialPageRoute(builder: (_) => const LoginScreen());
     }
   }
 }

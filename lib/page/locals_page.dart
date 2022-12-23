@@ -29,34 +29,42 @@ class _LocalsPageState extends State<LocalsPage> with RenderPage {
       child: Scaffold(
         appBar: appBarRender(title: "Locales", actions: [_iconNotify(context)]),
         drawer: const CustomDrawer(),
-        body: RefreshIndicator(
-          key: _refreshIndicatorKey,
-          color: ColorsApp.colorLight,
-          backgroundColor: ColorsApp.colorSecondary,
-          strokeWidth: 4.0,
-          onRefresh: () async {
-            service.getAll();
+        body: GestureDetector(
+          onTap: () {
+            final FocusScopeNode focus = FocusScope.of(context);
+            if (!focus.hasPrimaryFocus && focus.hasFocus) {
+              FocusManager.instance.primaryFocus!.unfocus();
+            }
           },
-          child: Padding(
-            padding: const EdgeInsets.only(top: 20, right: 20, left: 20),
-            child: ListView(
-              children: [
-                _controls(service, context),
-                service.isLoading
-                    ? Padding(
-                        padding: const EdgeInsets.only(top: 26),
-                        child: Center(
-                          child: CircularProgressIndicator(
-                              color: ColorsApp.colorSecondary),
-                        ),
-                      )
-                    : const SpaceHeight(26),
-                service.locals.isEmpty && service.isLoading == false
-                    ? const Center(
-                        child: TextWidget('Locales encontrados 0.'),
-                      )
-                    : renderList(service, context)
-              ],
+          child: RefreshIndicator(
+            key: _refreshIndicatorKey,
+            color: ColorsApp.colorLight,
+            backgroundColor: ColorsApp.colorSecondary,
+            strokeWidth: 4.0,
+            onRefresh: () async {
+              service.getAll();
+            },
+            child: Padding(
+              padding: const EdgeInsets.only(top: 20, right: 20, left: 20),
+              child: ListView(
+                children: [
+                  _controls(service, context),
+                  service.isLoading
+                      ? Padding(
+                          padding: const EdgeInsets.only(top: 26),
+                          child: Center(
+                            child: CircularProgressIndicator(
+                                color: ColorsApp.colorSecondary),
+                          ),
+                        )
+                      : const SpaceHeight(26),
+                  service.locals.isEmpty && service.isLoading == false
+                      ? const Center(
+                          child: TextWidget('Locales encontrados 0.'),
+                        )
+                      : renderList(service, context)
+                ],
+              ),
             ),
           ),
         ),
