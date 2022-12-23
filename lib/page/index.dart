@@ -1,3 +1,6 @@
+export 'package:horno/page/onboarding_screen.dart';
+
+export 'package:horno/page/register_screen.dart';
 export 'package:horno/page/payment_page.dart';
 export 'package:horno/page/order_detail_page.dart';
 export 'package:horno/page/acerca/politicas.dart';

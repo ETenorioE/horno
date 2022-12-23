@@ -1,19 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:horno/page/register_screen.dart';
 import 'package:horno/provider/provider_login.dart';
 import 'package:horno/routes/index.dart';
 import 'package:horno/services/notifications_service.dart';
 import 'package:horno/theme/theme.dart';
 import 'package:provider/provider.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+class RegisterScreen extends StatefulWidget {
+  const RegisterScreen({Key? key}) : super(key: key);
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<RegisterScreen> createState() => _RegisterScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _RegisterScreenState extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     //Declarar los recursos del provider a usar
@@ -42,39 +41,11 @@ class _LoginScreenState extends State<LoginScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    'Bienvenido',
+                    'Registro',
                     style: TextStyle(
                         fontSize: 36,
                         fontWeight: FontWeight.bold,
                         color: ColorsApp.colorPrimary),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        '¿No tienes una cuenta?',
-                        style: TextStyle(
-                          color: ColorsApp.colorText,
-                          fontSize: 16,
-                        ),
-                      ),
-                      TextButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => RegisterScreen()),
-                          );
-                        },
-                        child: Text(
-                          'Registrate',
-                          style: TextStyle(
-                              color: ColorsApp.colorPrimary,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16),
-                        ),
-                      ),
-                    ],
                   ),
                   ChangeNotifierProvider(
                     create: (context) => ProviderLogin(),
@@ -191,7 +162,7 @@ class _LoginFormState extends State<_LoginForm> {
               style: TextStyle(color: ColorsApp.colorBlack),
               autocorrect: false,
               keyboardType: TextInputType.emailAddress,
-              decoration: DecorationTextFormField2(
+              decoration: DecorationTextFormField(
                 hinttext: 'your@email.com',
               ),
               //Enviar los datos al provider
@@ -225,7 +196,7 @@ class _LoginFormState extends State<_LoginForm> {
               autocorrect: false,
               obscureText: _ispassword,
               keyboardType: TextInputType.visiblePassword,
-              decoration: DecorationTextFormField2(
+              decoration: DecorationTextFormField(
                 hinttext: 'Ingrese su contraseña',
                 suffixIcon: InkWell(
                   onTap: _viewpassword,
@@ -238,7 +209,43 @@ class _LoginFormState extends State<_LoginForm> {
               //Enviar los datos al provider
               //VALIDACIÓN
               validator: (value) {
-                return (value != null && value.length >= 8)
+                return (value != null && value.length > 8)
+                    ? null
+                    : 'La contraseña debe tener 8 caracteres';
+              },
+              //VALIDACIÓN
+            ),
+            Row(
+              children: [
+                Text(
+                  'Confirmar Contraseña',
+                  style: TextStyle(
+                      color: ColorsApp.colorTitle,
+                      fontWeight: FontWeight.bold,
+                      fontSize: Medidas.mysize),
+                ),
+              ],
+            ),
+            TextFormField(
+              cursorColor: ColorsApp.colorTitle,
+              style: TextStyle(color: ColorsApp.colorBlack),
+              autocorrect: false,
+              obscureText: _ispassword,
+              keyboardType: TextInputType.visiblePassword,
+              decoration: DecorationTextFormField(
+                hinttext: 'Confirmar su contraseña',
+                suffixIcon: InkWell(
+                  onTap: _viewpassword,
+                  child: Icon(
+                      _ispassword ? Icons.visibility : Icons.visibility_off),
+                ),
+              ),
+              //Enviar los datos al provider
+              onChanged: (value) => loginProvider.password = value,
+              //Enviar los datos al provider
+              //VALIDACIÓN
+              validator: (value) {
+                return (value != null && value.length > 8)
                     ? null
                     : 'La contraseña debe tener 8 caracteres';
               },
@@ -272,16 +279,17 @@ class _LoginFormState extends State<_LoginForm> {
 
                         // ignore: use_build_context_synchronously
                         Navigator.pushReplacementNamed(
-                            context, MyRoutes.rLOCALS);
-
-                        NotificationsService.showSnackbar('Bienvenido');
+                            context, MyRoutes.rLOGIN);
+                        //
+                        NotificationsService.showSnackbar(
+                            'Reegistrado Correctamente');
                       },
                 child: (loginProvider.isLoading)
                     ? CircularProgressIndicator(
                         color: ColorsApp.colorSuccess,
                       )
                     : Text(
-                        'Iniciar Sesión',
+                        'Registrar',
                         style: TextStyle(
                             color: ColorsApp.colorLight,
                             fontWeight: FontWeight.bold,
@@ -296,7 +304,7 @@ class _LoginFormState extends State<_LoginForm> {
   }
 }
 
-InputDecoration DecorationTextFormField2({
+InputDecoration DecorationTextFormField({
   final String? hinttext,
   final Widget? suffixIcon,
 }) {
