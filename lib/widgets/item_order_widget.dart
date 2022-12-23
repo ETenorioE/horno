@@ -1,19 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:horno/database/index.dart';
+import 'package:horno/services/index.dart';
 import 'package:horno/widgets/index.dart';
+import 'package:provider/provider.dart';
 
 class ItemOrderWidget extends StatefulWidget with RenderPage {
-  final String text;
-  final double price;
-  final String image;
+  final DetailDbModel detail;
   final Function()? onTap;
 
   const ItemOrderWidget({
     Key? key,
-    required this.text,
-    required this.price,
-    required this.image,
     this.onTap,
+    required this.detail,
   }) : super(key: key);
 
   @override
@@ -24,58 +23,71 @@ class _ItemOrderWidgetState extends State<ItemOrderWidget> {
   double _total = 1;
 
   @override
+  void initState() {
+    _total = widget.detail.weight! * widget.detail.servicePrice!;
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final detail = widget.detail;
+    final provider = Provider.of<OrderService>(context, listen: false);
+
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        SizedBox(
-          width: 52,
-          height: 49,
-          child: ImageNetworkRoundedWidget(radius: 10, url: widget.image),
-        ),
-        SizedBox(
-          width: MediaQuery.of(context).size.width - 120,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  _wrappedTextWidget(widget.text),
-                  Icon(
-                    Icons.delete,
-                    size: 24,
-                    color: ColorsApp.colorSecondary,
-                  ),
-                ],
-              ),
-              const SpaceHeight(10),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      _ControlOrderWidget(
-                        onChange: (p0) {
-                          setState(() {
-                            _total = p0 * widget.price;
-                          });
-                        },
-                      ),
-                      const SpaceWidth(5),
-                      _wrappedTextWidget('kg')
-                    ],
-                  ),
-                  _wrappedTextWidget('S/. $_total',
-                      color: ColorsApp.colorSecondary),
-                ],
-              )
-            ],
-          ),
-        ),
-      ],
-    );
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          _image(detail),
+          SizedBox(
+              width: MediaQuery.of(context).size.width - 120,
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          _wrappedTextWidget(detail.serviceName!),
+                          IconButton(
+                            onPressed: () {
+                              provider.deleteDetail(detail.id!);
+                            },
+                            icon: Icon(Icons.delete,
+                                size: 24, color: ColorsApp.colorSecondary),
+                          )
+                        ]),
+                    const SpaceHeight(10),
+                    Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(children: [
+                            _ControlOrderWidget(onChange: (weight) {
+                              setState(() {
+                                _total = weight * detail.servicePrice!;
+                              });
+                              provider.updateDetail(
+                                detail.id!,
+                                weight: weight,
+                                total: weight * detail.servicePrice!,
+                              );
+                            }),
+                            const SpaceWidth(5),
+                            _wrappedTextWidget('kg')
+                          ]),
+                          _wrappedTextWidget('S/. ${_total.toStringAsFixed(2)}',
+                              color: ColorsApp.colorSecondary)
+                        ])
+                  ]))
+        ]);
+  }
+
+  SizedBox _image(DetailDbModel detail) {
+    return SizedBox(
+        width: 52,
+        height: 49,
+        child: ImageNetworkRoundedWidget(
+          radius: 10,
+          url: detail.serviceImage!,
+        ));
   }
 
   TextWidget _wrappedTextWidget(String text,
@@ -99,8 +111,6 @@ class _ControlOrderWidget extends StatefulWidget {
 }
 
 class _ControlOrderWidgetState extends State<_ControlOrderWidget> {
-  int _counter = 1;
-
   final TextEditingController controller = TextEditingController(text: "1");
 
   void subtract() {
@@ -131,6 +141,18 @@ class _ControlOrderWidgetState extends State<_ControlOrderWidget> {
     controller.text = value.toString();
 
     widget.onChange(value);
+  }
+
+  void _handleChange() {
+    int value = int.tryParse(controller.text) ?? 1;
+
+    widget.onChange(value);
+  }
+
+  @override
+  void initState() {
+    controller.addListener(_handleChange);
+    super.initState();
   }
 
   @override

@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:horno/models/index.dart';
 
 class LocalModel {

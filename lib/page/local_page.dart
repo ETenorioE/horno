@@ -13,6 +13,8 @@ class LocalPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final provider = Provider.of<LocalsService>(context);
 
+    final orderProvider = Provider.of<OrderService>(context, listen: false);
+
     return Scaffold(
         backgroundColor: ColorsApp.colorSecondary,
         bottomNavigationBar:
@@ -29,9 +31,13 @@ class LocalPage extends StatelessWidget {
                   itemCount: provider.local!.services.length,
                   separatorBuilder: (context, index) => const SpaceHeight(20),
                   itemBuilder: (context, index) {
+                    final service = provider.local!.services[index];
+
                     return ItemServiceWidget(
-                        service: provider.local!.services[index],
+                        service: service,
                         onTap: () {
+                          orderProvider.createOrder(service, "1");
+
                           Navigator.pushReplacementNamed(
                               context, MyRoutes.rORDER_DETAIL);
                         });
