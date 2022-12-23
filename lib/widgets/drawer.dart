@@ -34,19 +34,19 @@ class CustomDrawer extends StatelessWidget {
               icon: Icons.sell_rounded,
               texto: 'Mi pedido',
               color: ColorsApp.colorTitle,
-              ontap: const HomeScreen(),
+              ontap: const MyOrderPage(),
             ),
             ListTileCustom(
               icon: Icons.history,
               texto: 'Historial',
               color: ColorsApp.colorTitle,
-              ontap: const HomeScreen(),
+              ontap: const HistorialPage(),
             ),
             ListTileCustom(
               icon: Icons.add_business,
               texto: 'Locales',
               color: ColorsApp.colorTitle,
-              ontap: const HomeScreen(),
+              ontap: const LocalsPage(),
             ),
             Padding(
               padding: const EdgeInsets.only(left: 24, right: 24),

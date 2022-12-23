@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:horno/provider/provider_login.dart';
 import 'package:horno/routes/index.dart';
 import 'package:horno/services/index.dart';
+import 'package:horno/services/notifications_service.dart';
 import 'package:horno/services/voucher_service.dart';
 import 'package:provider/provider.dart';
 
@@ -16,7 +18,8 @@ class ProviderStateWidget extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: ((_) => LocalsService())),
-        ChangeNotifierProvider(create: (_) => VoucherService())
+        ChangeNotifierProvider(create: (_) => VoucherService()),
+        ChangeNotifierProvider(create: (_) => ProviderLogin()),
       ],
       child: const MyApp(),
     );
@@ -37,7 +40,8 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       onGenerateRoute: MyRoutes.generateRoute,
-      initialRoute: MyRoutes.rABOUT,
+      initialRoute: MyRoutes.rONBOARD,
+      scaffoldMessengerKey: NotificationsService.messengerKey,
     );
   }
 }

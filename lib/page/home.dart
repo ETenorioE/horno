@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:horno/services/notifications_service.dart';
 import 'package:horno/widgets/index.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -15,9 +16,12 @@ class HomeScreen extends StatelessWidget {
         elevation: 0,
       ),
       drawer: CustomDrawer(),
-      body: const Center(
-        child: Text('bienvenidoS'),
-      ),
+      body: Center(
+          child: IconButton(
+              onPressed: () {
+                NotificationsService.showSnackbar('message');
+              },
+              icon: Icon(Icons.home))),
     );
   }
 }

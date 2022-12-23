@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:horno/page/index.dart';
+
+import '../routes/index.dart';
 // import 'package:horno/widgets/index.dart';
 
 class OnboardingScreen extends StatefulWidget {
@@ -142,6 +145,20 @@ class CustomOnboarding extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            const Text('Omitir'),
+            IconButton(
+              iconSize: 30,
+              icon: const Icon(Icons.chevron_right_outlined),
+              onPressed: () {
+                // ...
+                Navigator.pushReplacementNamed(context, MyRoutes.rLOGIN);
+              },
+            ),
+          ],
+        ),
         const Spacer(),
         Image.asset(
           image,
