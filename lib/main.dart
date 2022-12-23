@@ -62,7 +62,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       onGenerateRoute: MyRoutes.generateRoute,
-      initialRoute: MyRoutes.rONBOARD,
+      initialRoute: MyRoutes.rLOCALS,
       scaffoldMessengerKey: NotificationsService.messengerKey,
       builder: EasyLoading.init(),
     );
