@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:horno/provider/provider_login.dart';
+import 'package:horno/provider/index.dart';
 import 'package:horno/routes/index.dart';
 import 'package:horno/services/index.dart';
 import 'package:horno/theme/theme.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:horno/services/notifications_service.dart';
-import 'package:horno/services/voucher_service.dart';
 import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -36,16 +35,13 @@ class ProviderStateWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-
         ChangeNotifierProvider(create: ((_) => LocalsService())),
         ChangeNotifierProvider(create: (_) => VoucherService()),
-        ChangeNotifierProvider(create: (_) => ProviderLogin()),
         ChangeNotifierProvider(create: (_) => LocalsService()),
-        ChangeNotifierProvider(create: (_) => VoucherService()),
         ChangeNotifierProvider(create: (_) => OrderService()),
         ChangeNotifierProvider(create: (_) => ProviderLogin()),
         ChangeNotifierProvider(create: (_) => PaymentService()),
-
+        ChangeNotifierProvider(create: (_) => LauncherProvider()),
       ],
       child: const MyApp(),
     );
@@ -66,11 +62,9 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       onGenerateRoute: MyRoutes.generateRoute,
-
       initialRoute: MyRoutes.rONBOARD,
       scaffoldMessengerKey: NotificationsService.messengerKey,
       builder: EasyLoading.init(),
-
     );
   }
 }

@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:horno/page/index.dart';
+import 'package:horno/provider/index.dart';
 import 'package:horno/widgets/index.dart';
+import 'package:provider/provider.dart';
 
 class AboutUsScreen extends StatelessWidget {
   const AboutUsScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final launcherProvider = Provider.of<LauncherProvider>(context);
     return Scaffold(
       appBar: AppBar(
         title: Text('Acerca de Nosotros',
@@ -71,10 +74,7 @@ class AboutUsScreen extends StatelessWidget {
                             color: ColorsApp.colorPrimary,
                           )),
                     ),
-                    onPressed: () {
-                      // const url = "https://wa.me/51902870396?text=hola";
-                      // var encodes = Uri.encodeFull(url);
-                    },
+                    onPressed: () => launcherProvider.goWhatsappLauncher(),
                   ),
                   MaterialButton(
                     child: Container(

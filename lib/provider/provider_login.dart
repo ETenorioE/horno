@@ -1,6 +1,4 @@
 //creación de Clase
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 
 class ProviderLogin extends ChangeNotifier {
