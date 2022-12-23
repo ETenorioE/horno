@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:horno/routes/index.dart';
 import 'package:horno/services/index.dart';
-import 'package:horno/services/voucher_service.dart';
 import 'package:provider/provider.dart';
 
 void main() {
@@ -15,8 +14,9 @@ class ProviderStateWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: ((_) => LocalsService())),
-        ChangeNotifierProvider(create: (_) => VoucherService())
+        ChangeNotifierProvider(create: (_) => LocalsService()),
+        ChangeNotifierProvider(create: (_) => VoucherService()),
+        ChangeNotifierProvider(create: (_) => OrderService()),
       ],
       child: const MyApp(),
     );
