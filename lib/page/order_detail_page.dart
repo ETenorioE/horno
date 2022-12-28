@@ -4,7 +4,6 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:horno/routes/index.dart';
 import 'package:horno/services/index.dart';
 import 'package:horno/widgets/index.dart';
-import 'package:horno/widgets/item_order_widget.dart';
 import 'package:provider/provider.dart';
 
 class OrderDetailPage extends StatelessWidget with RenderPage {

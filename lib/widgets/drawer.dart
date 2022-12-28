@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:horno/page/index.dart';
+import 'package:horno/proferences/index.dart';
+import 'package:horno/services/auth_service.dart';
 import 'package:horno/widgets/index.dart';
+import 'package:provider/provider.dart';
 
 class CustomDrawer extends StatelessWidget {
   const CustomDrawer({
@@ -9,13 +12,15 @@ class CustomDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final authService = Provider.of<AuthService>(context, listen: false);
+
     return Drawer(
       child: SingleChildScrollView(
         child: Column(
           children: [
-            const DrawerHeader(
+            DrawerHeader(
               child: Center(
-                child: TitleWidget('Eduardo Tenorio'),
+                child: TitleWidget(Preferences.emailShort),
               ),
             ),
             ListTileCustom(
@@ -96,7 +101,10 @@ class CustomDrawer extends StatelessWidget {
                           'Si',
                           style: TextStyle(color: Colors.black26),
                         ),
-                        onPressed: () {
+                        onPressed: () async {
+                          await authService.logout();
+
+                          // ignore: use_build_context_synchronously
                           Navigator.push(
                             context,
                             MaterialPageRoute(

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:horno/page/register_screen.dart';
+import 'package:horno/page/auth/register_screen.dart';
 import 'package:horno/provider/provider_login.dart';
 import 'package:horno/routes/index.dart';
+import 'package:horno/services/index.dart';
 import 'package:horno/services/notifications_service.dart';
 import 'package:horno/theme/theme.dart';
+import 'package:horno/widgets/index.dart';
 import 'package:provider/provider.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -169,6 +171,7 @@ class _LoginFormState extends State<_LoginForm> {
   @override
   Widget build(BuildContext context) {
     final loginProvider = Provider.of<ProviderLogin>(context);
+    final authProvider = Provider.of<AuthService>(context, listen: false);
     return SizedBox(
       child: Form(
         key: loginProvider.formKey,
@@ -208,6 +211,7 @@ class _LoginFormState extends State<_LoginForm> {
               //VALIDACIÓN
               //Enviar los datos al provider
             ),
+            const SpaceHeight(10),
             Row(
               children: [
                 Text(
@@ -265,16 +269,21 @@ class _LoginFormState extends State<_LoginForm> {
                         if (!loginProvider.isValidForm()) return;
 
                         loginProvider.isLoading = true;
-                        await Future.delayed(
-                          const Duration(seconds: 3),
-                        );
+
+                        final res = await authProvider.login(
+                            loginProvider.email, loginProvider.password);
+
                         loginProvider.isLoading = false;
 
-                        // ignore: use_build_context_synchronously
-                        Navigator.pushReplacementNamed(
-                            context, MyRoutes.rLOCALS);
-
-                        NotificationsService.showSnackbar('Bienvenido');
+                        if (res == null) {
+                          NotificationsService.showSnackbar('Bienvenido');
+                          // ignore: use_build_context_synchronously
+                          Navigator.pushReplacementNamed(
+                              context, MyRoutes.rLOCALS);
+                        } else {
+                          NotificationsService.showSnackbar(res,
+                              state: StateNotification.error);
+                        }
                       },
                 child: (loginProvider.isLoading)
                     ? CircularProgressIndicator(

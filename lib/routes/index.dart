@@ -15,6 +15,7 @@ class MyRoutes {
   static const String rORDER_DETAIL = '/order-detail';
   static const String rHISTORIAL = '/historial';
   static const String rONBOARD = '/onboard';
+  static const String rVERIFY = '/verify';
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -44,6 +45,8 @@ class MyRoutes {
         return MaterialPageRoute(builder: (_) => const HistoryPage());
       case ('/onboard'):
         return MaterialPageRoute(builder: (_) => const OnboardingScreen());
+      case ('/verify'):
+        return MaterialPageRoute(builder: (_) => const VerifyAuthScreen());
 
       default:
         print(settings.name);
