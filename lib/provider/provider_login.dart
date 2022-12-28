@@ -6,6 +6,7 @@ class ProviderLogin extends ChangeNotifier {
 
   String email = '';
   String password = '';
+  String confirmationPassword = '';
 
   //definir carga
   bool _isLoading = false;
@@ -18,5 +19,9 @@ class ProviderLogin extends ChangeNotifier {
 
   bool isValidForm() {
     return formKey.currentState?.validate() ?? false;
+  }
+
+  bool isSamePassword() {
+    return password == confirmationPassword;
   }
 }

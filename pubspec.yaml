@@ -42,7 +42,9 @@ dependencies:
   sqflite: ^2.2.2
   supabase_flutter: ^1.2.2
   url_launcher: ^6.1.7
-
+  flutter_secure_storage: ^7.0.1
+  shared_preferences: ^2.0.15
+  
 dev_dependencies:
   flutter_lints: ^2.0.0
   flutter_test:

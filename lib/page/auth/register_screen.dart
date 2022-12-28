@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:horno/provider/provider_login.dart';
 import 'package:horno/routes/index.dart';
+import 'package:horno/services/auth_service.dart';
 import 'package:horno/services/notifications_service.dart';
 import 'package:horno/theme/theme.dart';
+import 'package:horno/widgets/index.dart';
 import 'package:provider/provider.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -140,6 +142,7 @@ class _LoginFormState extends State<_LoginForm> {
   @override
   Widget build(BuildContext context) {
     final loginProvider = Provider.of<ProviderLogin>(context);
+    final authProvider = Provider.of<AuthService>(context, listen: false);
     return SizedBox(
       child: Form(
         key: loginProvider.formKey,
@@ -179,6 +182,7 @@ class _LoginFormState extends State<_LoginForm> {
               //VALIDACIÓN
               //Enviar los datos al provider
             ),
+            const SpaceHeight(10),
             Row(
               children: [
                 Text(
@@ -209,12 +213,13 @@ class _LoginFormState extends State<_LoginForm> {
               //Enviar los datos al provider
               //VALIDACIÓN
               validator: (value) {
-                return (value != null && value.length > 8)
+                return (value != null && value.length >= 8)
                     ? null
                     : 'La contraseña debe tener 8 caracteres';
               },
               //VALIDACIÓN
             ),
+            const SpaceHeight(10),
             Row(
               children: [
                 Text(
@@ -241,11 +246,11 @@ class _LoginFormState extends State<_LoginForm> {
                 ),
               ),
               //Enviar los datos al provider
-              onChanged: (value) => loginProvider.password = value,
+              onChanged: (value) => loginProvider.confirmationPassword = value,
               //Enviar los datos al provider
               //VALIDACIÓN
               validator: (value) {
-                return (value != null && value.length > 8)
+                return (value != null && value.length >= 8)
                     ? null
                     : 'La contraseña debe tener 8 caracteres';
               },
@@ -269,20 +274,34 @@ class _LoginFormState extends State<_LoginForm> {
                     : () async {
                         FocusScope.of(context).unfocus();
 
+                        if (!loginProvider.isSamePassword()) {
+                          NotificationsService.showSnackbar(
+                              'La contraseñas no coinciden',
+                              state: StateNotification.error);
+                          return;
+                        }
+
                         if (!loginProvider.isValidForm()) return;
 
                         loginProvider.isLoading = true;
-                        await Future.delayed(
-                          const Duration(seconds: 3),
-                        );
+
+                        final res = await authProvider.createUser(
+                            loginProvider.email, loginProvider.password);
+
                         loginProvider.isLoading = false;
 
-                        // ignore: use_build_context_synchronously
-                        Navigator.pushReplacementNamed(
-                            context, MyRoutes.rLOGIN);
+                        if (res == null) {
+                          NotificationsService.showSnackbar(
+                              'Registrado Correctamente');
+                          // ignore: use_build_context_synchronously
+                          Navigator.pushReplacementNamed(
+                              context, MyRoutes.rLOCALS);
+                        } else {
+                          NotificationsService.showSnackbar(res,
+                              state: StateNotification.error);
+                        }
+
                         //
-                        NotificationsService.showSnackbar(
-                            'Reegistrado Correctamente');
                       },
                 child: (loginProvider.isLoading)
                     ? CircularProgressIndicator(

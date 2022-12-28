@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:horno/proferences/index.dart';
 import 'package:horno/provider/index.dart';
 import 'package:horno/routes/index.dart';
 import 'package:horno/services/index.dart';
@@ -12,6 +13,8 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await Supabase.initialize(url: BaseService.sURL, anonKey: BaseService.apiKey);
+
+  await Preferences.init();
 
   runApp(const ProviderStateWidget());
 
@@ -35,13 +38,14 @@ class ProviderStateWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: ((_) => LocalsService())),
+        ChangeNotifierProvider(create: (_) => LocalsService()),
         ChangeNotifierProvider(create: (_) => VoucherService()),
         ChangeNotifierProvider(create: (_) => LocalsService()),
         ChangeNotifierProvider(create: (_) => OrderService()),
         ChangeNotifierProvider(create: (_) => ProviderLogin()),
         ChangeNotifierProvider(create: (_) => PaymentService()),
         ChangeNotifierProvider(create: (_) => LauncherProvider()),
+        ChangeNotifierProvider(create: (_) => AuthService()),
       ],
       child: const MyApp(),
     );
@@ -62,7 +66,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       onGenerateRoute: MyRoutes.generateRoute,
-      initialRoute: MyRoutes.rLOCALS,
+      initialRoute: MyRoutes.rVERIFY,
       scaffoldMessengerKey: NotificationsService.messengerKey,
       builder: EasyLoading.init(),
     );
