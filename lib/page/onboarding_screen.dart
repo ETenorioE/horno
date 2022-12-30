@@ -147,7 +147,7 @@ class CustomOnboarding extends StatelessWidget {
       children: [
         InkWell(
           onTap: () {
-            Navigator.pushReplacementNamed(context, MyRoutes.rLOGIN);
+            Navigator.pushReplacementNamed(context, MyRoutes.rTYPE_ROL);
           },
           child: Row(
             mainAxisAlignment: MainAxisAlignment.end,

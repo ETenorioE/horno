@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:horno/preferences/index.dart';
 import 'package:horno/routes/index.dart';
 import 'package:horno/services/index.dart';
 import 'package:provider/provider.dart';
@@ -25,12 +26,16 @@ class VerifyAuthScreen extends StatelessWidget {
           if (snapshot.data == '') {
             Future.microtask(() {
               Navigator.pushNamedAndRemoveUntil(
-                  context, MyRoutes.rLOGIN, (route) => false);
+                  context, MyRoutes.rTYPE_ROL, (route) => false);
             });
           } else {
             Future.microtask(() {
+              String routeNext = Preferences.rolApp == 'cliente'
+                  ? MyRoutes.rLOCALS
+                  : MyRoutes.rHOME_PARTNER;
+
               Navigator.pushNamedAndRemoveUntil(
-                  context, MyRoutes.rHome, (route) => false);
+                  context, routeNext, (_) => false);
             });
           }
 

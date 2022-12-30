@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:horno/proferences/index.dart';
+import 'package:horno/preferences/index.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class AuthService extends ChangeNotifier {
@@ -20,6 +21,8 @@ class AuthService extends ChangeNotifier {
         Preferences.email = user.email!;
         Preferences.userId = user.id;
         storage.write(key: 'token', value: user.id);
+        _handleSetExternalUserId(user.id);
+        print("USER: ${user.id}");
         return null;
       } else {
         return 'Usuario no creado';
@@ -42,6 +45,8 @@ class AuthService extends ChangeNotifier {
         Preferences.email = user.email!;
         Preferences.userId = user.id;
         storage.write(key: 'token', value: user.id);
+        _handleSetExternalUserId(user.id);
+        print("USER: ${user.id}");
         return null;
       } else {
         return 'Datos incorrectos';
@@ -60,5 +65,18 @@ class AuthService extends ChangeNotifier {
     Preferences.userId = '';
     await supabase.auth.signOut();
     await storage.deleteAll();
+    _handleRemoveExternalUserId();
+  }
+
+  void _handleSetExternalUserId(String userId) {
+    OneSignal.shared.setExternalUserId(userId).then((results) {
+      print("External user id set: $results");
+    });
+  }
+
+  void _handleRemoveExternalUserId() {
+    OneSignal.shared.removeExternalUserId().then((results) {
+      print("External user id removed: $results");
+    });
   }
 }

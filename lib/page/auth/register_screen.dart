@@ -130,7 +130,7 @@ class _LoginForm extends StatefulWidget {
   State<_LoginForm> createState() => _LoginFormState();
 }
 
-class _LoginFormState extends State<_LoginForm> {
+class _LoginFormState extends State<_LoginForm> with RenderPage {
   bool _ispassword = true;
 
   void _viewpassword() {
@@ -165,7 +165,7 @@ class _LoginFormState extends State<_LoginForm> {
               style: TextStyle(color: ColorsApp.colorBlack),
               autocorrect: false,
               keyboardType: TextInputType.emailAddress,
-              decoration: DecorationTextFormField(
+              decoration: decorationTextFormField(
                 hinttext: 'your@email.com',
               ),
               //Enviar los datos al provider
@@ -200,7 +200,7 @@ class _LoginFormState extends State<_LoginForm> {
               autocorrect: false,
               obscureText: _ispassword,
               keyboardType: TextInputType.visiblePassword,
-              decoration: DecorationTextFormField(
+              decoration: decorationTextFormField(
                 hinttext: 'Ingrese su contraseña',
                 suffixIcon: InkWell(
                   onTap: _viewpassword,
@@ -237,7 +237,7 @@ class _LoginFormState extends State<_LoginForm> {
               autocorrect: false,
               obscureText: _ispassword,
               keyboardType: TextInputType.visiblePassword,
-              decoration: DecorationTextFormField(
+              decoration: decorationTextFormField(
                 hinttext: 'Confirmar su contraseña',
                 suffixIcon: InkWell(
                   onTap: _viewpassword,
@@ -321,33 +321,4 @@ class _LoginFormState extends State<_LoginForm> {
       ),
     );
   }
-}
-
-InputDecoration DecorationTextFormField({
-  final String? hinttext,
-  final Widget? suffixIcon,
-}) {
-  return InputDecoration(
-    enabledBorder: OutlineInputBorder(
-      borderSide: BorderSide(width: 1.5, color: ColorsApp.colorPrimary),
-      borderRadius: BorderRadius.circular(10),
-    ),
-    focusedBorder: OutlineInputBorder(
-      borderSide: BorderSide(width: 2.5, color: ColorsApp.colorPrimary),
-      borderRadius: BorderRadius.circular(10),
-    ),
-    errorBorder: OutlineInputBorder(
-      borderSide: BorderSide(width: 1.5, color: ColorsApp.colorError),
-      borderRadius: BorderRadius.circular(10),
-    ),
-    border: OutlineInputBorder(
-      borderSide: BorderSide(width: 1.5, color: ColorsApp.colorError),
-      borderRadius: BorderRadius.circular(10),
-    ),
-    filled: true,
-    fillColor: Colors.white,
-    hintText: hinttext,
-    suffixIcon: suffixIcon,
-    hintStyle: TextStyle(color: ColorsApp.colorText),
-  );
 }

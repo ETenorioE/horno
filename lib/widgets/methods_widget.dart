@@ -48,6 +48,35 @@ mixin RenderPage {
         borderRadius: BorderRadius.circular(10),
         border: Border.all(color: ColorsApp.colorPrimary));
   }
+
+  InputDecoration decorationTextFormField({
+    final String? hinttext,
+    final Widget? suffixIcon,
+  }) {
+    return InputDecoration(
+      enabledBorder: OutlineInputBorder(
+        borderSide: BorderSide(width: 1.5, color: ColorsApp.colorPrimary),
+        borderRadius: BorderRadius.circular(10),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderSide: BorderSide(width: 2.5, color: ColorsApp.colorPrimary),
+        borderRadius: BorderRadius.circular(10),
+      ),
+      errorBorder: OutlineInputBorder(
+        borderSide: BorderSide(width: 1.5, color: ColorsApp.colorError),
+        borderRadius: BorderRadius.circular(10),
+      ),
+      border: OutlineInputBorder(
+        borderSide: BorderSide(width: 1.5, color: ColorsApp.colorError),
+        borderRadius: BorderRadius.circular(10),
+      ),
+      filled: true,
+      fillColor: Colors.white,
+      hintText: hinttext,
+      suffixIcon: suffixIcon,
+      hintStyle: TextStyle(color: ColorsApp.colorText),
+    );
+  }
 }
 
 BoxDecoration onlyDecorationBackground() {

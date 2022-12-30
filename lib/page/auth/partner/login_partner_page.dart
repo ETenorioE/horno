@@ -1,29 +1,26 @@
 import 'package:flutter/material.dart';
-import 'package:horno/page/auth/register_screen.dart';
+import 'package:horno/page/auth/partner/register_partner_page.dart';
+import 'package:horno/provider/index.dart';
 import 'package:horno/provider/provider_login.dart';
 import 'package:horno/routes/index.dart';
 import 'package:horno/services/index.dart';
-import 'package:horno/theme/theme.dart';
 import 'package:horno/widgets/index.dart';
 import 'package:provider/provider.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+class LoginPartnerPage extends StatefulWidget {
+  const LoginPartnerPage({Key? key}) : super(key: key);
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<LoginPartnerPage> createState() => _LoginPartnerPageState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _LoginPartnerPageState extends State<LoginPartnerPage> {
   @override
   Widget build(BuildContext context) {
-    //Declarar los recursos del provider a usar
-
     final loginProvider = Provider.of<ProviderLogin>(context);
 
     return Scaffold(
       backgroundColor: ColorsApp.colorLight,
-      //Hacer click fuera de los campos y minimiza el teclado
       body: GestureDetector(
         onTap: () {
           final FocusScopeNode focus = FocusScope.of(context);
@@ -31,7 +28,6 @@ class _LoginScreenState extends State<LoginScreen> {
             FocusManager.instance.primaryFocus!.unfocus();
           }
         },
-        //Hacer click fuera de los campos y minimiza el teclado
         child: Center(
           child: Padding(
             padding: EdgeInsets.only(
@@ -53,7 +49,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        '¿No tienes una cuenta?',
+                        '¿No eres socio?',
                         style: TextStyle(
                           color: ColorsApp.colorText,
                           fontSize: 16,
@@ -64,7 +60,8 @@ class _LoginScreenState extends State<LoginScreen> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => RegisterScreen()),
+                                builder: (context) =>
+                                    const RegisterPartnerPage()),
                           );
                         },
                         child: Text(
@@ -81,68 +78,6 @@ class _LoginScreenState extends State<LoginScreen> {
                     create: (context) => ProviderLogin(),
                     child: _LoginForm(),
                   ),
-                  Divider(
-                    height: 100,
-                    thickness: 4,
-                    color: ColorsApp.colorText,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          SizedBox(
-                            height: 35,
-                            width: 35,
-                            child: IconButton(
-                                padding: const EdgeInsets.all(0),
-                                onPressed: () {},
-                                icon: Image.asset(
-                                  'assets/images/google.png',
-                                  height: 30,
-                                  width: 30,
-                                  fit: BoxFit.cover,
-                                )),
-                          ),
-                          Text(
-                            'Google',
-                            style: TextStyle(
-                                color: ColorsApp.colorText,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 17),
-                          ),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          SizedBox(
-                            height: 35,
-                            width: 35,
-                            child: IconButton(
-                                padding: const EdgeInsets.all(0),
-                                onPressed: () {},
-                                icon: Image.asset(
-                                  'assets/images/facebook2.png',
-                                  height: 30,
-                                  width: 30,
-                                  fit: BoxFit.cover,
-                                )),
-                          ),
-                          Text(
-                            'Facebook',
-                            style: TextStyle(
-                                color: ColorsApp.colorText,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 17),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  )
                 ],
               ),
             ),
@@ -158,9 +93,9 @@ class _LoginForm extends StatefulWidget {
   State<_LoginForm> createState() => _LoginFormState();
 }
 
-class _LoginFormState extends State<_LoginForm> with RenderPage {
+class _LoginFormState extends State<_LoginForm> {
   bool _ispassword = true;
-
+  double spaceHeight = 30;
   void _viewpassword() {
     setState(() {
       _ispassword = !_ispassword; //Sera igual a la diferencia de _ispassword
@@ -170,7 +105,7 @@ class _LoginFormState extends State<_LoginForm> with RenderPage {
   @override
   Widget build(BuildContext context) {
     final loginProvider = Provider.of<ProviderLogin>(context);
-    final authProvider = Provider.of<AuthService>(context, listen: false);
+
     return SizedBox(
       child: Form(
         key: loginProvider.formKey,
@@ -188,21 +123,19 @@ class _LoginFormState extends State<_LoginForm> with RenderPage {
               ],
             ),
             TextFormField(
-              autofocus: true,
+              autofocus: false,
               cursorColor: ColorsApp.colorTitle,
               style: TextStyle(color: ColorsApp.colorBlack),
               autocorrect: false,
               keyboardType: TextInputType.emailAddress,
-              decoration: decorationTextFormField(
-                hinttext: 'your@email.com',
+              decoration: DecorationTextFormField2(
+                hinttext: 'your@business.com',
               ),
               //Enviar los datos al provider
               onChanged: (value) => loginProvider.email = value,
               //VALIDACIÓN
               validator: (value) {
-                String caracteres =
-                    r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
-                RegExp regExp = RegExp(caracteres);
+                RegExp regExp = RegExp(RulesApp.emailRule);
                 return regExp.hasMatch(value ?? '')
                     ? null
                     : 'No es un correo valido';
@@ -210,7 +143,7 @@ class _LoginFormState extends State<_LoginForm> with RenderPage {
               //VALIDACIÓN
               //Enviar los datos al provider
             ),
-            const SpaceHeight(10),
+            SpaceHeight(spaceHeight),
             Row(
               children: [
                 Text(
@@ -228,7 +161,7 @@ class _LoginFormState extends State<_LoginForm> with RenderPage {
               autocorrect: false,
               obscureText: _ispassword,
               keyboardType: TextInputType.visiblePassword,
-              decoration: decorationTextFormField(
+              decoration: DecorationTextFormField2(
                 hinttext: 'Ingrese su contraseña',
                 suffixIcon: InkWell(
                   onTap: _viewpassword,
@@ -247,9 +180,7 @@ class _LoginFormState extends State<_LoginForm> with RenderPage {
               },
               //VALIDACIÓN
             ),
-            const SizedBox(
-              height: 10,
-            ),
+            SpaceHeight(spaceHeight),
             SizedBox(
               width: double.infinity,
               height: 58,
@@ -269,20 +200,9 @@ class _LoginFormState extends State<_LoginForm> with RenderPage {
 
                         loginProvider.isLoading = true;
 
-                        final res = await authProvider.login(
-                            loginProvider.email, loginProvider.password);
+                        Future.delayed(const Duration(seconds: 1));
 
                         loginProvider.isLoading = false;
-
-                        if (res == null) {
-                          NotificationsService.showSnackbar('Bienvenido');
-                          // ignore: use_build_context_synchronously
-                          Navigator.pushReplacementNamed(
-                              context, MyRoutes.rLOCALS);
-                        } else {
-                          NotificationsService.showSnackbar(res,
-                              state: StateNotification.error);
-                        }
                       },
                 child: (loginProvider.isLoading)
                     ? CircularProgressIndicator(
@@ -302,4 +222,33 @@ class _LoginFormState extends State<_LoginForm> with RenderPage {
       ),
     );
   }
+}
+
+InputDecoration DecorationTextFormField2({
+  final String? hinttext,
+  final Widget? suffixIcon,
+}) {
+  return InputDecoration(
+    enabledBorder: OutlineInputBorder(
+      borderSide: BorderSide(width: 1.5, color: ColorsApp.colorPrimary),
+      borderRadius: BorderRadius.circular(10),
+    ),
+    focusedBorder: OutlineInputBorder(
+      borderSide: BorderSide(width: 2.5, color: ColorsApp.colorPrimary),
+      borderRadius: BorderRadius.circular(10),
+    ),
+    errorBorder: OutlineInputBorder(
+      borderSide: BorderSide(width: 1.5, color: ColorsApp.colorError),
+      borderRadius: BorderRadius.circular(10),
+    ),
+    border: OutlineInputBorder(
+      borderSide: BorderSide(width: 1.5, color: ColorsApp.colorError),
+      borderRadius: BorderRadius.circular(10),
+    ),
+    filled: true,
+    fillColor: Colors.white,
+    hintText: hinttext,
+    suffixIcon: suffixIcon,
+    hintStyle: TextStyle(color: ColorsApp.colorText),
+  );
 }
