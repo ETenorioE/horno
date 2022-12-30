@@ -19,6 +19,7 @@ class _HistoryPageState extends State<HistoryPage> with RenderPage {
     return ThemeCustomWidget(
       child: Scaffold(
         appBar: appBarRender(title: 'Historial'),
+        drawer: const CustomDrawer(),
         body: Stack(
           children: [
             backgroundImageRender(context),

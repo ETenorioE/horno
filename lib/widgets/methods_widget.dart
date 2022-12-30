@@ -45,8 +45,13 @@ mixin RenderPage {
 
   BoxDecoration borderRadiusAndColorRender() {
     return BoxDecoration(
+        gradient: LinearGradient(
+            begin: const Alignment(-1.0, -1),
+            end: const Alignment(-1.0, 1),
+            colors: [ColorsApp.colorPrimary, ColorsApp.colorLight],
+            stops: const [0.02, 0.02]),
         borderRadius: BorderRadius.circular(10),
-        border: Border.all(color: ColorsApp.colorPrimary));
+        border: Border.all(color: ColorsApp.colorPrimary, width: .8));
   }
 
   InputDecoration decorationTextFormField({

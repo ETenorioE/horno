@@ -22,8 +22,7 @@ class OrderDetailPage extends StatelessWidget with RenderPage {
             body: Stack(children: [
               backgroundImageRender(context),
               Padding(
-                  padding: EdgeInsets.only(
-                      top: orientation == Orientation.portrait ? 63 : 63 / 2),
+                  padding: const EdgeInsets.only(top: 20),
                   child: CardWidget(
                       paddingTop: 20,
                       child: ListView(children: [
@@ -46,23 +45,28 @@ class OrderDetailPage extends StatelessWidget with RenderPage {
                               itemCount: provider.details.length),
                         ),
                         const SpaceHeight(20),
-                        _payment(context, provider)
-                      ])))
+                      ]))),
+              Align(
+                  alignment: Alignment.bottomCenter,
+                  child: _payment(context, provider))
             ])));
   }
 
-  ButtonWidget _payment(BuildContext context, OrderService provider) {
-    return ButtonWidget(
-        onPressed: () {
-          Navigator.pushReplacementNamed(context, MyRoutes.rPAYMENT);
-        },
-        child:
-            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-          const SizedBox(width: 20),
-          TitleWidget('Pagar S/. ${provider.total.toStringAsFixed(2)}',
-              color: ColorsApp.colorLight),
-          const SizedBox(width: 20),
-        ]));
+  Padding _payment(BuildContext context, OrderService provider) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 20),
+      child: ButtonWidget(
+          onPressed: () {
+            Navigator.pushReplacementNamed(context, MyRoutes.rPAYMENT);
+          },
+          child:
+              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+            const SizedBox(width: 20),
+            TitleWidget('Pagar S/. ${provider.total.toStringAsFixed(2)}',
+                color: ColorsApp.colorLight),
+            const SizedBox(width: 20),
+          ])),
+    );
   }
 
   Center _title() {

@@ -28,52 +28,57 @@ class PaymentPage extends StatelessWidget with RenderPage {
           body: Stack(children: [
             backgroundImageRender(context),
             Padding(
-                padding: EdgeInsets.only(
-                    top: orientation == Orientation.portrait ? 63 : 63 / 2),
+                padding: const EdgeInsets.only(top: 20),
                 child: CardWidget(
                     child: ListView(children: [
                   _details(context, provider),
                   const SpaceHeight(20),
-                  _payment(context, provider),
+                  _paymentMethod(context, provider),
                   const SpaceHeight(20),
-                  ButtonWidget(
-                      onPressed: () async {
-                        final orderLocal = provider.order;
-                        if (orderLocal == null) return;
-
-                        final response = await service.save(
-                          order: orderLocal,
-                          details: provider.details,
-                          paymentMethod: provider.paymentMethod,
-                          total: provider.total,
-                        );
-
-                        if (response.state == StateProcess.success) {
-                          EasyLoading.instance.backgroundColor =
-                              ColorsApp.colorSuccess;
-
-                          await provider.clearData();
-
-                          EasyLoading.showSuccess(response.msg);
-
-                          // ignore: use_build_context_synchronously
-                          Navigator.pushReplacementNamed(
-                              context, MyRoutes.rLOCAL);
-                        } else {
-                          EasyLoading.instance.backgroundColor =
-                              ColorsApp.colorError;
-
-                          EasyLoading.showError(response.msg);
-                        }
-                      },
-                      child:
-                          TitleWidget('Confirmar', color: ColorsApp.colorLight))
-                ])))
+                ]))),
+            Align(
+                alignment: Alignment.bottomCenter,
+                child: _payment(provider, service, context))
           ])),
     );
   }
 
-  Container _payment(BuildContext context, OrderService provider) {
+  Padding _payment(
+      OrderService provider, PaymentService service, BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 20),
+      child: ButtonWidget(
+          onPressed: () async {
+            final orderLocal = provider.order;
+            if (orderLocal == null) return;
+
+            final response = await service.save(
+              order: orderLocal,
+              details: provider.details,
+              paymentMethod: provider.paymentMethod,
+              total: provider.total,
+            );
+
+            if (response.state == StateProcess.success) {
+              EasyLoading.instance.backgroundColor = ColorsApp.colorSuccess;
+
+              await provider.clearData();
+
+              EasyLoading.showSuccess(response.msg);
+
+              // ignore: use_build_context_synchronously
+              Navigator.pushReplacementNamed(context, MyRoutes.rLOCAL);
+            } else {
+              EasyLoading.instance.backgroundColor = ColorsApp.colorError;
+
+              EasyLoading.showError(response.msg);
+            }
+          },
+          child: TitleWidget('Confirmar', color: ColorsApp.colorLight)),
+    );
+  }
+
+  Container _paymentMethod(BuildContext context, OrderService provider) {
     return Container(
       decoration: borderRadiusAndColorRender(),
       padding: _paddingCard(),
@@ -113,17 +118,16 @@ class PaymentPage extends StatelessWidget with RenderPage {
           const TitleWidget('Detalle de la orden', fontSize: 16),
           const SpaceHeight(18),
           SizedBox(
-              height: orientation == Orientation.portrait ? 140 : 140 / 2,
+              height: orientation == Orientation.portrait ? 190 : 190 / 2,
               child: ListView.separated(
                 itemCount: provider.details.length,
-                shrinkWrap: true,
                 separatorBuilder: (context, index) => const SpaceHeight(12),
                 itemBuilder: (context, index) {
                   final item = provider.details[index];
                   return _ItemDetailWidget(detail: item);
                 },
               )),
-          const SpaceHeight(30),
+          const SpaceHeight(11),
           Divider(height: 4, color: ColorsApp.colorPrimary),
           const SpaceHeight(11),
           Row(
