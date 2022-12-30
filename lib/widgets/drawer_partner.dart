@@ -5,8 +5,8 @@ import 'package:horno/services/auth_service.dart';
 import 'package:horno/widgets/index.dart';
 import 'package:provider/provider.dart';
 
-class CustomDrawer extends StatelessWidget {
-  const CustomDrawer({
+class DrawerPartner extends StatelessWidget {
+  const DrawerPartner({
     Key? key,
   }) : super(key: key);
 
@@ -37,40 +37,9 @@ class CustomDrawer extends StatelessWidget {
             ),
             ListTileCustom(
               icon: Icons.sell_rounded,
-              texto: 'Mi pedido',
+              texto: 'Mis pedidos',
               color: ColorsApp.colorTitle,
               ontap: const MyOrderPage(),
-            ),
-            ListTileCustom(
-              icon: Icons.history,
-              texto: 'Historial',
-              color: ColorsApp.colorTitle,
-              ontap: const HistoryPage(),
-            ),
-            ListTileCustom(
-              icon: Icons.add_business,
-              texto: 'Locales',
-              color: ColorsApp.colorTitle,
-              ontap: const LocalsPage(),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 24, right: 24),
-              child: Divider(
-                color: ColorsApp.colorPrimary,
-                thickness: 2.0,
-              ),
-            ),
-            ListTileCustom(
-              texto: 'Ayuda en linea',
-              icon: Icons.help_outlined,
-              color: ColorsApp.colorTitle,
-              ontap: const HomePartner(),
-            ),
-            ListTileCustom(
-              texto: 'Acerca de Nosotros',
-              icon: Icons.info,
-              color: ColorsApp.colorTitle,
-              ontap: const AboutUsScreen(),
             ),
             ListTile(
               title: Text(

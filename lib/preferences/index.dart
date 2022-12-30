@@ -6,6 +6,7 @@ class Preferences {
   static late SharedPreferences _prefs;
   static String _email = '';
   static String _userId = '';
+  static String _rolApp = 'client';
 
   static Future init() async {
     _prefs = await SharedPreferences.getInstance();
@@ -36,5 +37,14 @@ class Preferences {
     final endCharacters = email.indexOf('@');
 
     return email.substring(0, endCharacters);
+  }
+
+  static String get rolApp {
+    return _prefs.getString('rolApp') ?? _rolApp;
+  }
+
+  static set rolApp(String rolApp) {
+    _rolApp = rolApp;
+    _prefs.setString('rolApp', rolApp);
   }
 }

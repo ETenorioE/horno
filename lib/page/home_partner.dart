@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:horno/services/notifications_service.dart';
+import 'package:horno/widgets/drawer_partner.dart';
 import 'package:horno/widgets/index.dart';
 
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+class HomePartner extends StatelessWidget {
+  const HomePartner({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +16,7 @@ class HomeScreen extends StatelessWidget {
         centerTitle: true,
         elevation: 0,
       ),
-      drawer: CustomDrawer(),
+      drawer: DrawerPartner(),
       body: Center(
           child: IconButton(
               onPressed: () {

@@ -4,7 +4,7 @@ import 'package:horno/page/index.dart';
 class MyRoutes {
   static const String rLOCALS = '/locals';
   static const String rLOCAL = '/local';
-  static const String rHome = '/home';
+  static const String rHOME_PARTNER = '/home-partner';
   static const String rNOTIFY = '/notifications';
   static const String rVOUCHER = '/voucher';
   static const String rLOGIN = '/login';
@@ -16,6 +16,9 @@ class MyRoutes {
   static const String rHISTORIAL = '/historial';
   static const String rONBOARD = '/onboard';
   static const String rVERIFY = '/verify';
+  static const String rTYPE_ROL = '/type-rol';
+  static const String rLOGIN_PARTNER = '/login-partner';
+  static const String rREGISTER_BUSINESS = '/register-business';
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -23,8 +26,6 @@ class MyRoutes {
         return MaterialPageRoute(builder: (_) => const LocalsPage());
       case ('/local'):
         return MaterialPageRoute(builder: (_) => const LocalPage());
-      case ('/home'):
-        return MaterialPageRoute(builder: (_) => const HomeScreen());
       case ('/notifications'):
         return MaterialPageRoute(builder: (_) => const NotificationPage());
       case ('/voucher'):
@@ -47,10 +48,18 @@ class MyRoutes {
         return MaterialPageRoute(builder: (_) => const OnboardingScreen());
       case ('/verify'):
         return MaterialPageRoute(builder: (_) => const VerifyAuthScreen());
+      case ('/type-rol'):
+        return MaterialPageRoute(builder: (_) => const TypeRolPage());
+      case ('/login-partner'):
+        return MaterialPageRoute(builder: (_) => const LoginPartnerPage());
+      case ('/register-business'):
+        return MaterialPageRoute(builder: (_) => const RegisterBusinessPage());
+      case ('/home-partner'):
+        return MaterialPageRoute(builder: (_) => const HomePartner());
 
       default:
         print(settings.name);
-        return MaterialPageRoute(builder: (_) => const LoginScreen());
+        return MaterialPageRoute(builder: (_) => const TypeRolPage());
     }
   }
 }
