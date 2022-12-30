@@ -33,51 +33,48 @@ class _ItemOrderWidgetState extends State<ItemOrderWidget> {
     final detail = widget.detail;
     final provider = Provider.of<OrderService>(context, listen: false);
 
-    return Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          _image(detail),
-          SizedBox(
-              width: MediaQuery.of(context).size.width - 120,
-              child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          _wrappedTextWidget(detail.serviceName!),
-                          IconButton(
-                            onPressed: () {
-                              provider.deleteDetail(detail.id!);
-                            },
-                            icon: Icon(Icons.delete,
-                                size: 24, color: ColorsApp.colorSecondary),
-                          )
-                        ]),
-                    const SpaceHeight(10),
-                    Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Row(children: [
-                            _ControlOrderWidget(onChange: (weight) {
-                              setState(() {
-                                _total = weight * detail.servicePrice!;
-                              });
-                              provider.updateDetail(
-                                detail.id!,
-                                weight: weight,
-                                total: weight * detail.servicePrice!,
-                              );
-                            }),
-                            const SpaceWidth(5),
-                            _wrappedTextWidget('kg')
-                          ]),
-                          _wrappedTextWidget('S/. ${_total.toStringAsFixed(2)}',
-                              color: ColorsApp.colorSecondary)
-                        ])
-                  ]))
-        ]);
+    return Container(
+      padding: const EdgeInsets.only(left: 10),
+      decoration: BoxDecoration(
+        border: Border(
+          left: BorderSide(width: 3, color: ColorsApp.colorPrimary),
+        ),
+      ),
+      child: SizedBox(
+          width: MediaQuery.of(context).size.width - 110,
+          child:
+              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+              _wrappedTextWidget(detail.serviceName!),
+              IconButton(
+                onPressed: () {
+                  provider.deleteDetail(detail.id!);
+                },
+                icon: Icon(Icons.delete,
+                    size: 24, color: ColorsApp.colorSecondary),
+              )
+            ]),
+            const SpaceHeight(10),
+            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+              Row(children: [
+                _ControlOrderWidget(onChange: (weight) {
+                  setState(() {
+                    _total = weight * detail.servicePrice!;
+                  });
+                  provider.updateDetail(
+                    detail.id!,
+                    weight: weight,
+                    total: weight * detail.servicePrice!,
+                  );
+                }),
+                const SpaceWidth(5),
+                _wrappedTextWidget('kg')
+              ]),
+              _wrappedTextWidget('S/. ${_total.toStringAsFixed(2)}',
+                  color: ColorsApp.colorSecondary)
+            ])
+          ])),
+    );
   }
 
   SizedBox _image(DetailDbModel detail) {

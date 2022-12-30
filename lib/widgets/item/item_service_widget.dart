@@ -19,8 +19,10 @@ class ItemServiceWidget extends StatelessWidget {
         child: Container(
             padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 17),
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(5),
-                border: Border.all(color: ColorsApp.colorPrimary)),
+              border: Border(
+                left: BorderSide(width: 3, color: ColorsApp.colorPrimary),
+              ),
+            ),
             child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
