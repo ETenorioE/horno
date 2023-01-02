@@ -7,6 +7,7 @@ class Preferences {
   static String _email = '';
   static String _userId = '';
   static String _rolApp = 'client';
+  static int _localId = 2;
 
   static Future init() async {
     _prefs = await SharedPreferences.getInstance();
@@ -21,7 +22,6 @@ class Preferences {
     _prefs.setString('email', email);
   }
 
-  // name
   static String get userId {
     return _prefs.getString('userId') ?? _userId;
   }
@@ -29,6 +29,15 @@ class Preferences {
   static set userId(String userId) {
     _userId = userId;
     _prefs.setString('userId', userId);
+  }
+
+  static int get localId {
+    return _prefs.getInt('localId') ?? _localId;
+  }
+
+  static set localId(int localId) {
+    _localId = localId;
+    _prefs.setInt('localId', localId);
   }
 
   static String get emailShort {

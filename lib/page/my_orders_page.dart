@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:horno/models/index.dart';
+import 'package:horno/preferences/index.dart';
 import 'package:horno/services/my_orders_service.dart';
 import 'package:horno/widgets/drawer_partner.dart';
 import 'package:horno/widgets/index.dart';
@@ -29,7 +30,11 @@ class _MyOrdersPageState extends State<MyOrdersPage> with RenderPage {
           schema: 'public',
           table: 'orders',
         ), (payload, [ref]) {
-      initData();
+      final data = payload["new"];
+      final order = OrderModel.fromMapSave(data);
+      if (order.localId == Preferences.localId) {
+        initData();
+      }
     }).subscribe(
       (state, [p1]) async {
         print(state);
@@ -40,7 +45,7 @@ class _MyOrdersPageState extends State<MyOrdersPage> with RenderPage {
   }
 
   void initData() {
-    MyOrdersService.findByLocal(2).then((value) {
+    MyOrdersService.findByLocal(Preferences.localId).then((value) {
       setState(() {
         items = value;
       });
