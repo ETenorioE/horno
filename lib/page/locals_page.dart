@@ -48,7 +48,11 @@ class _LocalsPageState extends State<LocalsPage> with RenderPage {
               padding: const EdgeInsets.only(top: 20, right: 20, left: 20),
               child: ListView(
                 children: [
-                  _controls(service, context),
+                  InputFilterWidget(
+                      onChanged: (value) {
+                        service.search(value);
+                      },
+                      hintText: 'Buscar local'),
                   service.isLoading
                       ? Padding(
                           padding: const EdgeInsets.only(top: 26),
@@ -112,34 +116,6 @@ class _LocalsPageState extends State<LocalsPage> with RenderPage {
         ]));
   }
 
-  SingleChildScrollView _controls(LocalsService service, BuildContext context) {
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          SizedBox(
-            width: MediaQuery.of(context).size.width - 80,
-            height: 42,
-            child: TextFormField(
-              style: inputStyle(ColorsApp.colorSecondary),
-              decoration: inputDecoration(),
-              onChanged: (value) {
-                service.search(value);
-              },
-            ),
-          ),
-          IconButton(
-              onPressed: (() {}),
-              icon: Icon(
-                Icons.filter_list,
-                color: ColorsApp.colorSecondary,
-              ))
-        ],
-      ),
-    );
-  }
-
   SizedBox renderList(LocalsService service, BuildContext contextLocal) {
     return SizedBox(
         height: 500,
@@ -158,33 +134,5 @@ class _LocalsPageState extends State<LocalsPage> with RenderPage {
                     Navigator.pushReplacementNamed(context, MyRoutes.rLOCAL);
                   });
             }));
-  }
-
-  InputDecoration inputDecoration() {
-    return InputDecoration(
-        contentPadding: const EdgeInsets.only(left: 18),
-        suffixIcon: IconButton(
-          onPressed: () {},
-          icon: Icon(
-            Icons.search,
-            color: ColorsApp.colorSecondary,
-          ),
-        ),
-        enabledBorder: outline(ColorsApp.colorSecondary),
-        focusedBorder: outline(ColorsApp.colorSecondary),
-        border: outline(ColorsApp.colorSecondary),
-        hintText: 'Buscar locales',
-        hintStyle: inputStyle(ColorsApp.colorSecondary));
-  }
-
-  TextStyle inputStyle(Color colorSecondary) {
-    return GoogleFonts.openSans(
-        color: colorSecondary, fontSize: 16, fontWeight: FontWeight.bold);
-  }
-
-  OutlineInputBorder outline(Color colorSecondary) {
-    return OutlineInputBorder(
-        borderRadius: BorderRadius.circular(30),
-        borderSide: BorderSide(width: 1, color: colorSecondary));
   }
 }

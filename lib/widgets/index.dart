@@ -1,3 +1,4 @@
+export 'package:horno/widgets/input_filter_widget.dart';
 export 'package:horno/widgets/item/item_order_widget.dart';
 export 'package:horno/widgets/select_payment_widget.dart';
 export 'package:horno/widgets/select_payment_widget.dart';

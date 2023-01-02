@@ -80,9 +80,9 @@ class _BusinessFormState extends State<_BusinessForm> with RenderPage {
               ),
               onChanged: (value) => provider.email = value,
               validator: (value) {
-                return (value != null && value.length >= 8)
+                return (value != null && value.length >= 6)
                     ? null
-                    : 'El nombre debe tener 8 caracteres';
+                    : 'El nombre debe tener 6 caracteres';
               },
               //VALIDACIÓN
               //Enviar los datos al provider
@@ -99,9 +99,7 @@ class _BusinessFormState extends State<_BusinessForm> with RenderPage {
               keyboardType: TextInputType.visiblePassword,
               onChanged: (value) => provider.password = value,
               validator: (value) {
-                return (value != null && value.length >= 20)
-                    ? null
-                    : 'La direccion debe tener 20 caracteres';
+                return null;
               },
             ),
             SpaceHeight(spaceHeight),
@@ -116,9 +114,7 @@ class _BusinessFormState extends State<_BusinessForm> with RenderPage {
               onChanged: (value) => provider.confirmationPassword = value,
               decoration: decorationTextFormField(hinttext: '8:00 a 16:00'),
               validator: (value) {
-                return (value != null && value.length >= 12)
-                    ? null
-                    : 'La horario debe tener 12 caracteres';
+                return null;
               },
               //VALIDACIÓN
             ),

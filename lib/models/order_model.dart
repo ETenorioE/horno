@@ -78,6 +78,10 @@ class OrderModel {
   String get totalText => "S/. ${total.toStringAsFixed(2)}";
 
   String get orderText {
+    if (id == null) {
+      return "00000";
+    }
+
     return id.toString().padLeft(5, '0');
   }
 
