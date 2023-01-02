@@ -77,7 +77,7 @@ class _MyAppState extends State<MyApp> {
         primarySwatch: Colors.blue,
       ),
       onGenerateRoute: MyRoutes.generateRoute,
-      initialRoute: MyRoutes.rVERIFY,
+      initialRoute: MyRoutes.rMy_ORDERS,
       scaffoldMessengerKey: NotificationsService.messengerKey,
       builder: EasyLoading.init(),
     );

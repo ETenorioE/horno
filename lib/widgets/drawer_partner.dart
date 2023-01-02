@@ -39,7 +39,7 @@ class DrawerPartner extends StatelessWidget {
               icon: Icons.sell_rounded,
               texto: 'Mis pedidos',
               color: ColorsApp.colorTitle,
-              ontap: const MyOrderPage(),
+              ontap: const MyOrdersPage(),
             ),
             ListTile(
               title: Text(
