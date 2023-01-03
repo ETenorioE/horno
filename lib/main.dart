@@ -47,6 +47,7 @@ class ProviderStateWidget extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => LauncherProvider()),
         ChangeNotifierProvider(create: (_) => AuthService()),
         ChangeNotifierProvider(create: (_) => PartnerAuthProvider()),
+        ChangeNotifierProvider(create: (_) => ProcessService()),
       ],
       child: const MyApp(),
     );
@@ -77,7 +78,7 @@ class _MyAppState extends State<MyApp> {
         primarySwatch: Colors.blue,
       ),
       onGenerateRoute: MyRoutes.generateRoute,
-      initialRoute: MyRoutes.rMy_ORDERS,
+      initialRoute: MyRoutes.rVERIFY,
       scaffoldMessengerKey: NotificationsService.messengerKey,
       builder: EasyLoading.init(),
     );

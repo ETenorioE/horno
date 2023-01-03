@@ -46,36 +46,35 @@ class PaymentPage extends StatelessWidget with RenderPage {
   Padding _payment(
       OrderService provider, PaymentService service, BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 20),
-      child: ButtonWidget(
-          onPressed: () async {
-            final orderLocal = provider.order;
-            if (orderLocal == null) return;
+        padding: const EdgeInsets.only(bottom: 20),
+        child: ButtonWidget(
+            onPressed: () async {
+              final orderLocal = provider.order;
+              if (orderLocal == null) return;
 
-            final response = await service.save(
-              order: orderLocal,
-              details: provider.details,
-              paymentMethod: provider.paymentMethod,
-              total: provider.total,
-            );
+              final response = await service.save(
+                order: orderLocal,
+                details: provider.details,
+                paymentMethod: provider.paymentMethod,
+                total: provider.total,
+              );
 
-            if (response.state == StateProcess.success) {
-              EasyLoading.instance.backgroundColor = ColorsApp.colorSuccess;
+              if (response.state == StateProcess.success) {
+                EasyLoading.instance.backgroundColor = ColorsApp.colorSuccess;
 
-              await provider.clearData();
+                await provider.clearData();
 
-              EasyLoading.showSuccess(response.msg);
+                EasyLoading.showSuccess(response.msg);
 
-              // ignore: use_build_context_synchronously
-              Navigator.pushReplacementNamed(context, MyRoutes.rLOCAL);
-            } else {
-              EasyLoading.instance.backgroundColor = ColorsApp.colorError;
+                // ignore: use_build_context_synchronously
+                Navigator.pushReplacementNamed(context, MyRoutes.rLOCAL);
+              } else {
+                EasyLoading.instance.backgroundColor = ColorsApp.colorError;
 
-              EasyLoading.showError(response.msg);
-            }
-          },
-          child: TitleWidget('Confirmar', color: ColorsApp.colorLight)),
-    );
+                EasyLoading.showError(response.msg);
+              }
+            },
+            text: 'Confirmar'));
   }
 
   Container _paymentMethod(BuildContext context, OrderService provider) {

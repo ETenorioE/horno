@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:horno/models/index.dart';
 import 'package:horno/preferences/index.dart';
-import 'package:horno/services/my_orders_service.dart';
-import 'package:horno/widgets/drawer_partner.dart';
+import 'package:horno/routes/index.dart';
+import 'package:horno/services/index.dart';
 import 'package:horno/widgets/index.dart';
-import 'package:provider/provider.dart';
+import 'package:provider/provider.dart' as SProvider;
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 final supabase = Supabase.instance.client;
@@ -18,6 +18,7 @@ class MyOrdersPage extends StatefulWidget {
 
 class _MyOrdersPageState extends State<MyOrdersPage> with RenderPage {
   List<OrderModel> items = [];
+  bool isLoading = false;
 
   @override
   void initState() {
@@ -45,9 +46,17 @@ class _MyOrdersPageState extends State<MyOrdersPage> with RenderPage {
   }
 
   void initData() {
+    setState(() {
+      isLoading = true;
+    });
+
     MyOrdersService.findByLocal(Preferences.localId).then((value) {
       setState(() {
         items = value;
+      });
+    }).whenComplete(() {
+      setState(() {
+        isLoading = false;
       });
     });
   }
@@ -69,19 +78,35 @@ class _MyOrdersPageState extends State<MyOrdersPage> with RenderPage {
           child: ListView(children: [
             InputFilterWidget(onChanged: (p0) {}, hintText: 'Buscar pedido'),
             const SpaceHeight(20),
-            SizedBox(
-              height: MediaQuery.of(context).size.height,
-              child: ListView.separated(
-                  itemBuilder: (context, index) {
-                    final order = items[index];
-                    return _ItemWidget(
-                      order: order,
-                      onTap: (order) {},
-                    );
-                  },
-                  separatorBuilder: (context, index) => const SpaceHeight(20),
-                  itemCount: items.length),
-            )
+            isLoading
+                ? Center(
+                    child: CircularProgressIndicator(
+                      color: ColorsApp.colorSecondary,
+                    ),
+                  )
+                : SizedBox(
+                    height: MediaQuery.of(context).size.height,
+                    child: ListView.separated(
+                        itemBuilder: (context, index) {
+                          final order = items[index];
+                          return _ItemWidget(
+                            order: order,
+                            onTap: (order) {
+                              final service =
+                                  SProvider.Provider.of<ProcessService>(context,
+                                      listen: false);
+
+                              service.orderId = order.id!;
+
+                              Navigator.pushReplacementNamed(
+                                  context, MyRoutes.rSTATE_PROCESS);
+                            },
+                          );
+                        },
+                        separatorBuilder: (context, index) =>
+                            const SpaceHeight(20),
+                        itemCount: items.length),
+                  )
           ]),
         ),
       ),

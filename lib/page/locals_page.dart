@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:horno/routes/index.dart';
 import 'package:horno/services/index.dart';
 import 'package:horno/widgets/index.dart';
@@ -118,7 +117,7 @@ class _LocalsPageState extends State<LocalsPage> with RenderPage {
 
   SizedBox renderList(LocalsService service, BuildContext contextLocal) {
     return SizedBox(
-        height: 500,
+        height: MediaQuery.of(context).size.height - 20,
         child: ListView.separated(
             itemCount: service.locals.length,
             separatorBuilder: ((context, index) => const SpaceHeight(20)),

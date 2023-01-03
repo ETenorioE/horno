@@ -20,6 +20,7 @@ class MyRoutes {
   static const String rLOGIN_PARTNER = '/login-partner';
   static const String rREGISTER_BUSINESS = '/register-business';
   static const String rMy_ORDERS = '/my-orders';
+  static const String rSTATE_PROCESS = '/state-process';
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -59,9 +60,11 @@ class MyRoutes {
         return MaterialPageRoute(builder: (_) => const HomePartner());
       case ('/my-orders'):
         return MaterialPageRoute(builder: (_) => const MyOrdersPage());
+      case ('/state-process'):
+        return MaterialPageRoute(builder: (_) => const StateProcessPage());
 
       default:
-        print(settings.name);
+        print("ROUTE: ${settings.name}");
         return MaterialPageRoute(builder: (_) => const TypeRolPage());
     }
   }

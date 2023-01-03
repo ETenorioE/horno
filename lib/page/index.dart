@@ -21,3 +21,4 @@ export 'package:horno/page/locals_page.dart';
 export 'package:horno/page/home_partner.dart';
 export 'package:horno/page/about_us.dart';
 export 'package:horno/page/auth/verify_auth.dart';
+export 'package:horno/page/state_process_page.dart';

@@ -23,19 +23,19 @@ class DrawerPartner extends StatelessWidget {
                 child: TitleWidget(Preferences.emailShort),
               ),
             ),
-            ListTileCustom(
+            _ListTileCustom(
               icon: Icons.home_filled,
               texto: 'Inicio',
               color: ColorsApp.colorTitle,
               ontap: const LocalsPage(),
             ),
-            ListTileCustom(
+            _ListTileCustom(
               icon: Icons.person,
               texto: 'Perfil',
               color: ColorsApp.colorTitle,
               ontap: const HomePartner(),
             ),
-            ListTileCustom(
+            _ListTileCustom(
               icon: Icons.sell_rounded,
               texto: 'Mis pedidos',
               color: ColorsApp.colorTitle,
@@ -101,13 +101,13 @@ class DrawerPartner extends StatelessWidget {
   }
 }
 
-class ListTileCustom extends StatelessWidget {
+class _ListTileCustom extends StatelessWidget {
   final String texto;
   final IconData icon;
   final Color color;
   final Widget? ontap;
 
-  const ListTileCustom(
+  const _ListTileCustom(
       {super.key,
       required this.texto,
       required this.icon,

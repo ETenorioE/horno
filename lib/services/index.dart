@@ -1,3 +1,5 @@
+export 'package:horno/services/my_orders_service.dart';
+export 'package:horno/services/process_service.dart';
 export 'package:horno/services/notifications_service.dart';
 export 'package:horno/services/auth_service.dart';
 export 'package:horno/services/payment_service.dart';
