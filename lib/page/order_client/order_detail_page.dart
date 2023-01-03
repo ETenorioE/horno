@@ -59,13 +59,7 @@ class OrderDetailPage extends StatelessWidget with RenderPage {
           onPressed: () {
             Navigator.pushReplacementNamed(context, MyRoutes.rPAYMENT);
           },
-          child:
-              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-            const SizedBox(width: 20),
-            TitleWidget('Pagar S/. ${provider.total.toStringAsFixed(2)}',
-                color: ColorsApp.colorLight),
-            const SizedBox(width: 20),
-          ])),
+          text: 'Pagar S/. ${provider.total.toStringAsFixed(2)}'),
     );
   }
 

@@ -14,6 +14,7 @@ class OrderModel {
     required this.total,
     this.orderCode,
     this.details,
+    this.stages,
   });
 
   int? id;
@@ -24,6 +25,7 @@ class OrderModel {
   String paymentMethod;
   double total;
   String? orderCode;
+  int? stages;
   List<DetailModel>? details;
 
   factory OrderModel.fromJson(String str) =>
@@ -38,6 +40,7 @@ class OrderModel {
         paymentMethod: json["payment_method"],
         total: json["total"],
         orderCode: json["order_code"],
+        stages: json["stages"],
         details: List<DetailModel>.from(
             json["details"].map((x) => DetailModel.fromJson(x))),
       );

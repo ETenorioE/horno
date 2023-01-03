@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:horno/database/index.dart';
 import 'package:horno/models/index.dart';
+import 'package:horno/preferences/index.dart';
 import 'package:horno/services/base.dart';
 import 'package:horno/widgets/index.dart';
 import 'package:http/http.dart' as http;
@@ -36,9 +37,9 @@ class PaymentService extends ChangeNotifier {
 
     try {
       final data = OrderModel(
-          clientId: order.clientId!,
+          clientId: Preferences.userId,
           localId: order.localId!,
-          state: 'wait',
+          state: 'Pendiente',
           paymentMethod: paymentMethod,
           total: total);
 
