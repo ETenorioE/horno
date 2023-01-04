@@ -27,7 +27,7 @@ class DrawerPartner extends StatelessWidget {
               icon: Icons.home_filled,
               texto: 'Inicio',
               color: ColorsApp.colorTitle,
-              ontap: const LocalsPage(),
+              ontap: const HomePartner(),
             ),
             _ListTileCustom(
               icon: Icons.person,

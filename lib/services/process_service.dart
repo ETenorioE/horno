@@ -9,7 +9,7 @@ class ProcessService extends ChangeNotifier {
   int _stages = 0;
   int _stagesCompleted = 0;
   String? _userId;
-  int? _stagesSave;
+  String state = 'Pendiente';
 
   set orderId(int orderId) {
     _orderId = orderId;
@@ -38,38 +38,36 @@ class ProcessService extends ChangeNotifier {
 
     _userId = orderSave.clientId;
 
-    _stagesSave = orderSave.stages;
-
     return orderSave;
   }
 
-  String makeStateText() {
-    if (_stagesCompleted == 1) {
-      return 'Iniciando';
-    } else if (_stages == _stagesCompleted) {
-      return 'Completado';
-    } else if (_stagesCompleted > 1) {
-      return 'Horneando';
-    } else {
-      return 'Pendiente';
+  String makeStateText({required TypeMessage type}) {
+    switch (type) {
+      case TypeMessage.ingredient:
+        return 'Iniciando';
+      case TypeMessage.bake:
+        return 'Horneando';
+      case TypeMessage.completed:
+        return 'Completado';
+      default:
+        return 'Pendiente';
     }
   }
 
   String makeMessageText({
-    required TypeMessage message,
+    required TypeMessage type,
     required int stage,
     required int stageCompleted,
   }) {
     String text = '';
 
-    switch (message) {
+    switch (type) {
       case TypeMessage.ingredient:
         text = 'Insumo recibido del pedido';
         break;
       case TypeMessage.bake:
         int itemsCount = stage - 1;
         int itemsCompleted = stageCompleted - 1;
-
         text = '$itemsCompleted/$itemsCount horneandose del pedido';
         break;
       case TypeMessage.completed:
@@ -80,21 +78,19 @@ class ProcessService extends ChangeNotifier {
     return text;
   }
 
-  Future saveProcess({
-    required TypeMessage message,
+  Future<String?> saveProcess({
+    required TypeMessage type,
     required bool isConfirmed,
   }) async {
-    if (!isConfirmed) return;
+    if (isConfirmed && type == TypeMessage.completed) return null;
 
-    if (_orderId == null) return;
+    if (_orderId == null) return null;
 
-    if (_userId == null) return;
+    if (_userId == null) return null;
 
     final supabase = Supabase.instance.client;
 
-    final state = makeStateText();
-
-    _stagesSave = _stagesCompleted;
+    final state = makeStateText(type: type);
 
     await supabase.from('orders').update({
       'state': state,
@@ -104,7 +100,7 @@ class ProcessService extends ChangeNotifier {
     final orderText = _orderId.toString().padLeft(5, '0');
 
     final messageText = makeMessageText(
-      message: message,
+      type: type,
       stage: _stages,
       stageCompleted: _stagesCompleted,
     );
@@ -117,5 +113,12 @@ class ProcessService extends ChangeNotifier {
         orderText: orderText);
 
     await supabase.from('notifications').insert(notification.toJson());
+
+    if (type == TypeMessage.completed) {
+      this.state = state;
+      notifyListeners();
+    }
+
+    return 'Notificación enviada';
   }
 }

@@ -33,12 +33,13 @@ class _MyOrdersPageState extends State<MyOrdersPage> with RenderPage {
         ), (payload, [ref]) {
       final data = payload["new"];
       final order = OrderModel.fromMapSave(data);
+      print(data['local_id']);
       if (order.localId == Preferences.localId) {
         initData();
       }
     }).subscribe(
       (state, [p1]) async {
-        print(state);
+        print("CHANNEL: $state");
       },
     );
 
@@ -74,7 +75,8 @@ class _MyOrdersPageState extends State<MyOrdersPage> with RenderPage {
         appBar: appBarRender(title: 'Mis pedidos'),
         drawer: const DrawerPartner(),
         body: Padding(
-          padding: const EdgeInsets.only(top: 20, left: 20, right: 20),
+          padding:
+              const EdgeInsets.only(top: 20, left: 20, right: 20, bottom: 20),
           child: ListView(children: [
             InputFilterWidget(onChanged: (p0) {}, hintText: 'Buscar pedido'),
             const SpaceHeight(20),
@@ -85,7 +87,7 @@ class _MyOrdersPageState extends State<MyOrdersPage> with RenderPage {
                     ),
                   )
                 : SizedBox(
-                    height: MediaQuery.of(context).size.height,
+                    height: MediaQuery.of(context).size.height - 102,
                     child: ListView.separated(
                         itemBuilder: (context, index) {
                           final order = items[index];
@@ -150,7 +152,7 @@ class _ItemWidget extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                TextWidget(order.createdText),
+                TextWidget(order.timeText),
                 TextWidget(order.totalText, color: ColorsApp.colorSecondary),
               ],
             ),
