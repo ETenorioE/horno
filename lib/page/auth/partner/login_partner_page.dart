@@ -199,10 +199,19 @@ class _LoginFormState extends State<_LoginForm> {
                         if (!loginProvider.isValidForm()) return;
 
                         loginProvider.isLoading = true;
-
-                        Future.delayed(const Duration(seconds: 1));
-
+                        final service =
+                            Provider.of<PartnerService>(context, listen: false);
+                        final res = await service.login(
+                            loginProvider.email, loginProvider.password);
                         loginProvider.isLoading = false;
+                        if (res != null) {
+                          NotificationsService.showSnackbar(res,
+                              state: StateNotification.error);
+                        } else {
+                          NotificationsService.showSnackbar('Bienvenido');
+                          Navigator.pushReplacementNamed(
+                              context, MyRoutes.rHOME_PARTNER);
+                        }
                       },
                 child: (loginProvider.isLoading)
                     ? CircularProgressIndicator(

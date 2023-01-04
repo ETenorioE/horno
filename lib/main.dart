@@ -48,6 +48,7 @@ class ProviderStateWidget extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => AuthService()),
         ChangeNotifierProvider(create: (_) => PartnerAuthProvider()),
         ChangeNotifierProvider(create: (_) => ProcessService()),
+        ChangeNotifierProvider(create: (_) => PartnerService()),
       ],
       child: const MyApp(),
     );
