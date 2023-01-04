@@ -11,7 +11,7 @@ class StateProcessPage extends StatelessWidget with RenderPage {
 
   @override
   Widget build(BuildContext context) {
-    final service = Provider.of<ProcessService>(context, listen: false);
+    final service = Provider.of<ProcessService>(context);
 
     return ThemeCustomWidget(
       child: Scaffold(
@@ -35,6 +35,9 @@ class StateProcessPage extends StatelessWidget with RenderPage {
                       child: TextWidget("No existe una orden pendiente"),
                     );
                   }
+
+                  print("stages : ${order.stages}");
+
                   return Stack(children: [
                     ListView(children: [
                       TitleWidget("Pedido #${order.orderText}"),
@@ -44,7 +47,7 @@ class StateProcessPage extends StatelessWidget with RenderPage {
                         title: 'Insumo recibido?',
                         description: 'Confirme si se recibio el insumo.',
                         stage: 1,
-                        isCompleted: order.state == 'Completado',
+                        isCompleted: (order.stages! > 1),
                       ),
                       SizedBox(
                           height: MediaQuery.of(context).size.height,
@@ -52,14 +55,18 @@ class StateProcessPage extends StatelessWidget with RenderPage {
                             itemCount: order.details?.length,
                             itemBuilder: (context, index) {
                               final detail = order.details![index];
+                              final stageItem = index + 2;
+                              bool isLast =
+                                  index == (order.details!.length - 1);
 
                               return _ItemProcessWidget(
-                                stage: index + 2,
-                                isCompleted: order.state == 'Completado',
+                                stage: stageItem,
+                                isLast: isLast,
+                                isCompleted: (order.stages! >= stageItem),
                                 title:
                                     "1 pedido ${detail.serviceName.toLowerCase()}",
                                 description:
-                                    'Confirme si se esta horneando el pedido',
+                                    'Confirme si se está horneando el pedido',
                               );
                             },
                           )),
@@ -69,12 +76,22 @@ class StateProcessPage extends StatelessWidget with RenderPage {
                       child: Padding(
                         padding: const EdgeInsets.only(bottom: 20),
                         child: ButtonWidget(
-                          onPressed: () {
-                            service.saveProcess(
-                                message: TypeMessage.completed,
-                                isConfirmed: true);
+                          onPressed: () async {
+                            service.stagesCompleted = order.details!.length + 1;
+
+                            final res = await service.saveProcess(
+                                type: TypeMessage.completed,
+                                isConfirmed: order.state == 'Completado');
+                            if (res == null) {
+                              NotificationsService.showSnackbar(
+                                  'Ya se envio la notificación',
+                                  state: StateNotification.error);
+                            } else {
+                              NotificationsService.showSnackbar(res);
+                            }
                           },
-                          text: order.state == 'Completado'
+                          text: (service.state == 'Completado') ||
+                                  (order.state == 'Completado')
                               ? 'Pedido Completado '
                               : 'Confirmar pedido completado',
                         ),
@@ -105,6 +122,7 @@ class StateProcessPage extends StatelessWidget with RenderPage {
 
 class _ItemProcessWidget extends StatefulWidget {
   final bool? isFirst;
+  final bool? isLast;
   final bool? isCompleted;
   final String title;
   final String description;
@@ -117,6 +135,7 @@ class _ItemProcessWidget extends StatefulWidget {
     required this.description,
     required this.stage,
     this.isCompleted = false,
+    this.isLast = false,
   }) : super(key: key);
 
   @override
@@ -140,10 +159,11 @@ class _ItemProcessWidgetState extends State<_ItemProcessWidget> {
     return TimelineTile(
       beforeLineStyle:
           LineStyle(color: widget.isFirst! ? ColorsApp.colorLight : color),
-      afterLineStyle: LineStyle(color: color),
+      afterLineStyle:
+          LineStyle(color: widget.isLast! ? ColorsApp.colorLight : color),
       indicatorStyle: IndicatorStyle(color: color),
       endChild: Container(
-        padding: const EdgeInsets.only(left: 10, bottom: 10),
+        padding: const EdgeInsets.only(left: 10, bottom: 20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -154,7 +174,7 @@ class _ItemProcessWidgetState extends State<_ItemProcessWidget> {
                 Checkbox(
                     activeColor: ColorsApp.colorSecondary,
                     value: isSelect,
-                    onChanged: (value) {
+                    onChanged: (value) async {
                       if (widget.isCompleted!) return;
 
                       setState(() {
@@ -162,11 +182,19 @@ class _ItemProcessWidgetState extends State<_ItemProcessWidget> {
                       });
                       service.stagesCompleted = widget.stage;
 
-                      service.saveProcess(
+                      final res = await service.saveProcess(
                           isConfirmed: value!,
-                          message: widget.stage == 1
+                          type: widget.stage == 1
                               ? TypeMessage.ingredient
                               : TypeMessage.bake);
+
+                      if (res == null) {
+                        NotificationsService.showSnackbar(
+                            'Ya se envio la notificación',
+                            state: StateNotification.error);
+                      } else {
+                        NotificationsService.showSnackbar(res);
+                      }
                     }),
               ],
             ),

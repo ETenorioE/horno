@@ -41,6 +41,7 @@ class PaymentService extends ChangeNotifier {
           localId: order.localId!,
           state: 'Pendiente',
           paymentMethod: paymentMethod,
+          stages: 0,
           total: total);
 
       int orderId = await _saveOrder(supabase, data);

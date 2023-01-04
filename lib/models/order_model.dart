@@ -1,6 +1,6 @@
 import 'package:horno/models/index.dart';
 import 'dart:convert';
-
+import 'package:timeago/timeago.dart' as timeago;
 import 'package:intl/intl.dart';
 
 class OrderModel {
@@ -53,6 +53,7 @@ class OrderModel {
         state: json["state"],
         paymentMethod: json["payment_method"],
         total: json["total"],
+        stages: json["stages"],
         orderCode: json["order_code"],
       );
 
@@ -65,6 +66,7 @@ class OrderModel {
         "payment_method": paymentMethod,
         "total": total,
         "order_code": orderCode,
+        "stages": stages,
         "details": List<dynamic>.from(details!.map((x) => x.toJson())),
       };
 
@@ -73,6 +75,7 @@ class OrderModel {
         "local_id": localId,
         "state": state,
         "payment_method": paymentMethod,
+        "stages": stages,
         "total": total,
       };
 
@@ -92,5 +95,9 @@ class OrderModel {
     final DateFormat formatter = DateFormat('dd-MM-yyyy');
     final String formatted = formatter.format(createdAt!);
     return formatted;
+  }
+
+  String get timeText {
+    return timeago.format(createdAt!, locale: 'es');
   }
 }
