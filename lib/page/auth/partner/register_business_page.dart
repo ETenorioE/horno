@@ -78,7 +78,7 @@ class _BusinessFormState extends State<_BusinessForm> with RenderPage {
               decoration: decorationTextFormField(
                 hinttext: 'Panederia Flores',
               ),
-              onChanged: (value) => provider.email = value,
+              onChanged: (value) => provider.businessName = value,
               validator: (value) {
                 return (value != null && value.length >= 6)
                     ? null
@@ -96,10 +96,9 @@ class _BusinessFormState extends State<_BusinessForm> with RenderPage {
               autocorrect: false,
               decoration: decorationTextFormField(
                   hinttext: 'Av Principal, Huamanga, Ayacucho'),
-              keyboardType: TextInputType.visiblePassword,
-              onChanged: (value) => provider.password = value,
+              onChanged: (value) => provider.businessAddress = value,
               validator: (value) {
-                return null;
+                return value == null ? 'La dirección es requerida' : null;
               },
             ),
             SpaceHeight(spaceHeight),
@@ -110,11 +109,14 @@ class _BusinessFormState extends State<_BusinessForm> with RenderPage {
               cursorColor: ColorsApp.colorTitle,
               style: TextStyle(color: ColorsApp.colorBlack),
               autocorrect: false,
-              keyboardType: TextInputType.visiblePassword,
-              onChanged: (value) => provider.confirmationPassword = value,
+
+              onChanged: (value) => provider.businessOfficeHours = value,
               decoration: decorationTextFormField(hinttext: '8:00 a 16:00'),
               validator: (value) {
-                return null;
+                return value == null
+                    ? 'El horario de atención es requerida'
+                    : null;
+                ;
               },
               //VALIDACIÓN
             ),
@@ -137,9 +139,21 @@ class _BusinessFormState extends State<_BusinessForm> with RenderPage {
                         if (!provider.isValidForm()) return;
 
                         provider.isLoading = true;
-                        Navigator.pushReplacementNamed(
-                            context, MyRoutes.rHOME_PARTNER);
+                        final res = await provider.createLocal(
+                          name: provider.businessName,
+                          address: provider.businessAddress,
+                          officeHours: provider.businessOfficeHours,
+                        );
                         provider.isLoading = false;
+                        if (res == null) {
+                          // ignore: use_build_context_synchronously
+                          Navigator.pushReplacementNamed(
+                              context, MyRoutes.rHOME_PARTNER);
+                          NotificationsService.showSnackbar('Bienvenido');
+                        } else {
+                          NotificationsService.showSnackbar(res,
+                              state: StateNotification.error);
+                        }
                       },
                 child: (provider.isLoading)
                     ? CircularProgressIndicator(
