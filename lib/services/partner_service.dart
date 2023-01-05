@@ -7,7 +7,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 class PartnerService extends ChangeNotifier {
   final storage = const FlutterSecureStorage();
   final supabase = Supabase.instance.client;
-
+  String? businessName;
   Future<String?> createUser(String email, String password) async {
     try {
       final AuthResponse res =
@@ -88,9 +88,14 @@ class PartnerService extends ChangeNotifier {
   Future<int?> _findProfileByUser(String userId) async {
     final res = await supabase
         .from('profile')
-        .select('local_id')
+        .select('local_id, locals(name)')
         .eq('user_id', userId)
+        .limit(1)
         .single();
+
+    print(res['locals']['name']);
+    businessName = res['locals']['name'];
+    notifyListeners();
     return res['local_id'];
   }
 }

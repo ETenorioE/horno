@@ -176,15 +176,21 @@ class _PartnerUserFormState extends State<_PartnerUserForm> with RenderPage {
 
                         provider.isLoading = true;
 
-                        Future.delayed(const Duration(seconds: 1));
-
+                        final res = await provider.createUser(
+                            provider.email, provider.password);
                         provider.isLoading = false;
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  const RegisterBusinessPage()),
-                        );
+                        if (res == null) {
+                          // ignore: use_build_context_synchronously
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    const RegisterBusinessPage()),
+                          );
+                        } else {
+                          NotificationsService.showSnackbar(res,
+                              state: StateNotification.error);
+                        }
                         //
                       },
                 child: (provider.isLoading)
