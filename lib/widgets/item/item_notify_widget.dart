@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:horno/models/index.dart';
 import 'package:horno/widgets/index.dart';
-
-enum StateNotify { completed, notify }
 
 class ItemNotify extends StatelessWidget {
   final StateNotify state;
   final String order;
   final String client;
   final String? activity;
+  final String time;
 
   String _message = "";
   String _asset = "assets/notify";
@@ -19,6 +19,7 @@ class ItemNotify extends StatelessWidget {
     required this.order,
     required this.client,
     this.activity = "horneandose",
+    required this.time,
   }) : super(key: key) {
     process();
   }
@@ -68,13 +69,13 @@ class ItemNotify extends StatelessWidget {
                         TextSpan(text: " $client ", style: _styletTitle()),
                         const TextSpan(text: 'su pedido de la orden'),
                         TextSpan(text: " #$order ", style: _styletTitle()),
-                        TextSpan(text: ",se encuentra $_message")
+                        TextSpan(text: ", se encuentra $activity")
                       ])),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       TextWidget(
-                        'hace 3min',
+                        time,
                         fontSize: 14,
                         color: ColorsApp.colorTitle,
                       ),
