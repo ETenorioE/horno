@@ -30,7 +30,7 @@ class VerifyAuthScreen extends StatelessWidget {
             });
           } else {
             Future.microtask(() {
-              String routeNext = Preferences.rolApp == 'cliente'
+              String routeNext = Preferences.rolApp == 'client'
                   ? MyRoutes.rLOCALS
                   : MyRoutes.rHOME_PARTNER;
 

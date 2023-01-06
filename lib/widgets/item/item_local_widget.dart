@@ -22,70 +22,64 @@ class LocalItemWidget extends StatelessWidget {
     return InkWell(
       onTap: () => onTap == null ? null : onTap!(),
       child: SizedBox(
-        width: 372,
+        height: 180,
+        width: double.infinity,
         child: Stack(
           children: [
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(10),
-                  child: Image.network(image,
-                      width: 118, height: 119, fit: BoxFit.cover),
-                ),
-                const SizedBox(
-                  width: 14,
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 8),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      TitleWidget(name),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      TextWidget(
-                        state,
-                        color: state == 'Abierto'
-                            ? ColorsApp.colorSuccess
-                            : ColorsApp.colorError,
-                      ),
-                      const SpaceHeight(11),
-                      Row(
-                        children: [
-                          Icon(
-                            Icons.schedule,
-                            color: ColorsApp.colorText,
-                          ),
-                          TextWidget(
-                            schedule,
-                            color: ColorsApp.colorText,
-                          )
-                        ],
-                      )
-                    ],
-                  ),
-                )
-              ],
+            SizedBox(
+              width: double.infinity,
+              child: FadeInImage(
+                fit: BoxFit.cover,
+                placeholder: const AssetImage('assets/images/loading_2.gif'),
+                image: NetworkImage(image),
+              ),
             ),
+            Positioned(
+                right: 10,
+                top: 10,
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: ColorsApp.colorSecondary.withOpacity(.5)),
+                  child: IconAndTextWidget(
+                    icon: Icons.star,
+                    text: '0',
+                    color: ColorsApp.colorLight,
+                    colorText: ColorsApp.colorLight,
+                  ),
+                )),
             Positioned(
               bottom: 0,
               right: 0,
+              left: 0,
               child: Container(
-                width: 96,
-                height: 40,
-                decoration: BoxDecoration(
-                    color: ColorsApp.colorPrimary,
-                    borderRadius: const BorderRadius.only(
-                        topLeft: Radius.circular(10),
-                        bottomRight: Radius.circular(10))),
-                child: Center(
-                  child: TextWidget(
-                    'Ingresar',
-                    color: ColorsApp.colorLight,
-                  ),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                color: ColorsApp.colorBlack.withOpacity(.5),
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        TitleWidget(name, color: ColorsApp.colorLight),
+                      ],
+                    ),
+                    const SpaceHeight(5),
+                    Row(
+                      children: [
+                        IconAndTextWidget(text: schedule, icon: Icons.schedule),
+                        Container(
+                            width: 4,
+                            height: 4,
+                            margin: const EdgeInsets.symmetric(horizontal: 5),
+                            decoration: BoxDecoration(
+                                color: ColorsApp.colorText,
+                                shape: BoxShape.circle)),
+                        TextWidget(state),
+                      ],
+                    )
+                  ],
                 ),
               ),
             )

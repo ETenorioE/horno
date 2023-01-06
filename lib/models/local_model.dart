@@ -37,13 +37,13 @@ class LocalModel {
         id: json["id"],
         createdAt: DateTime.parse(json["created_at"]),
         name: json["name"],
-        stateAttention: json["state_attention"],
+        stateAttention: json["state_attention"] ?? '',
         image: json["image"],
         banner: json["banner"],
         officeHours: json["office_hours"],
         address: json["address"],
-        city: json["city"],
-        rating: json["rating"].toDouble(),
+        city: json["city"] ?? '',
+        rating: json["rating"] == null ? 0 : json["rating"].toDouble(),
         services: List<ServiceModel>.from(
             json["services"].map((x) => ServiceModel.fromJson(x))),
         contacts: List<ContactModel>.from(

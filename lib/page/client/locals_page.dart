@@ -120,7 +120,7 @@ class _LocalsPageState extends State<LocalsPage> with RenderPage {
         height: MediaQuery.of(context).size.height - 20,
         child: ListView.separated(
             itemCount: service.locals.length,
-            separatorBuilder: ((context, index) => const SpaceHeight(20)),
+            separatorBuilder: ((context, index) => const SpaceHeight(5)),
             itemBuilder: (context, index) {
               final item = service.locals[index];
               return LocalItemWidget(
