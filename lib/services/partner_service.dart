@@ -51,6 +51,7 @@ class PartnerService extends ChangeNotifier {
 
         storage.write(key: 'token', value: user.id);
         _handleSetExternalUserId(user.id);
+        Preferences.rolApp = 'partner';
         print("USER: ${user.id}");
         return null;
       } else {

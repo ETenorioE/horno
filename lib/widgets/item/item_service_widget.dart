@@ -17,7 +17,7 @@ class ItemServiceWidget extends StatelessWidget {
     return InkWell(
         onTap: () => onTap!(),
         child: Container(
-            padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 17),
+            padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 10),
             decoration: BoxDecoration(
               border: Border(
                 left: BorderSide(width: 3, color: ColorsApp.colorPrimary),
@@ -27,10 +27,10 @@ class ItemServiceWidget extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   SizedBox(
-                      width: 52,
-                      height: 49,
+                      width: 70,
+                      height: 70,
                       child: ImageNetworkRoundedWidget(
-                          radius: 10, url: service.image)),
+                          radius: 5, url: service.image)),
                   Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [

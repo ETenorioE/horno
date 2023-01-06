@@ -20,6 +20,7 @@ class AuthService extends ChangeNotifier {
       if (user != null) {
         Preferences.email = user.email!;
         Preferences.userId = user.id;
+        Preferences.rolApp = 'client';
         storage.write(key: 'token', value: user.id);
         _handleSetExternalUserId(user.id);
         print("USER: ${user.id}");
@@ -44,6 +45,7 @@ class AuthService extends ChangeNotifier {
       if (user != null) {
         Preferences.email = user.email!;
         Preferences.userId = user.id;
+        Preferences.rolApp = 'client';
         storage.write(key: 'token', value: user.id);
         _handleSetExternalUserId(user.id);
         print("USER: ${user.id}");

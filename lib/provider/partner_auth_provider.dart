@@ -2,6 +2,7 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:horno/preferences/index.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class PartnerAuthProvider extends ChangeNotifier {
@@ -50,6 +51,7 @@ class PartnerAuthProvider extends ChangeNotifier {
       };
       final resProfile = await supabase.from('profile').insert(dataProfile);
       storage.write(key: 'token', value: this.userId);
+      Preferences.rolApp = 'partner';
       return null;
     } catch (e) {
       print('Error ${e.toString()}');

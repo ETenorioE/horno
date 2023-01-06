@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class ImageNetworkRoundedWidget extends StatelessWidget {
@@ -17,9 +18,11 @@ class ImageNetworkRoundedWidget extends StatelessWidget {
     return ClipRRect(
         borderRadius: BorderRadius.all(Radius.circular(radius)),
         child: isNetwork!
-            ? Image.network(
-                url,
+            ? CachedNetworkImage(
                 fit: BoxFit.cover,
+                placeholder: ((context, url) =>
+                    Image.asset('assets/images/loading_2.gif')),
+                imageUrl: url,
               )
             : Image.asset('assets/$url'));
   }
