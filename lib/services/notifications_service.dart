@@ -17,7 +17,7 @@ class NotificationsService {
       backgroundColor: backgroundColor,
       shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(20), topRight: Radius.circular(20))),
+              topLeft: Radius.circular(10), topRight: Radius.circular(10))),
       content: Text(message,
           style: TextStyle(
               color: ColorsApp.colorLight,

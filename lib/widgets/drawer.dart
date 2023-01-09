@@ -47,24 +47,12 @@ class CustomDrawer extends StatelessWidget {
               color: ColorsApp.colorTitle,
               ontap: const HistoryPage(),
             ),
-            ListTileCustom(
-              icon: Icons.add_business,
-              texto: 'Locales',
-              color: ColorsApp.colorTitle,
-              ontap: const LocalsPage(),
-            ),
             Padding(
               padding: const EdgeInsets.only(left: 24, right: 24),
               child: Divider(
                 color: ColorsApp.colorPrimary,
                 thickness: 2.0,
               ),
-            ),
-            ListTileCustom(
-              texto: 'Ayuda en linea',
-              icon: Icons.help_outlined,
-              color: ColorsApp.colorTitle,
-              ontap: const HomePartner(),
             ),
             ListTileCustom(
               texto: 'Acerca de Nosotros',

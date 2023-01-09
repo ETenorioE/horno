@@ -47,6 +47,7 @@ dependencies:
   onesignal_flutter: ^3.5.0
   timeline_tile: ^2.0.0
   timeago: ^3.3.0
+  lottie: ^2.1.0
 dev_dependencies:
   flutter_lints: ^2.0.0
   flutter_test:
@@ -75,6 +76,7 @@ flutter:
     - assets/notify/
     - assets/order/
     - assets/payment/
+    - assets/lottie/
   #   - images/a_dot_ham.jpeg
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

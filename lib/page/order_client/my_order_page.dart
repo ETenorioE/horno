@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:horno/models/index.dart';
 import 'package:horno/services/index.dart';
@@ -6,9 +7,16 @@ import 'package:horno/widgets/index.dart';
 
 enum StateOrder { wait, progress, complete }
 
-class MyOrderPage extends StatelessWidget with RenderPage {
+class MyOrderPage extends StatefulWidget {
   const MyOrderPage({super.key});
 
+  @override
+  State<MyOrderPage> createState() => _MyOrderPageState();
+}
+
+class _MyOrderPageState extends State<MyOrderPage> with RenderPage {
+  final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
+      GlobalKey<RefreshIndicatorState>();
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<PaymentService>(context);
@@ -16,57 +24,74 @@ class MyOrderPage extends StatelessWidget with RenderPage {
     return ThemeCustomWidget(
       child: Scaffold(
         appBar: appBarRender(title: "Mi Pedido"),
-        body: FutureBuilder(
-          future: provider.findById(provider.orderId),
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              final data = snapshot.data;
+        body: RefreshIndicator(
+          key: _refreshIndicatorKey,
+          color: ColorsApp.colorLight,
+          backgroundColor: ColorsApp.colorSecondary,
+          strokeWidth: 4.0,
+          onRefresh: () async {
+            setState(() {});
+          },
+          child: FutureBuilder(
+            future: provider.findById(provider.orderId),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                final data = snapshot.data;
 
-              if (data == null) {
-                return const Center(
-                  child: TextWidget("No existe una orden pendiente"),
+                if (data == null) {
+                  return MessageLottie(
+                      message: 'No existe el pedido pendiente',
+                      asset: 'empty_box');
+                }
+
+                final order = data['order'];
+
+                if (order == null) {
+                  return MessageLottie(
+                      message: 'No existe el pedido pendiente',
+                      asset: 'empty_box');
+                }
+
+                return Stack(children: [
+                  backgroundImageRender(context),
+                  Padding(
+                      padding: _paddingPage(),
+                      child: Container(
+                          padding: _paddingCard(),
+                          decoration: _decorationCard(),
+                          child: SingleChildScrollView(
+                              child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                _header(order),
+                                const SpaceHeight(23),
+                                _notifyState(order),
+                                const SpaceHeight(22),
+                                _messageStateOrder(order),
+                                const SpaceHeight(22),
+                                _titleDetails(),
+                                const SpaceHeight(15),
+                                _listRender(order)
+                              ])))),
+                  _footer(order)
+                ]);
+              } else if (snapshot.hasError) {
+                return Center(
+                  child: TextWidget(
+                    'No se pudo recuperar la orden, intente mas tarde',
+                    color: ColorsApp.colorError,
+                  ),
+                );
+              } else {
+                return Align(
+                  alignment: Alignment.center,
+                  child: CircularProgressIndicator(
+                    color: ColorsApp.colorSecondary,
+                  ),
                 );
               }
-
-              return Stack(children: [
-                backgroundImageRender(context),
-                Padding(
-                    padding: _paddingPage(),
-                    child: Container(
-                        padding: _paddingCard(),
-                        decoration: _decorationCard(),
-                        child: SingleChildScrollView(
-                            child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                              _header(data),
-                              const SpaceHeight(23),
-                              _notifyState(),
-                              const SpaceHeight(22),
-                              _messageStateOrder(),
-                              const SpaceHeight(22),
-                              _titleDetails(),
-                              const SpaceHeight(15),
-                              _listRender(data)
-                            ])))),
-                _footer(data)
-              ]);
-            } else if (snapshot.hasError) {
-              return Center(
-                child: TextWidget(
-                  'No se pudo recuperar la orden, intente mas tarde',
-                  color: ColorsApp.colorError,
-                ),
-              );
-            } else {
-              return Align(
-                alignment: Alignment.center,
-                child: CircularProgressIndicator(
-                  color: ColorsApp.colorSecondary,
-                ),
-              );
-            }
-          },
+            },
+          ),
         ),
         drawer: const CustomDrawer(),
         bottomNavigationBar:
@@ -100,18 +125,37 @@ class MyOrderPage extends StatelessWidget with RenderPage {
   }
 
   TitleWidget _nroItem(OrderModel data) {
-    return TitleWidget('# pedidos ${data.details!.length}',
+    return TitleWidget('# items ${data.details!.length}',
         color: ColorsApp.colorSecondary, fontSize: 16);
   }
 
-  Row _notifyState() {
+  Row _notifyState(OrderModel order) {
+    String stateIngredientAsset = 'ingredient_wait';
+    String stateBakeAsset = 'bake_wait';
+    String stateTaskAsset = 'task_progress';
+    StateOrder stage1 = StateOrder.wait;
+    StateOrder stage2 = StateOrder.wait;
+
+    if (order.state == "Iniciando") {
+      stateIngredientAsset = 'ingredient_received';
+      stage1 = StateOrder.complete;
+    } else if (order.state == 'Completado') {
+      stateIngredientAsset = 'ingredient_received';
+      stateBakeAsset = 'bake_complete';
+      stateTaskAsset = 'task_complete';
+      stage1 = StateOrder.complete;
+      stage2 = StateOrder.complete;
+    } else if (order.state == 'Horneando') {
+      stateIngredientAsset = 'ingredient_received';
+      stateBakeAsset = 'bake_progress';
+    }
     return Row(
       children: [
-        const _ImageAssetWidget(image: 'ingredient_wait'),
-        _stageOrder(StateOrder.wait),
-        const _ImageAssetWidget(image: 'bake_wait'),
-        _stageOrder(StateOrder.wait),
-        const _ImageAssetWidget(image: 'task_progress'),
+        _ImageAssetWidget(image: stateIngredientAsset),
+        _stageOrder(stage1),
+        _ImageAssetWidget(image: stateBakeAsset),
+        _stageOrder(stage2),
+        _ImageAssetWidget(image: stateTaskAsset),
       ],
     );
   }
@@ -132,10 +176,20 @@ class MyOrderPage extends StatelessWidget with RenderPage {
 
   TitleWidget _titleDetails() => const TitleWidget('Detalle', fontSize: 16);
 
-  Center _messageStateOrder() {
+  Center _messageStateOrder(OrderModel order) {
+    String message = 'Cliente debe entregar su insumo al local';
+
+    if (order.state == "Iniciando") {
+      message = 'Su pedido se encuentra en cola';
+    } else if (order.state == 'Completado') {
+      message = 'Su pedido se encuentra listo para recoger';
+    } else if (order.state == 'Horneando') {
+      int item = order.stages! - 1;
+      int items = order.details!.length;
+      message = 'Su pedido se encuentra horneandose $item/$items';
+    }
     return Center(
-      child: TextWidget('Cliente debe entregar el  pedido al local',
-          fontSize: 16, color: ColorsApp.colorTitle),
+      child: TextWidget(message, fontSize: 16, color: ColorsApp.colorTitle),
     );
   }
 
@@ -163,7 +217,7 @@ class MyOrderPage extends StatelessWidget with RenderPage {
 
   TitleWidget _textOrder(OrderModel? data) {
     return TitleWidget(
-      'Número de orden #${data?.orderText}',
+      'Número de pedido #${data?.orderText}',
       fontSize: 16,
     );
   }

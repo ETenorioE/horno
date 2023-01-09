@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:horno/models/index.dart';
 import 'package:horno/services/index.dart';
 import 'package:horno/widgets/index.dart';
+import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 
 class HistoryPage extends StatefulWidget {
@@ -18,45 +19,45 @@ class _HistoryPageState extends State<HistoryPage> with RenderPage {
 
     return ThemeCustomWidget(
       child: Scaffold(
-        appBar: appBarRender(title: 'Historial'),
+        appBar: appBarRender(title: 'Historial de pedidos'),
         drawer: const CustomDrawer(),
         body: Stack(
           children: [
             backgroundImageRender(context),
-            FutureBuilder(
-              future: provider.findAll(),
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  final list = snapshot.data;
+            Padding(
+              padding: const EdgeInsets.only(top: 20, left: 20, right: 20),
+              child: FutureBuilder(
+                future: provider.findAll(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    final list = snapshot.data;
 
-                  if (list == null) {
+                    if (list == null || list.isEmpty) {
+                      return MessageLottie(
+                          message: 'No tienes un historial de pedidos',
+                          colorText: ColorsApp.colorLight,
+                          asset: 'empty_box');
+                    }
+
+                    return ListView.builder(
+                      itemCount: list.length,
+                      itemBuilder: (context, index) {
+                        final order = list[index];
+                        return _ItemHistoryWidget(
+                          order: order,
+                        );
+                      },
+                    );
+                  } else {
                     return Align(
                       alignment: Alignment.center,
-                      child: TextWidget(
-                        'Sin historial de ordenes',
-                        color: ColorsApp.colorError,
+                      child: CircularProgressIndicator(
+                        color: ColorsApp.colorSecondary,
                       ),
                     );
                   }
-
-                  return ListView.builder(
-                    itemCount: list.length,
-                    itemBuilder: (context, index) {
-                      final order = list[index];
-                      return _ItemHistoryWidget(
-                        order: order,
-                      );
-                    },
-                  );
-                } else {
-                  return Align(
-                    alignment: Alignment.center,
-                    child: CircularProgressIndicator(
-                      color: ColorsApp.colorSecondary,
-                    ),
-                  );
-                }
-              },
+                },
+              ),
             )
           ],
         ),
@@ -76,73 +77,73 @@ class _ItemHistoryWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(right: 20, left: 20, top: 20, bottom: 10),
-      child: Card(
-        elevation: 0,
-        color: ColorsApp.colorLight,
-        child: Container(
-          height: 116,
-          width: 372,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              //NUMERO DE PEDIDO
-              Padding(
-                padding: const EdgeInsets.only(left: 17, top: 11, bottom: 17),
-                child: TitleWidget('Numero de orden #${order!.orderText}',
-                    fontSize: 16),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  //ICONO
-                  Padding(
-                    padding: const EdgeInsets.only(left: 17),
-                    child: Container(
-                      width: 52,
-                      height: 49,
-                      padding: const EdgeInsets.all(5),
-                      decoration: BoxDecoration(
-                        image: const DecorationImage(
-                          fit: BoxFit.cover,
-                          image: AssetImage('assets/order/ingredient_wait.png'),
-                        ),
-                        color: ColorsApp.colorPrimary.withOpacity(.5),
-                        borderRadius: const BorderRadius.all(
-                          Radius.circular(10),
-                        ),
+    final stateImg = order!.state.toLowerCase();
+
+    return Card(
+      elevation: 0,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+      color: ColorsApp.colorLight,
+      child: SizedBox(
+        height: 116,
+        width: 372,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            //NUMERO DE PEDIDO
+            Padding(
+              padding: const EdgeInsets.only(left: 17, top: 11, bottom: 17),
+              child: TitleWidget('Numero de pedido #${order!.orderText}',
+                  fontSize: 16),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                //ICONO
+                Padding(
+                  padding: const EdgeInsets.only(left: 17),
+                  child: Container(
+                    width: 52,
+                    height: 49,
+                    padding: const EdgeInsets.all(5),
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        fit: BoxFit.cover,
+                        image: AssetImage('assets/order/$stateImg.png'),
+                      ),
+                      color: ColorsApp.colorPrimary.withOpacity(.5),
+                      borderRadius: const BorderRadius.all(
+                        Radius.circular(10),
                       ),
                     ),
                   ),
+                ),
 
-                  Padding(
-                    padding: const EdgeInsets.only(left: 17),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        //ESTADO
-                        TextWidget('Progreso',
-                            fontSize: 16, color: ColorsApp.colorSecondary),
-                        const SizedBox(height: 0),
-                        //FECHA
-                        Padding(
-                          padding: const EdgeInsets.only(top: 8),
-                          child: TextWidget(order!.createdText, fontSize: 16),
-                        ),
-                      ],
-                    ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 17),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      //ESTADO
+                      TextWidget(order!.state,
+                          fontSize: 16, color: ColorsApp.colorSecondary),
+                      const SizedBox(height: 0),
+                      //FECHA
+                      Padding(
+                        padding: const EdgeInsets.only(top: 8),
+                        child: TextWidget(order!.createdText, fontSize: 16),
+                      ),
+                    ],
                   ),
-                  //PRECIO
-                  Padding(
-                    padding:
-                        const EdgeInsets.only(bottom: 16, left: 40, right: 17),
-                    child: TextWidget(order!.totalText, fontSize: 16),
-                  ),
-                ],
-              ),
-            ],
-          ),
+                ),
+                //PRECIO
+                Padding(
+                  padding:
+                      const EdgeInsets.only(bottom: 16, left: 40, right: 17),
+                  child: TextWidget(order!.totalText, fontSize: 16),
+                ),
+              ],
+            ),
+          ],
         ),
       ),
     );
