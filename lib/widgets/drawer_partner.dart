@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:horno/page/index.dart';
+import 'package:horno/page/partner/my_services_page.dart';
 import 'package:horno/preferences/index.dart';
 import 'package:horno/services/auth_service.dart';
 import 'package:horno/widgets/index.dart';
@@ -34,6 +35,12 @@ class DrawerPartner extends StatelessWidget {
               texto: 'Perfil',
               color: ColorsApp.colorTitle,
               ontap: const HomePartner(),
+            ),
+            _ListTileCustom(
+              icon: Icons.book,
+              texto: 'Mis Servicios',
+              color: ColorsApp.colorTitle,
+              ontap: const MyServicesPage(),
             ),
             _ListTileCustom(
               icon: Icons.sell_rounded,
