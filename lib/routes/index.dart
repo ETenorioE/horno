@@ -21,6 +21,8 @@ class MyRoutes {
   static const String rREGISTER_BUSINESS = '/register-business';
   static const String rMy_ORDERS = '/my-orders';
   static const String rSTATE_PROCESS = '/state-process';
+  static const String rREGISTER_SERVICES = '/register-services';
+  static const String rMY_SERVICES = '/my-services';
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -62,6 +64,10 @@ class MyRoutes {
         return MaterialPageRoute(builder: (_) => const MyOrdersPage());
       case ('/state-process'):
         return MaterialPageRoute(builder: (_) => const StateProcessPage());
+      case ('/register-services'):
+        return MaterialPageRoute(builder: (_) => const RegisterServicesPage());
+      case ('/my-services'):
+        return MaterialPageRoute(builder: (_) => const MyServicesPage());
 
       default:
         print("ROUTE: ${settings.name}");

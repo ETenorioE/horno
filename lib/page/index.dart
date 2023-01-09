@@ -22,3 +22,5 @@ export 'package:horno/page/partner/home_partner.dart';
 export 'package:horno/page/client/about_us.dart';
 export 'package:horno/page/auth/verify_auth.dart';
 export 'package:horno/page/partner/state_process_page.dart';
+export 'package:horno/page/partner/register_services_page.dart';
+export 'package:horno/page/partner/my_services_page.dart';
