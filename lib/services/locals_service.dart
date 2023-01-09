@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:horno/models/index.dart';
 import 'package:horno/services/index.dart';
 import 'package:http/http.dart' as http;
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class LocalsService extends ChangeNotifier {
   final String baseUrl = "${BaseService.baseURL}/locals";
+  final _supabase = Supabase.instance.client;
 
   List<LocalModel> locals = [];
 
@@ -18,7 +20,14 @@ class LocalsService extends ChangeNotifier {
     'Authorization': BaseService.authorization
   };
 
-  bool isLoading = false;
+  bool _isLoading = false;
+
+  set isLoading(bool value) {
+    _isLoading = value;
+    notifyListeners();
+  }
+
+  bool get isLoading => _isLoading;
 
   LocalsService() {
     locals.clear();
@@ -26,22 +35,28 @@ class LocalsService extends ChangeNotifier {
     getAll();
   }
 
-  Future getAll() async {
-    isLoading = true;
-    notifyListeners();
+  Future getAll({bool withLoading = true}) async {
+    if (withLoading) {
+      isLoading = true;
+    }
 
-    final url =
-        Uri.parse('$baseUrl?select=*,services(*),contacts(*)&order=name');
-
-    final response = await http.get(url, headers: headers);
+    final List<dynamic> res = await _supabase
+        .from('locals')
+        .select('*,services(*),contacts(*)')
+        .order('name');
 
     locals.clear();
     temps.clear();
 
-    _processData(response, isCached: false);
+    for (var item in res) {
+      final local = LocalModel.fromMap(item);
+      locals.add(local);
+      temps.add(local);
+    }
 
-    isLoading = false;
-    notifyListeners();
+    if (withLoading) {
+      isLoading = false;
+    }
   }
 
   void _processData(http.Response response, {bool isCached = false}) {
@@ -59,32 +74,31 @@ class LocalsService extends ChangeNotifier {
 
   Future search(String text) async {
     if (text.isEmpty) {
-      locals.clear();
       locals = temps;
       isLoading = false;
-      notifyListeners();
       return;
     }
 
     if (text.length < 4) return;
 
-    if (isLoading) return;
+    if (_isLoading) return;
 
     isLoading = true;
-    notifyListeners();
 
-    final query =
-        'select=*,services(*),contacts(*)&name=like.%25$text%25&order=name';
-
-    final url = Uri.parse('$baseUrl?$query');
-
-    final response = await http.get(url, headers: headers);
+    final List<dynamic> res = await _supabase
+        .from('locals')
+        .select('*,services(*),contacts(*)')
+        .ilike('name', '%$text%')
+        .order('name', ascending: true);
 
     locals.clear();
-    _processData(response);
+
+    for (var item in res) {
+      final local = LocalModel.fromMap(item);
+      locals.add(local);
+    }
 
     isLoading = false;
-    notifyListeners();
   }
 
   void setLocal(local) {

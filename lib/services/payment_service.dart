@@ -6,7 +6,6 @@ import 'package:horno/models/index.dart';
 import 'package:horno/preferences/index.dart';
 import 'package:horno/services/base.dart';
 import 'package:horno/widgets/index.dart';
-import 'package:http/http.dart' as http;
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 enum StateProcess { success, error }
@@ -14,14 +13,11 @@ enum StateProcess { success, error }
 class StateMessageProcess {
   final StateProcess state;
   final String msg;
-
   StateMessageProcess({required this.state, required this.msg});
 }
 
 class PaymentService extends ChangeNotifier {
-  int orderId = 38;
-
-  final String baseUrl = "${BaseService.baseURL}/orders";
+  int? orderId;
 
   Future<StateMessageProcess> save({
     required OrderDbModel order,
@@ -72,18 +68,35 @@ class PaymentService extends ChangeNotifier {
     }
   }
 
-  Future<OrderModel> findById(int id) async {
+  Future<Map<String, dynamic>> findById(int? id) async {
     final supabase = Supabase.instance.client;
 
-    final response = await supabase
-        .from('orders')
-        .select('*,details(*)')
-        .eq('id', id)
-        .single();
+    try {
+      dynamic response;
 
-    final orderSave = OrderModel.fromMap(response);
+      if (id == null) {
+        response = await supabase
+            .from('orders')
+            .select('*,details(*)')
+            .eq('client_id', Preferences.userId)
+            .order('id', ascending: false)
+            .limit(1)
+            .single();
+      } else {
+        response = await supabase
+            .from('orders')
+            .select('*,details(*)')
+            .eq('id', id)
+            .eq('client_id', Preferences.userId)
+            .single();
+      }
 
-    return orderSave;
+      final orderSave = OrderModel.fromMap(response);
+
+      return {'order': orderSave, 'state': 'success'};
+    } catch (e) {
+      return {'order': null, 'state': 'error'};
+    }
   }
 
   Future<List<OrderModel>> findAll() async {
