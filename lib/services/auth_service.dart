@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:horno/preferences/index.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
@@ -23,7 +23,6 @@ class AuthService extends ChangeNotifier {
         Preferences.rolApp = 'client';
         storage.write(key: 'token', value: user.id);
         _handleSetExternalUserId(user.id);
-        print("USER: ${user.id}");
         return null;
       } else {
         return 'Usuario no creado';

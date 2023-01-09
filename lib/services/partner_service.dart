@@ -94,8 +94,8 @@ class PartnerService extends ChangeNotifier {
         .limit(1)
         .single();
 
-    print(res['locals']['name']);
     businessName = res['locals']['name'];
+    Preferences.localName = businessName!;
     notifyListeners();
     return res['local_id'];
   }

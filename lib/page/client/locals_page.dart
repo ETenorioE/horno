@@ -45,9 +45,10 @@ class _LocalsPageState extends State<LocalsPage> with RenderPage {
               await service.getAll(withLoading: false);
             },
             child: Padding(
-              padding: const EdgeInsets.only(top: 20, right: 20, left: 20),
+              padding: const EdgeInsets.only(right: 20, left: 20),
               child: ListView(
                 children: [
+                  const SpaceHeight(20),
                   InputFilterWidget(
                       onChanged: (value) {
                         service.search(value);
