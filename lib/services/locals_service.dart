@@ -43,7 +43,7 @@ class LocalsService extends ChangeNotifier {
     final List<dynamic> res = await _supabase
         .from('locals')
         .select('*,services(*),contacts(*)')
-        .order('name');
+        .order('name', ascending: true);
 
     locals.clear();
     temps.clear();

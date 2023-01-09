@@ -17,8 +17,6 @@ class LoginPartnerPage extends StatefulWidget {
 class _LoginPartnerPageState extends State<LoginPartnerPage> {
   @override
   Widget build(BuildContext context) {
-    final loginProvider = Provider.of<ProviderLogin>(context);
-
     return Scaffold(
       backgroundColor: ColorsApp.colorLight,
       body: GestureDetector(
@@ -30,31 +28,20 @@ class _LoginPartnerPageState extends State<LoginPartnerPage> {
         },
         child: Center(
           child: Padding(
-            padding: EdgeInsets.only(
-              left: Medidas.mypadding,
-              right: Medidas.mypadding,
-            ),
+            padding: const EdgeInsets.only(left: 20, right: 20),
             child: SingleChildScrollView(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
+                  TitleWidget(
                     'Bienvenido',
-                    style: TextStyle(
-                        fontSize: 36,
-                        fontWeight: FontWeight.bold,
-                        color: ColorsApp.colorPrimary),
+                    fontSize: 36,
+                    color: ColorsApp.colorPrimary,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(
-                        '¿No eres socio?',
-                        style: TextStyle(
-                          color: ColorsApp.colorText,
-                          fontSize: 16,
-                        ),
-                      ),
+                      const TextWidget('¿No eres socio?'),
                       TextButton(
                         onPressed: () {
                           Navigator.push(
@@ -64,20 +51,12 @@ class _LoginPartnerPageState extends State<LoginPartnerPage> {
                                     const RegisterPartnerPage()),
                           );
                         },
-                        child: Text(
-                          'Registrate',
-                          style: TextStyle(
-                              color: ColorsApp.colorPrimary,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16),
-                        ),
+                        child: TextWidget('Registrate',
+                            color: ColorsApp.colorPrimary),
                       ),
                     ],
                   ),
-                  ChangeNotifierProvider(
-                    create: (context) => ProviderLogin(),
-                    child: _LoginForm(),
-                  ),
+                  _LoginForm()
                 ],
               ),
             ),
@@ -209,6 +188,7 @@ class _LoginFormState extends State<_LoginForm> {
                               state: StateNotification.error);
                         } else {
                           NotificationsService.showSnackbar('Bienvenido');
+                          // ignore: use_build_context_synchronously
                           Navigator.pushReplacementNamed(
                               context, MyRoutes.rHOME_PARTNER);
                         }

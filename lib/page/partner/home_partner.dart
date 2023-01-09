@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:horno/preferences/index.dart';
 import 'package:horno/services/index.dart';
 import 'package:horno/services/notifications_service.dart';
 import 'package:horno/widgets/drawer_partner.dart';
@@ -28,8 +29,8 @@ class HomePartner extends StatelessWidget {
               onPressed: () {
                 NotificationsService.showSnackbar('message');
               },
-              icon: Icon(Icons.home)),
-          TitleWidget(service.businessName ?? ''),
+              icon: const Icon(Icons.home)),
+          TitleWidget(service.businessName ?? Preferences.localName),
         ],
       )),
     );
