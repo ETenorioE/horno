@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:horno/widgets/index.dart';
 
@@ -20,7 +21,7 @@ class LocalItemWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => onTap == null ? null : onTap!(),
+      onDoubleTap: () => onTap == null ? null : onTap!(),
       child: SizedBox(
         height: 180,
         width: double.infinity,
@@ -28,10 +29,14 @@ class LocalItemWidget extends StatelessWidget {
           children: [
             SizedBox(
               width: double.infinity,
-              child: FadeInImage(
-                fit: BoxFit.cover,
-                placeholder: const AssetImage('assets/images/loading_2.gif'),
-                image: NetworkImage(image),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(5),
+                child: CachedNetworkImage(
+                  fit: BoxFit.cover,
+                  placeholder: (context, url) =>
+                      Image.asset('assets/images/loading_2.gif'),
+                  imageUrl: image,
+                ),
               ),
             ),
             Positioned(

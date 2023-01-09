@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:horno/routes/index.dart';
 import 'package:horno/services/index.dart';
 import 'package:horno/widgets/index.dart';
+import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 // import 'package:avatar_circle_bapp/avatar_circle_bapp.dart';
 
@@ -41,7 +42,7 @@ class _LocalsPageState extends State<LocalsPage> with RenderPage {
             backgroundColor: ColorsApp.colorSecondary,
             strokeWidth: 4.0,
             onRefresh: () async {
-              service.getAll();
+              await service.getAll(withLoading: false);
             },
             child: Padding(
               padding: const EdgeInsets.only(top: 20, right: 20, left: 20),
@@ -54,16 +55,19 @@ class _LocalsPageState extends State<LocalsPage> with RenderPage {
                       hintText: 'Buscar local'),
                   service.isLoading
                       ? Padding(
-                          padding: const EdgeInsets.only(top: 26),
+                          padding: const EdgeInsets.only(top: 10, bottom: 10),
                           child: Center(
                             child: CircularProgressIndicator(
                                 color: ColorsApp.colorSecondary),
                           ),
                         )
-                      : const SpaceHeight(26),
+                      : const SpaceHeight(10),
                   service.locals.isEmpty && service.isLoading == false
-                      ? const Center(
-                          child: TextWidget('Locales encontrados 0.'),
+                      ? Column(
+                          children: [
+                            const TextWidget('Locales encontrados 0'),
+                            Lottie.asset('assets/lottie/empty_search.json'),
+                          ],
                         )
                       : renderList(service, context)
                 ],
