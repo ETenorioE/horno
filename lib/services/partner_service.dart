@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:horno/models/index.dart';
 import 'package:horno/preferences/index.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -8,6 +9,30 @@ class PartnerService extends ChangeNotifier {
   final storage = const FlutterSecureStorage();
   final supabase = Supabase.instance.client;
   String? businessName;
+  LocalModel? local;
+  bool isLoading = false;
+
+  PartnerService() {}
+
+  Future findLocalById() async {
+    isLoading = true;
+    notifyListeners();
+    try {
+      final res = await supabase
+          .from('locals')
+          .select()
+          .eq('id', Preferences.localId)
+          .limit(1)
+          .single();
+      local = LocalModel.fromMap(res);
+    } catch (e) {
+      print(e.toString());
+    } finally {
+      isLoading = false;
+      notifyListeners();
+    }
+  }
+
   Future<String?> createUser(String email, String password) async {
     try {
       final AuthResponse res =

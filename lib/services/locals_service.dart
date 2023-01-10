@@ -47,7 +47,7 @@ class LocalsService extends ChangeNotifier {
 
     locals.clear();
     temps.clear();
-
+    notifyListeners();
     for (var item in res) {
       final local = LocalModel.fromMap(item);
       locals.add(local);
@@ -56,6 +56,8 @@ class LocalsService extends ChangeNotifier {
 
     if (withLoading) {
       isLoading = false;
+    } else {
+      notifyListeners();
     }
   }
 

@@ -19,7 +19,7 @@ class TitleWidget extends StatelessWidget {
 
     return Text(
       text,
-      style: GoogleFonts.roboto(
+      style: GoogleFonts.openSans(
           fontSize: fontSize, fontWeight: fontWeight, color: color),
     );
   }

@@ -79,7 +79,19 @@ class _MyOrdersPageState extends State<MyOrdersPage> with RenderPage {
               const EdgeInsets.only(top: 20, left: 20, right: 20, bottom: 20),
           child: ListView(children: [
             InputFilterWidget(onChanged: (p0) {}, hintText: 'Buscar pedido'),
-            const SpaceHeight(20),
+            const SpaceHeight(5),
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: const [
+                  ButtonRoundedWidget('Todos', isActive: true),
+                  ButtonRoundedWidget('Pendientes'),
+                  ButtonRoundedWidget('Completado'),
+                ],
+              ),
+            ),
+            const SpaceHeight(5),
             isLoading
                 ? Center(
                     child: CircularProgressIndicator(
@@ -89,6 +101,8 @@ class _MyOrdersPageState extends State<MyOrdersPage> with RenderPage {
                 : SizedBox(
                     height: MediaQuery.of(context).size.height - 102,
                     child: ListView.separated(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
                         itemBuilder: (context, index) {
                           final order = items[index];
                           return _ItemWidget(

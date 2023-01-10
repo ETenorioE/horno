@@ -17,13 +17,10 @@ class _LocalsPageState extends State<LocalsPage> with RenderPage {
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
       GlobalKey<RefreshIndicatorState>();
 
-  void handleNavigation(int value) {
-    print(value);
-  }
-
   @override
   Widget build(BuildContext context) {
     final service = Provider.of<LocalsService>(context);
+    final height = MediaQuery.of(context).size.height;
 
     return ThemeCustomWidget(
       child: Scaffold(
@@ -45,7 +42,7 @@ class _LocalsPageState extends State<LocalsPage> with RenderPage {
               await service.getAll(withLoading: false);
             },
             child: Padding(
-              padding: const EdgeInsets.only(right: 20, left: 20),
+              padding: const EdgeInsets.symmetric(horizontal: 10),
               child: ListView(
                 children: [
                   const SpaceHeight(20),
@@ -64,12 +61,9 @@ class _LocalsPageState extends State<LocalsPage> with RenderPage {
                         )
                       : const SpaceHeight(10),
                   service.locals.isEmpty && service.isLoading == false
-                      ? Column(
-                          children: [
-                            const TextWidget('Locales encontrados 0'),
-                            Lottie.asset('assets/lottie/empty_search.json'),
-                          ],
-                        )
+                      ? MessageLottie(
+                          message: 'Locales encontrados 0',
+                          asset: 'empty_search')
                       : renderList(service, context)
                 ],
               ),
@@ -78,22 +72,6 @@ class _LocalsPageState extends State<LocalsPage> with RenderPage {
         ),
         bottomNavigationBar: BottomNavigationWidget(context: context),
       ),
-    );
-  }
-
-  Builder _iconDrawer() {
-    return Builder(
-      builder: (context) {
-        return IconButton(
-          onPressed: () {
-            Scaffold.of(context).openDrawer();
-          },
-          icon: Icon(
-            Icons.menu,
-            color: ColorsApp.colorLight,
-          ),
-        );
-      },
     );
   }
 
@@ -120,23 +98,23 @@ class _LocalsPageState extends State<LocalsPage> with RenderPage {
         ]));
   }
 
-  SizedBox renderList(LocalsService service, BuildContext contextLocal) {
-    return SizedBox(
-        height: MediaQuery.of(context).size.height * 0.8,
-        child: ListView.separated(
-            itemCount: service.locals.length,
-            separatorBuilder: ((context, index) => const SpaceHeight(5)),
-            itemBuilder: (context, index) {
-              final item = service.locals[index];
-              return LocalItemWidget(
-                  name: item.name,
-                  schedule: item.officeHours,
-                  state: item.stateAttention,
-                  image: item.banner,
-                  onTap: () {
-                    service.setLocal(item);
-                    Navigator.pushReplacementNamed(context, MyRoutes.rLOCAL);
-                  });
-            }));
+  ListView renderList(LocalsService service, BuildContext contextLocal) {
+    return ListView.separated(
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        itemCount: service.locals.length,
+        separatorBuilder: ((context, index) => const SpaceHeight(5)),
+        itemBuilder: (context, index) {
+          final item = service.locals[index];
+          return LocalItemWidget(
+              name: item.name,
+              schedule: item.officeHours,
+              state: item.stateAttention,
+              image: item.banner,
+              onTap: () {
+                service.setLocal(item);
+                Navigator.pushReplacementNamed(context, MyRoutes.rLOCAL);
+              });
+        });
   }
 }

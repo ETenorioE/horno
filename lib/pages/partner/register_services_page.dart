@@ -53,7 +53,7 @@ class _RegisterServicesPageState extends State<RegisterServicesPage>
                   ),
                 ),
                 SpaceHeight(spaceWidget),
-                TitleWidget('Imagen', fontSize: 16),
+                const TitleWidget('Imagen', fontSize: 16),
                 SpaceHeight(spaceHeight),
                 Center(
                   child: Stack(clipBehavior: Clip.none, children: [
@@ -64,7 +64,11 @@ class _RegisterServicesPageState extends State<RegisterServicesPage>
                         color: ColorsApp.colorPrimary,
                         borderRadius: BorderRadius.circular(10),
                       ),
-                      child: Icon(Icons.photo),
+                      child: Icon(
+                        Icons.photo,
+                        size: 50,
+                        color: ColorsApp.colorLight,
+                      ),
                     ),
                     Positioned(
                       top: -10,

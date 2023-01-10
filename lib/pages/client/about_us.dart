@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:horno/page/index.dart';
+import 'package:horno/pages/index.dart';
 import 'package:horno/provider/index.dart';
 import 'package:horno/widgets/index.dart';
 import 'package:provider/provider.dart';
