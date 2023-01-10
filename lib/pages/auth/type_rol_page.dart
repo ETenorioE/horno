@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:horno/preferences/index.dart';
 import 'package:horno/routes/index.dart';
 import 'package:horno/widgets/index.dart';
+import 'package:lottie/lottie.dart';
 
 class TypeRolPage extends StatelessWidget {
   const TypeRolPage({super.key});
@@ -16,6 +17,8 @@ class TypeRolPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
+            Lottie.asset('assets/lottie/login.json', height: 100, width: 100),
+            const SpaceHeight(10),
             const TitleWidget('Iniciar sesión como'),
             const SpaceHeight(10),
             SizedBox(
@@ -40,7 +43,7 @@ class TypeRolPage extends StatelessWidget {
                       },
                       text: 'Socio',
                       icon: Icons.group,
-                      color: ColorsApp.colorSecondary.withOpacity(.8))
+                      color: ColorsApp.colorSecondary.withOpacity(.6))
                 ],
               ),
             )

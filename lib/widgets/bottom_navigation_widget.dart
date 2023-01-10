@@ -28,7 +28,7 @@ class BottomNavigationWidget extends StatelessWidget {
         break;
       case 2:
         if (currentIndex! != 2) {
-          Navigator.pushReplacementNamed(context, MyRoutes.rHISTORY);
+          Navigator.pushReplacementNamed(context, MyRoutes.rHistoryOrder);
         }
         break;
       default:

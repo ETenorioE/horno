@@ -15,7 +15,7 @@ class ItemServiceWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-        onTap: () => onTap!(),
+        onTap: () => onTap == null ? null : onTap!(),
         child: Container(
             padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 10),
             decoration: BoxDecoration(

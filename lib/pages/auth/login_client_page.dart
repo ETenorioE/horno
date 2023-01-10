@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:horno/page/auth/widgets/form_login_widget.dart';
+import 'package:horno/pages/auth/widgets/form_login_widget.dart';
 import 'package:horno/routes/index.dart';
 import 'package:horno/widgets/index.dart';
 

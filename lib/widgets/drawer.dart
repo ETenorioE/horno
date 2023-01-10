@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:horno/page/index.dart';
+import 'package:horno/pages/index.dart';
 import 'package:horno/preferences/index.dart';
+import 'package:horno/routes/index.dart';
 import 'package:horno/services/auth_service.dart';
 import 'package:horno/widgets/index.dart';
 import 'package:provider/provider.dart';
@@ -23,42 +24,37 @@ class CustomDrawer extends StatelessWidget {
                 child: TitleWidget(Preferences.emailShort),
               ),
             ),
-            ListTileCustom(
+            _ListTileCustom(
               icon: Icons.home_filled,
-              texto: 'Inicio',
-              color: ColorsApp.colorTitle,
-              ontap: const LocalsPage(),
+              text: 'Inicio',
+              route: MyRoutes.rLOCALS,
             ),
-            ListTileCustom(
+            _ListTileCustom(
               icon: Icons.person,
-              texto: 'Perfil',
-              color: ColorsApp.colorTitle,
-              ontap: const HomePartner(),
+              text: 'Perfil',
+              route: MyRoutes.rLOCALS,
             ),
-            ListTileCustom(
+            _ListTileCustom(
               icon: Icons.sell_rounded,
-              texto: 'Mi pedido',
-              color: ColorsApp.colorTitle,
-              ontap: const MyOrderPage(),
+              text: 'Mi pedido',
+              route: MyRoutes.rMyORDER,
             ),
-            ListTileCustom(
+            _ListTileCustom(
               icon: Icons.history,
-              texto: 'Historial',
-              color: ColorsApp.colorTitle,
-              ontap: const HistoryPage(),
+              text: 'Historial',
+              route: MyRoutes.rHistoryOrder,
             ),
             Padding(
-              padding: const EdgeInsets.only(left: 24, right: 24),
+              padding: const EdgeInsets.only(left: 15, right: 15),
               child: Divider(
-                color: ColorsApp.colorPrimary,
-                thickness: 2.0,
+                color: ColorsApp.colorText,
+                thickness: 0.5,
               ),
             ),
-            ListTileCustom(
-              texto: 'Acerca de Nosotros',
+            _ListTileCustom(
+              text: 'Acerca de Nosotros',
               icon: Icons.info,
-              color: ColorsApp.colorTitle,
-              ontap: const AboutUsScreen(),
+              route: MyRoutes.rABOUT,
             ),
             ListTile(
               title: Text(
@@ -120,31 +116,31 @@ class CustomDrawer extends StatelessWidget {
   }
 }
 
-class ListTileCustom extends StatelessWidget {
-  final String texto;
+class _ListTileCustom extends StatelessWidget {
+  final String text;
   final IconData icon;
-  final Color color;
-  final Widget? ontap;
+  Color _color = ColorsApp.colorTitle;
+  final String route;
 
-  const ListTileCustom(
-      {super.key,
-      required this.texto,
-      required this.icon,
-      required this.color,
-      this.ontap});
+  _ListTileCustom({
+    super.key,
+    required this.text,
+    required this.icon,
+    required this.route,
+    Color? color,
+  }) {
+    _color = color ?? ColorsApp.colorTitle;
+  }
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: Icon(icon, color: color),
+      leading: Icon(icon, color: _color),
       title: Text(
-        texto,
-        style: TextStyle(color: color),
+        text,
+        style: TextStyle(color: _color),
       ),
-      onTap: () {
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => ontap!));
-      },
+      onTap: () => {Navigator.pushReplacementNamed(context, route)},
     );
   }
 }

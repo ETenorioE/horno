@@ -50,6 +50,7 @@ dependencies:
   lottie: ^2.1.0
   image_picker: ^0.8.6
   flutter_slidable: ^2.0.0
+  fl_chart: ^0.55.2
 dev_dependencies:
   flutter_lints: ^2.0.0
   flutter_test:

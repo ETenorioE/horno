@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:horno/page/index.dart';
-import 'package:horno/page/partner/my_services_page.dart';
+import 'package:horno/pages/index.dart';
+import 'package:horno/pages/partner/my_services_page.dart';
 import 'package:horno/preferences/index.dart';
 import 'package:horno/services/auth_service.dart';
 import 'package:horno/widgets/index.dart';
@@ -20,8 +20,22 @@ class DrawerPartner extends StatelessWidget {
         child: Column(
           children: [
             DrawerHeader(
-              child: Center(
-                child: TitleWidget(Preferences.emailShort),
+              child: Row(
+                children: [
+                  const CircleAvatar(
+                    radius: 30,
+                    backgroundImage: NetworkImage(
+                        'https://cdn.pixabay.com/photo/2019/04/26/07/14/store-4156934_960_720.png'),
+                  ),
+                  const SpaceWidth(20),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      TitleWidget(Preferences.emailShort),
+                      TitleWidget(Preferences.localName),
+                    ],
+                  ),
+                ],
               ),
             ),
             _ListTileCustom(

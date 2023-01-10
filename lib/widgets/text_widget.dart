@@ -19,7 +19,7 @@ class TextWidget extends StatelessWidget {
 
     return Text(
       text,
-      style: GoogleFonts.openSans(
+      style: GoogleFonts.roboto(
           fontSize: fontSize, fontWeight: fontWeight, color: color),
     );
   }

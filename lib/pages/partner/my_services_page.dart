@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:horno/models/index.dart';
+import 'package:horno/pages/partner/widgets/item_service_partner_widget.dart';
 import 'package:horno/routes/index.dart';
 import 'package:horno/widgets/index.dart';
 
@@ -16,14 +17,14 @@ class MyServicesPage extends StatelessWidget with RenderPage {
                 Navigator.pushReplacementNamed(
                     context, MyRoutes.rREGISTER_SERVICES);
               },
-              icon: Icon(Icons.add))
+              icon: const Icon(Icons.add))
         ]),
-        drawer: DrawerPartner(),
+        drawer: const DrawerPartner(),
         body: Padding(
-          padding: EdgeInsets.all(20),
+          padding: const EdgeInsets.all(20),
           child: ListView.separated(
               itemBuilder: (context, index) {
-                return ItemServiceWidget(
+                return ItemServicePartnerWidget(
                     service: ServiceModel(
                         id: 1,
                         image:

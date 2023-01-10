@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:horno/page/index.dart';
+import 'package:horno/pages/index.dart';
 
 class MyRoutes {
   static const String rLOCALS = '/locals';
@@ -9,7 +9,6 @@ class MyRoutes {
   static const String rVOUCHER = '/voucher';
   static const String rLOGIN = '/login';
   static const String rMyORDER = '/my-order';
-  static const String rHISTORY = '/history';
   static const String rABOUT = '/about';
   static const String rPAYMENT = '/payment';
   static const String rOrderDetail = '/order-detail';

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:horno/models/index.dart';
-import 'package:horno/page/index.dart';
+import 'package:horno/pages/index.dart';
 import 'package:horno/routes/index.dart';
 import 'package:horno/services/index.dart';
 import 'package:horno/widgets/index.dart';
