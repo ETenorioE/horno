@@ -83,7 +83,7 @@ class _PartnerUserFormState extends State<_PartnerUserForm> with RenderPage {
               autocorrect: false,
               keyboardType: TextInputType.emailAddress,
               decoration: decorationTextFormField(
-                hinttext: 'your@business.com',
+                hintText: 'your@business.com',
               ),
               onChanged: (value) => provider.email = value,
               validator: (value) {
@@ -107,7 +107,7 @@ class _PartnerUserFormState extends State<_PartnerUserForm> with RenderPage {
               obscureText: _ispassword,
               keyboardType: TextInputType.visiblePassword,
               decoration: decorationTextFormField(
-                hinttext: 'Ingrese su contraseña',
+                hintText: 'Ingrese su contraseña',
                 suffixIcon: InkWell(
                   onTap: _viewpassword,
                   child: Icon(
@@ -135,7 +135,7 @@ class _PartnerUserFormState extends State<_PartnerUserForm> with RenderPage {
               obscureText: _ispassword,
               keyboardType: TextInputType.visiblePassword,
               decoration: decorationTextFormField(
-                hinttext: 'Confirmar su contraseña',
+                hintText: 'Confirmar su contraseña',
                 suffixIcon: InkWell(
                   onTap: _viewpassword,
                   child: Icon(

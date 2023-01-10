@@ -36,7 +36,7 @@ class _RegisterServicesPageState extends State<RegisterServicesPage>
                   autocorrect: false,
                   keyboardType: TextInputType.text,
                   decoration: decorationTextFormField(
-                    hinttext: '',
+                    hintText: '',
                   ),
                 ),
                 SpaceHeight(spaceWidget),
@@ -49,7 +49,7 @@ class _RegisterServicesPageState extends State<RegisterServicesPage>
                   autocorrect: false,
                   keyboardType: TextInputType.text,
                   decoration: decorationTextFormField(
-                    hinttext: '',
+                    hintText: '',
                   ),
                 ),
                 SpaceHeight(spaceWidget),

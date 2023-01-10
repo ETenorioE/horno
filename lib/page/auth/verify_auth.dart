@@ -32,7 +32,7 @@ class VerifyAuthScreen extends StatelessWidget {
             Future.microtask(() {
               String routeNext = Preferences.rolApp == 'client'
                   ? MyRoutes.rLOCALS
-                  : MyRoutes.rHOME_PARTNER;
+                  : MyRoutes.rHomePartner;
 
               Navigator.pushNamedAndRemoveUntil(
                   context, routeNext, (_) => false);

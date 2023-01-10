@@ -49,10 +49,16 @@ class DBOrders {
   static Future deleteRows(OrderDbModel order) async {
     Database? db = await DbApp.instance.database;
 
-    await db!
-        .delete(table, where: "$columnLocalId = ?", whereArgs: [order.localId]);
+    await db!.delete(
+      table,
+      where: "$columnLocalId = ?",
+      whereArgs: [order.localId],
+    );
 
-    await db!.delete(DBDetails.table,
-        where: "${DBDetails.columnOrderId} = ?", whereArgs: [order.id]);
+    await db.delete(
+      DBDetails.table,
+      where: "${DBDetails.columnOrderId} = ?",
+      whereArgs: [order.id],
+    );
   }
 }

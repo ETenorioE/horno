@@ -32,31 +32,6 @@ class AuthService extends ChangeNotifier {
     }
   }
 
-  Future<String?> login(String email, String password) async {
-    try {
-      final AuthResponse res = await supabase.auth
-          .signInWithPassword(email: email, password: password);
-
-      // final Session? session = res.session;
-
-      final User? user = res.user;
-
-      if (user != null) {
-        Preferences.email = user.email!;
-        Preferences.userId = user.id;
-        Preferences.rolApp = 'client';
-        storage.write(key: 'token', value: user.id);
-        _handleSetExternalUserId(user.id);
-        print("USER: ${user.id}");
-        return null;
-      } else {
-        return 'Datos incorrectos';
-      }
-    } on AuthException catch (e) {
-      return 'Datos incorrectos';
-    }
-  }
-
   Future<String> readToken() async {
     return await storage.read(key: 'token') ?? '';
   }

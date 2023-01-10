@@ -23,3 +23,5 @@ export 'package:horno/widgets/button_widget.dart';
 export 'package:horno/widgets/line_dashed_widget.dart';
 export 'package:horno/widgets/drawer_partner.dart';
 export 'package:horno/widgets/message_lottie_widget.dart';
+export 'package:horno/widgets/text/description_action_widget.dart';
+export 'package:horno/widgets/button_loading_widget.dart';

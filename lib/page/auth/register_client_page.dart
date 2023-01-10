@@ -3,27 +3,21 @@ import 'package:horno/provider/provider_login.dart';
 import 'package:horno/routes/index.dart';
 import 'package:horno/services/auth_service.dart';
 import 'package:horno/services/notifications_service.dart';
-import 'package:horno/theme/theme.dart';
 import 'package:horno/widgets/index.dart';
 import 'package:provider/provider.dart';
 
-class RegisterScreen extends StatefulWidget {
-  const RegisterScreen({Key? key}) : super(key: key);
+class RegisterClientScreen extends StatefulWidget {
+  const RegisterClientScreen({Key? key}) : super(key: key);
 
   @override
-  State<RegisterScreen> createState() => _RegisterScreenState();
+  State<RegisterClientScreen> createState() => _RegisterClientScreenState();
 }
 
-class _RegisterScreenState extends State<RegisterScreen> {
+class _RegisterClientScreenState extends State<RegisterClientScreen> {
   @override
   Widget build(BuildContext context) {
-    //Declarar los recursos del provider a usar
-
-    final loginProvider = Provider.of<ProviderLogin>(context);
-
     return Scaffold(
       backgroundColor: ColorsApp.colorLight,
-      //Hacer click fuera de los campos y minimiza el teclado
       body: GestureDetector(
         onTap: () {
           final FocusScopeNode focus = FocusScope.of(context);
@@ -31,13 +25,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
             FocusManager.instance.primaryFocus!.unfocus();
           }
         },
-        //Hacer click fuera de los campos y minimiza el teclado
         child: Center(
           child: Padding(
-            padding: EdgeInsets.only(
-              left: Medidas.mypadding,
-              right: Medidas.mypadding,
-            ),
+            padding: const EdgeInsets.only(left: 20, right: 20),
             child: SingleChildScrollView(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -53,6 +43,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     create: (context) => ProviderLogin(),
                     child: _LoginForm(),
                   ),
+                  const SpaceHeight(10),
+                  const DescriptionActionWidget(
+                      description: 'Ya eres usuario?',
+                      actionText: 'Inicie Sesion',
+                      route: MyRoutes.rLOGIN),
                   Divider(
                     height: 100,
                     thickness: 4,
@@ -112,9 +107,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ),
                     ],
                   ),
-                  const SizedBox(
-                    height: 20,
-                  )
                 ],
               ),
             ),
@@ -166,7 +158,7 @@ class _LoginFormState extends State<_LoginForm> with RenderPage {
               autocorrect: false,
               keyboardType: TextInputType.emailAddress,
               decoration: decorationTextFormField(
-                hinttext: 'your@email.com',
+                hintText: 'your@email.com',
               ),
               //Enviar los datos al provider
               onChanged: (value) => loginProvider.email = value,
@@ -201,7 +193,7 @@ class _LoginFormState extends State<_LoginForm> with RenderPage {
               obscureText: _ispassword,
               keyboardType: TextInputType.visiblePassword,
               decoration: decorationTextFormField(
-                hinttext: 'Ingrese su contraseña',
+                hintText: 'Ingrese su contraseña',
                 suffixIcon: InkWell(
                   onTap: _viewpassword,
                   child: Icon(
@@ -238,7 +230,7 @@ class _LoginFormState extends State<_LoginForm> with RenderPage {
               obscureText: _ispassword,
               keyboardType: TextInputType.visiblePassword,
               decoration: decorationTextFormField(
-                hinttext: 'Confirmar su contraseña',
+                hintText: 'Confirmar su contraseña',
                 suffixIcon: InkWell(
                   onTap: _viewpassword,
                   child: Icon(

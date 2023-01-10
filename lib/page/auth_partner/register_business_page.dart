@@ -76,7 +76,7 @@ class _BusinessFormState extends State<_BusinessForm> with RenderPage {
               autocorrect: false,
               keyboardType: TextInputType.emailAddress,
               decoration: decorationTextFormField(
-                hinttext: 'Panederia Flores',
+                hintText: 'Panederia Flores',
               ),
               onChanged: (value) => provider.businessName = value,
               validator: (value) {
@@ -95,7 +95,7 @@ class _BusinessFormState extends State<_BusinessForm> with RenderPage {
               style: TextStyle(color: ColorsApp.colorBlack),
               autocorrect: false,
               decoration: decorationTextFormField(
-                  hinttext: 'Av Principal, Huamanga, Ayacucho'),
+                  hintText: 'Av Principal, Huamanga, Ayacucho'),
               onChanged: (value) => provider.businessAddress = value,
               validator: (value) {
                 return value == null ? 'La dirección es requerida' : null;
@@ -111,7 +111,7 @@ class _BusinessFormState extends State<_BusinessForm> with RenderPage {
               autocorrect: false,
 
               onChanged: (value) => provider.businessOfficeHours = value,
-              decoration: decorationTextFormField(hinttext: '8:00 a 16:00'),
+              decoration: decorationTextFormField(hintText: '8:00 a 16:00'),
               validator: (value) {
                 return value == null
                     ? 'El horario de atención es requerida'
@@ -148,7 +148,7 @@ class _BusinessFormState extends State<_BusinessForm> with RenderPage {
                         if (res == null) {
                           // ignore: use_build_context_synchronously
                           Navigator.pushReplacementNamed(
-                              context, MyRoutes.rHOME_PARTNER);
+                              context, MyRoutes.rHomePartner);
                           NotificationsService.showSnackbar('Bienvenido');
                         } else {
                           NotificationsService.showSnackbar(res,
