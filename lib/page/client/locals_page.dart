@@ -122,7 +122,7 @@ class _LocalsPageState extends State<LocalsPage> with RenderPage {
 
   SizedBox renderList(LocalsService service, BuildContext contextLocal) {
     return SizedBox(
-        height: MediaQuery.of(context).size.height - 20,
+        height: MediaQuery.of(context).size.height * 0.8,
         child: ListView.separated(
             itemCount: service.locals.length,
             separatorBuilder: ((context, index) => const SpaceHeight(5)),

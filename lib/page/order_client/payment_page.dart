@@ -24,7 +24,7 @@ class PaymentPage extends StatelessWidget with RenderPage {
       child: Scaffold(
           appBar: appBarRender(
               title: 'Pagar',
-              leading: backLeadingRender(context, MyRoutes.rORDER_DETAIL)),
+              leading: backLeadingRender(context, MyRoutes.rOrderDetail)),
           body: Stack(children: [
             backgroundImageRender(context),
             Padding(

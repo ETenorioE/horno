@@ -4,7 +4,7 @@ import 'package:horno/page/index.dart';
 class MyRoutes {
   static const String rLOCALS = '/locals';
   static const String rLOCAL = '/local';
-  static const String rHOME_PARTNER = '/home-partner';
+  static const String rHomePartner = '/home-partner';
   static const String rNOTIFY = '/notifications';
   static const String rVOUCHER = '/voucher';
   static const String rLOGIN = '/login';
@@ -12,8 +12,8 @@ class MyRoutes {
   static const String rHISTORY = '/history';
   static const String rABOUT = '/about';
   static const String rPAYMENT = '/payment';
-  static const String rORDER_DETAIL = '/order-detail';
-  static const String rHISTORIAL = '/historial';
+  static const String rOrderDetail = '/order-detail';
+  static const String rHistoryOrder = '/records';
   static const String rONBOARD = '/onboard';
   static const String rVERIFY = '/verify';
   static const String rTYPE_ROL = '/type-rol';
@@ -23,6 +23,7 @@ class MyRoutes {
   static const String rSTATE_PROCESS = '/state-process';
   static const String rREGISTER_SERVICES = '/register-services';
   static const String rMY_SERVICES = '/my-services';
+  static const String rRegisterClient = '/register-client';
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -35,10 +36,10 @@ class MyRoutes {
       case ('/voucher'):
         return MaterialPageRoute(builder: (_) => const VoucherPage());
       case ('/login'):
-        return MaterialPageRoute(builder: (_) => const LoginScreen());
+        return MaterialPageRoute(builder: (_) => const LoginClientPage());
       case ('/my-order'):
         return MaterialPageRoute(builder: (_) => const MyOrderPage());
-      case ('/history'):
+      case ('/records'):
         return MaterialPageRoute(builder: (_) => const HistoryPage());
       case ('/about'):
         return MaterialPageRoute(builder: (_) => const AboutUsScreen());
@@ -46,8 +47,6 @@ class MyRoutes {
         return MaterialPageRoute(builder: (_) => const PaymentPage());
       case ('/order-detail'):
         return MaterialPageRoute(builder: (_) => const OrderDetailPage());
-      case ('/historial'):
-        return MaterialPageRoute(builder: (_) => const HistoryPage());
       case ('/onboard'):
         return MaterialPageRoute(builder: (_) => const OnboardingScreen());
       case ('/verify'):
@@ -68,10 +67,11 @@ class MyRoutes {
         return MaterialPageRoute(builder: (_) => const RegisterServicesPage());
       case ('/my-services'):
         return MaterialPageRoute(builder: (_) => const MyServicesPage());
+      case ('/register-client'):
+        return MaterialPageRoute(builder: (_) => const RegisterClientScreen());
 
       default:
-        print("ROUTE: ${settings.name}");
-        return MaterialPageRoute(builder: (_) => const TypeRolPage());
+        return MaterialPageRoute(builder: (_) => const VerifyAuthScreen());
     }
   }
 }

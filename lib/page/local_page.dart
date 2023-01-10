@@ -39,7 +39,7 @@ class LocalPage extends StatelessWidget {
                           orderProvider.createOrder(service, "1");
 
                           Navigator.pushReplacementNamed(
-                              context, MyRoutes.rORDER_DETAIL);
+                              context, MyRoutes.rOrderDetail);
                         });
                   }))
         ]));

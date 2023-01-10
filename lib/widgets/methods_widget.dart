@@ -55,7 +55,7 @@ mixin RenderPage {
   }
 
   InputDecoration decorationTextFormField({
-    final String? hinttext,
+    final String? hintText,
     final Widget? suffixIcon,
   }) {
     return InputDecoration(
@@ -77,7 +77,7 @@ mixin RenderPage {
       ),
       filled: true,
       fillColor: Colors.white,
-      hintText: hinttext,
+      hintText: hintText,
       suffixIcon: suffixIcon,
       hintStyle: TextStyle(color: ColorsApp.colorText),
     );
