@@ -1,17 +1,21 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:horno/theme/theme.dart';
-import 'package:horno/widgets/chart/indicador_chart.dart';
 import 'package:horno/widgets/index.dart';
 
-class PieChartSample2 extends StatefulWidget {
-  const PieChartSample2({super.key});
+class PieChartWidget extends StatefulWidget {
+  final double revenue;
+  final double revenuePrevious;
+  const PieChartWidget({
+    super.key,
+    required this.revenue,
+    required this.revenuePrevious,
+  });
 
   @override
   State<StatefulWidget> createState() => PieChart2State();
 }
 
-class PieChart2State extends State {
+class PieChart2State extends State<PieChartWidget> {
   int touchedIndex = -1;
 
   @override
@@ -47,12 +51,24 @@ class PieChart2State extends State {
         Align(
             alignment: Alignment.center,
             child: TextWidget(
-              '+9%',
-              fontSize: 20,
+              showPercentage,
+              fontSize: 18,
               color: ColorsApp.colorSecondary,
             )),
       ]),
     );
+  }
+
+  String get showPercentage {
+    double rest = widget.revenue - widget.revenuePrevious;
+
+    if (rest == 0) {
+      return "+0%";
+    }
+
+    double percentage = (widget.revenuePrevious / widget.revenue) * 100;
+
+    return "+$percentage%";
   }
 
   List<PieChartSectionData> showingSections() {
@@ -63,8 +79,8 @@ class PieChart2State extends State {
       switch (i) {
         case 0:
           return PieChartSectionData(
-            color: ColorsApp.colorSecondary,
-            value: 81,
+            color: ColorsApp.colorTitle,
+            value: widget.revenue,
             radius: radius,
             title: '',
             titleStyle: TextStyle(
@@ -76,7 +92,7 @@ class PieChart2State extends State {
         case 1:
           return PieChartSectionData(
             color: ColorsApp.colorLight,
-            value: 9,
+            value: widget.revenue - widget.revenuePrevious,
             title: '',
             radius: radius,
             titleStyle: TextStyle(

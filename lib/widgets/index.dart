@@ -1,3 +1,4 @@
+export 'package:horno/widgets/custom/refresh_indicador_custom.dart';
 export 'package:horno/widgets/button/button_rounded_widget.dart';
 export 'package:horno/widgets/input_filter_widget.dart';
 export 'package:horno/widgets/item/item_order_widget.dart';

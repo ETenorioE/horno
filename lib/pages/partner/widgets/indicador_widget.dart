@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:horno/widgets/index.dart';
 
-class Indicator extends StatelessWidget {
-  const Indicator({
+class IndicatorWidget extends StatelessWidget {
+  const IndicatorWidget({
     super.key,
     required this.color,
     required this.text,
@@ -30,14 +31,7 @@ class Indicator extends StatelessWidget {
         const SizedBox(
           width: 4,
         ),
-        Text(
-          text,
-          style: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
-            color: textColor,
-          ),
-        )
+        TextWidget(text)
       ],
     );
   }
