@@ -50,6 +50,7 @@ class ProviderStateWidget extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => ProcessService()),
         ChangeNotifierProvider(create: (_) => PartnerService()),
         ChangeNotifierProvider(create: (_) => MyNotificationService()),
+        ChangeNotifierProvider(create: (_) => ReportProvider()),
       ],
       child: const MyApp(),
     );

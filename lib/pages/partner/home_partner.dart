@@ -1,143 +1,112 @@
 import 'package:flutter/material.dart';
-import 'package:horno/preferences/index.dart';
-import 'package:horno/services/index.dart';
-import 'package:horno/widgets/chart/bar_chart.dart';
-import 'package:horno/widgets/chart/line_chart.dart';
-import 'package:horno/widgets/chart/pie_chart.dart';
+import 'package:horno/provider/index.dart';
 import 'package:horno/widgets/index.dart';
 import 'package:provider/provider.dart';
+import 'package:skeletons/skeletons.dart';
+import 'widgets/index.dart';
 
 class HomePartner extends StatelessWidget with RenderPage {
   const HomePartner({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final service = Provider.of<PartnerService>(context);
-    final local = service.local;
+    final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
+        GlobalKey<RefreshIndicatorState>();
+    final isLoading =
+        context.select<ReportProvider, bool>((value) => value.isLoading);
 
     return ThemeCustomWidget(
       child: Scaffold(
         appBar: appBarRender(title: 'Bienvenido'),
         drawer: const DrawerPartner(),
-        body: Padding(
-          padding: const EdgeInsets.all(20),
-          child: ListView(
-            children: [
-              service.isLoading
-                  ? const Center(
-                      child: CircularProgressIndicator(),
-                    )
-                  : SizedBox(
-                      child: Row(
+        body: RefreshIndicatorCustom(
+          onRefresh: () async {
+            context.read<ReportProvider>().findReportByLocalId();
+          },
+          keyIndicator: _refreshIndicatorKey,
+          child: Stack(children: [
+            Container(color: ColorsApp.colorText.withOpacity(.3)),
+            Padding(
+              padding: const EdgeInsets.all(20),
+              child: isLoading
+                  ? ListView(children: [
+                      Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              TextWidget(
-                                'Ganancias totales',
-                                fontSize: 18,
-                                color: ColorsApp.colorTitle,
-                              ),
-                              const SpaceHeight(5),
-                              const TitleWidget('S/ 1234.00', fontSize: 26),
-                              const SpaceHeight(5),
-                              const TextWidget('Actualizado hoy a las 5PM',
-                                  fontSize: 18)
-                            ],
+                          Expanded(
+                            child: SkeletonParagraph(
+                              style: SkeletonParagraphStyle(
+                                  lines: 3,
+                                  spacing: 10,
+                                  lineStyle: SkeletonLineStyle(
+                                    randomLength: true,
+                                    height: 30,
+                                    borderRadius: BorderRadius.circular(8),
+                                    minLength:
+                                        MediaQuery.of(context).size.width / 6,
+                                    maxLength:
+                                        MediaQuery.of(context).size.width / 3,
+                                  )),
+                            ),
                           ),
-                          PieChartSample2(),
+                          const SkeletonAvatar(
+                            style: SkeletonAvatarStyle(
+                                height: 100,
+                                width: 100,
+                                shape: BoxShape.circle),
+                          ),
                         ],
                       ),
+                      const SpaceHeight(20),
+                      SkeletonLine(
+                        style: SkeletonLineStyle(
+                          height: 30,
+                          width: 80,
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                      const SpaceHeight(20),
+                      SkeletonAvatar(
+                        style: SkeletonAvatarStyle(
+                            width: double.infinity,
+                            height: MediaQuery.of(context).size.height * 0.4),
+                      ),
+                      const SpaceHeight(20),
+                      Row(
+                        children: const [
+                          SkeletonAvatar(
+                            style: SkeletonAvatarStyle(
+                              height: 120,
+                              width: 160,
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(8)),
+                            ),
+                          ),
+                          SpaceWidth(20),
+                          SkeletonAvatar(
+                            style: SkeletonAvatarStyle(
+                              height: 120,
+                              width: 160,
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(8)),
+                            ),
+                          ),
+                        ],
+                      )
+                    ])
+                  : ListView(
+                      children: const [
+                        RevenueReportWidget(),
+                        SpaceHeight(20),
+                        DayOrdersReportWidget(),
+                        SpaceHeight(10),
+                        BarChatWidget(),
+                        SpaceHeight(10),
+                        CardsReportWidget()
+                      ],
                     ),
-              const SpaceHeight(20),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.baseline,
-                textBaseline: TextBaseline.alphabetic,
-                children: const [
-                  TitleWidget(
-                    '276',
-                    fontSize: 28,
-                  ),
-                  SpaceWidth(6),
-                  TextWidget(
-                    'nuevos pedidos',
-                    fontSize: 20,
-                  )
-                ],
-              ),
-              const SpaceHeight(10),
-              const BarChartSample2(),
-              const SpaceHeight(10),
-              SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  children: [
-                    _CardItemWidget(
-                      bgColorIcon: ColorsApp.colorError.withOpacity(.7),
-                      description: 'Total de clientes',
-                      icon: Icons.group,
-                      numberText: '59.8K',
-                    ),
-                    _CardItemWidget(
-                      bgColorIcon: ColorsApp.colorSecondary.withOpacity(.7),
-                      description: 'Total de pedidos',
-                      icon: Icons.list_alt,
-                      numberText: '500',
-                    ),
-                  ],
-                ),
-              )
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _CardItemWidget extends StatelessWidget {
-  final String numberText;
-  final String description;
-  final IconData icon;
-  final Color bgColorIcon;
-
-  const _CardItemWidget({
-    Key? key,
-    required this.numberText,
-    required this.description,
-    required this.icon,
-    required this.bgColorIcon,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      elevation: 1,
-      shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10),
-          side: BorderSide(color: ColorsApp.colorText)),
-      margin: const EdgeInsets.only(right: 25),
-      child: Padding(
-        padding:
-            const EdgeInsets.only(top: 15, bottom: 15, right: 30, left: 15),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              padding: const EdgeInsets.all(20),
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10), color: bgColorIcon),
-              child: Icon(
-                icon,
-                color: ColorsApp.colorLight,
-              ),
             ),
-            const SpaceHeight(10),
-            TitleWidget(numberText),
-            const SpaceHeight(5),
-            TextWidget(description)
-          ],
+          ]),
         ),
       ),
     );

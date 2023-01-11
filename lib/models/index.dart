@@ -1,3 +1,6 @@
+export 'package:horno/models/local_report_model.dart';
+export 'package:horno/models/day_report_model.dart';
+export 'package:horno/models/report_model.dart';
 export 'package:horno/models/notification_model2.dart';
 export 'package:horno/models/notification_model.dart';
 export 'package:horno/models/detail_model.dart';
