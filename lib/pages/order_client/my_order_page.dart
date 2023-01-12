@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:horno/preferences/index.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:horno/models/index.dart';
@@ -33,7 +34,9 @@ class _MyOrderPageState extends State<MyOrderPage> with RenderPage {
             setState(() {});
           },
           child: FutureBuilder(
-            future: provider.findById(provider.orderId),
+            future: provider.findById(Preferences.orderId == 0
+                ? provider.orderId
+                : Preferences.orderId),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 final data = snapshot.data;
