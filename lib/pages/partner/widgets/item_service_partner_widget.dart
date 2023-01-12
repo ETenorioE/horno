@@ -6,7 +6,13 @@ import 'package:horno/widgets/index.dart';
 
 class ItemServicePartnerWidget extends StatelessWidget {
   final ServiceModel service;
-  const ItemServicePartnerWidget({super.key, required this.service});
+  final Function() onPressedDelete;
+  final Function() onPressedEdit;
+  const ItemServicePartnerWidget(
+      {super.key,
+      required this.service,
+      required this.onPressedDelete,
+      required this.onPressedEdit});
 
   @override
   Widget build(BuildContext context) {
@@ -18,16 +24,13 @@ class ItemServicePartnerWidget extends StatelessWidget {
           children: [
             SlidableAction(
               backgroundColor: ColorsApp.colorSecondary,
-              onPressed: (context) {
-                Navigator.pushReplacementNamed(
-                    context, MyRoutes.rREGISTER_SERVICES);
-              },
+              onPressed: (context) => onPressedEdit(),
               icon: Icons.edit,
               label: 'Editar',
             ),
             SlidableAction(
               backgroundColor: ColorsApp.colorError,
-              onPressed: (context) {},
+              onPressed: (context) => onPressedDelete(),
               icon: Icons.delete,
               label: 'Eliminar',
             ),

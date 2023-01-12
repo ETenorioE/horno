@@ -40,8 +40,8 @@ class BarChatWidgetState extends State<BarChatWidget> {
     final days = context
         .select<ReportProvider, List<DayReportModel>>((value) => value.days);
 
-    return AspectRatio(
-      aspectRatio: 1,
+    return SizedBox(
+      height: 400,
       child: Card(
         margin: const EdgeInsets.all(0),
         elevation: 0,
@@ -152,7 +152,7 @@ class BarChatWidgetState extends State<BarChatWidget> {
     const style = TextStyle(
       color: Color(0xff7589a2),
       fontWeight: FontWeight.bold,
-      fontSize: 14,
+      fontSize: 12,
     );
     String text;
     if (value == 0) {

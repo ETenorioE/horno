@@ -1,0 +1,3 @@
+Validar:
+- nombre
+- precio

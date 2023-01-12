@@ -45,22 +45,16 @@ class DrawerPartner extends StatelessWidget {
               ontap: const HomePartner(),
             ),
             _ListTileCustom(
-              icon: Icons.person,
-              texto: 'Perfil',
+              icon: Icons.sell_rounded,
+              texto: 'Mis pedidos',
               color: ColorsApp.colorTitle,
-              ontap: const HomePartner(),
+              ontap: const MyOrdersPage(),
             ),
             _ListTileCustom(
               icon: Icons.book,
               texto: 'Mis Servicios',
               color: ColorsApp.colorTitle,
               ontap: const MyServicesPage(),
-            ),
-            _ListTileCustom(
-              icon: Icons.sell_rounded,
-              texto: 'Mis pedidos',
-              color: ColorsApp.colorTitle,
-              ontap: const MyOrdersPage(),
             ),
             ListTile(
               title: Text(

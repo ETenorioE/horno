@@ -51,6 +51,7 @@ class ProviderStateWidget extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => PartnerService()),
         ChangeNotifierProvider(create: (_) => MyNotificationService()),
         ChangeNotifierProvider(create: (_) => ReportProvider()),
+        ChangeNotifierProvider(create: (_) => PartnerServicesProvider()),
       ],
       child: const MyApp(),
     );
@@ -65,6 +66,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
   @override
   void initState() {
     super.initState();
@@ -83,6 +85,7 @@ class _MyAppState extends State<MyApp> {
       onGenerateRoute: MyRoutes.generateRoute,
       initialRoute: MyRoutes.rVERIFY,
       scaffoldMessengerKey: NotificationsService.messengerKey,
+      navigatorKey: navigatorKey,
       builder: EasyLoading.init(),
     );
   }
@@ -97,5 +100,12 @@ class _MyAppState extends State<MyApp> {
     OneSignal.shared
         .promptUserForPushNotificationPermission()
         .then((value) => print('Permiso aceptado: $value'));
+
+    OneSignal.shared.setNotificationOpenedHandler((openedResult) {
+      final body = openedResult.notification;
+
+      print(openedResult);
+      navigatorKey.currentState?.pushNamed(MyRoutes.rMyORDER);
+    });
   }
 }
