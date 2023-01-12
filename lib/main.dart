@@ -102,9 +102,9 @@ class _MyAppState extends State<MyApp> {
         .then((value) => print('Permiso aceptado: $value'));
 
     OneSignal.shared.setNotificationOpenedHandler((openedResult) {
-      final body = openedResult.notification;
-
-      print(openedResult);
+      final body = openedResult.notification.additionalData;
+      final orderId = body!["orderId"];
+      Preferences.orderId = orderId;
       navigatorKey.currentState?.pushNamed(MyRoutes.rMyORDER);
     });
   }

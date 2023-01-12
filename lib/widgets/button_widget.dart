@@ -18,7 +18,6 @@ class ButtonWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-        width: 372,
         height: 58,
         child: MaterialButton(
             color: ColorsApp.colorSecondary,
