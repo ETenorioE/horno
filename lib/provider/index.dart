@@ -1,3 +1,4 @@
+export 'package:horno/provider/partner_services_provider.dart';
 export 'package:horno/provider/report_provider.dart';
 export 'package:horno/provider/rules_app.dart';
 export 'package:horno/provider/partner_auth_provider.dart';

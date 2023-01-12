@@ -9,6 +9,7 @@ class Preferences {
   static String _rolApp = 'client';
   static int _localId = 2;
   static String _localName = '';
+  static String _orderId = '';
 
   static Future init() async {
     _prefs = await SharedPreferences.getInstance();
@@ -39,6 +40,15 @@ class Preferences {
   static set localId(int localId) {
     _localId = localId;
     _prefs.setInt('localId', localId);
+  }
+
+  static String get orderId {
+    return _prefs.getString('orderId') ?? _orderId;
+  }
+
+  static set orderId(String orderId) {
+    _orderId = orderId;
+    _prefs.setString('orderId', orderId);
   }
 
   static String get localName {

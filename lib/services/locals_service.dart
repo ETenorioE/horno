@@ -36,6 +36,10 @@ class LocalsService extends ChangeNotifier {
   }
 
   Future getAll({bool withLoading = true}) async {
+    if (locals.isNotEmpty) {
+      return;
+    }
+
     if (withLoading) {
       isLoading = true;
     }
@@ -43,6 +47,7 @@ class LocalsService extends ChangeNotifier {
     final List<dynamic> res = await _supabase
         .from('locals')
         .select('*,services(*),contacts(*)')
+        .eq('services.state', 'active')
         .order('name', ascending: true);
 
     locals.clear();

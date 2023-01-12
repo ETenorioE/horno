@@ -72,6 +72,11 @@ class PartnerService extends ChangeNotifier {
         Preferences.userId = user.id;
 
         final localId = await _findProfileByUser(user.id);
+
+        if (localId == null) {
+          return 'Dato incorrectos';
+        }
+
         Preferences.localId = localId!;
 
         storage.write(key: 'token', value: user.id);
@@ -112,16 +117,20 @@ class PartnerService extends ChangeNotifier {
   }
 
   Future<int?> _findProfileByUser(String userId) async {
-    final res = await supabase
-        .from('profile')
-        .select('local_id, locals(name)')
-        .eq('user_id', userId)
-        .limit(1)
-        .single();
+    try {
+      final res = await supabase
+          .from('profile')
+          .select('local_id, locals(name)')
+          .eq('user_id', userId)
+          .limit(1)
+          .single();
 
-    businessName = res['locals']['name'];
-    Preferences.localName = businessName!;
-    notifyListeners();
-    return res['local_id'];
+      businessName = res['locals']['name'];
+      Preferences.localName = businessName!;
+      notifyListeners();
+      return res['local_id'];
+    } catch (_) {
+      return null;
+    }
   }
 }

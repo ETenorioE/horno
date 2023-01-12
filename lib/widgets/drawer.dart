@@ -30,11 +30,6 @@ class CustomDrawer extends StatelessWidget {
               route: MyRoutes.rLOCALS,
             ),
             _ListTileCustom(
-              icon: Icons.person,
-              text: 'Perfil',
-              route: MyRoutes.rLOCALS,
-            ),
-            _ListTileCustom(
               icon: Icons.sell_rounded,
               text: 'Mi pedido',
               route: MyRoutes.rMyORDER,
