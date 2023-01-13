@@ -45,7 +45,7 @@ class PartnerAuthProvider extends ChangeNotifier {
       final res = await supabase.from('locals').insert(data).select().single();
 
       Map<String, dynamic> dataProfile = {
-        'user_id': this.userId,
+        'user_id': userId,
         'local_id': res['id'],
         'rol': 'admin',
       };
@@ -74,7 +74,8 @@ class PartnerAuthProvider extends ChangeNotifier {
 
       if (user != null) {
         print("USER: ${user.id}");
-        this.userId = user.id;
+        userId = user.id;
+        Preferences.email = email;
         notifyListeners();
         return null;
       } else {

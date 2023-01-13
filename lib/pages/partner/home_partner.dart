@@ -10,7 +10,7 @@ class HomePartner extends StatelessWidget with RenderPage {
 
   @override
   Widget build(BuildContext context) {
-    final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
+    final GlobalKey<RefreshIndicatorState> refreshIndicatorKey =
         GlobalKey<RefreshIndicatorState>();
     final isLoading =
         context.select<ReportProvider, bool>((value) => value.isLoading);
@@ -23,7 +23,7 @@ class HomePartner extends StatelessWidget with RenderPage {
           onRefresh: () async {
             context.read<ReportProvider>().findReportByLocalId();
           },
-          keyIndicator: _refreshIndicatorKey,
+          keyIndicator: refreshIndicatorKey,
           child: Stack(children: [
             Container(color: ColorsApp.colorText.withOpacity(.3)),
             Padding(

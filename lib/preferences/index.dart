@@ -7,7 +7,7 @@ class Preferences {
   static String _email = '';
   static String _userId = '';
   static String _rolApp = 'client';
-  static int _localId = 2;
+  static int _localId = 0;
   static String _localName = '';
   static int _orderId = 0;
 
