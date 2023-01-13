@@ -19,12 +19,17 @@ class MyOrdersPage extends StatefulWidget {
 class _MyOrdersPageState extends State<MyOrdersPage> with RenderPage {
   List<OrderModel> items = [];
   bool isLoading = false;
+  bool isRealtime = false;
+  String typeFilter = 'all';
+  final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
+      GlobalKey<RefreshIndicatorState>();
+  final channel = supabase.channel('my_channel');
 
   @override
   void initState() {
     super.initState();
 
-    supabase.channel('my_channel').on(
+    channel.on(
         RealtimeListenTypes.postgresChanges,
         ChannelFilter(
           event: 'INSERT',
@@ -39,7 +44,8 @@ class _MyOrdersPageState extends State<MyOrdersPage> with RenderPage {
       }
     }).subscribe(
       (state, [p1]) async {
-        print("CHANNEL: $state");
+        isRealtime = state == 'SUBSCRIBED';
+        print('listen $state');
       },
     );
 
@@ -49,6 +55,7 @@ class _MyOrdersPageState extends State<MyOrdersPage> with RenderPage {
   void initData() {
     setState(() {
       isLoading = true;
+      typeFilter = 'all';
     });
 
     MyOrdersService.findByLocal(Preferences.localId).then((value) {
@@ -62,9 +69,27 @@ class _MyOrdersPageState extends State<MyOrdersPage> with RenderPage {
     });
   }
 
+  void filterData({required String type, required String filter}) {
+    setState(() {
+      isLoading = true;
+      typeFilter = type;
+    });
+
+    MyOrdersService.filterByType(local: Preferences.localId, type: filter)
+        .then((value) {
+      setState(() {
+        items = value;
+      });
+    }).whenComplete(() {
+      setState(() {
+        isLoading = false;
+      });
+    });
+  }
+
   @override
   void dispose() {
-    supabase.removeAllChannels();
+    supabase.removeChannel(channel);
     super.dispose();
   }
 
@@ -72,58 +97,103 @@ class _MyOrdersPageState extends State<MyOrdersPage> with RenderPage {
   Widget build(BuildContext context) {
     return ThemeCustomWidget(
       child: Scaffold(
-        appBar: appBarRender(title: 'Mis pedidos'),
+        appBar: appBarRender(title: 'Mis pedidos', actions: [
+          Visibility(
+              visible: isRealtime,
+              child: const Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Icon(Icons.campaign),
+              ))
+        ]),
         drawer: const DrawerPartner(),
-        body: Padding(
-          padding:
-              const EdgeInsets.only(top: 20, left: 20, right: 20, bottom: 20),
-          child: ListView(children: [
-            InputFilterWidget(onChanged: (p0) {}, hintText: 'Buscar pedido'),
-            const SpaceHeight(5),
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: const [
-                  ButtonRoundedWidget('Todos', isActive: true),
-                  ButtonRoundedWidget('Pendientes'),
-                  ButtonRoundedWidget('Completado'),
-                ],
-              ),
-            ),
-            const SpaceHeight(5),
-            isLoading
-                ? Center(
-                    child: CircularProgressIndicator(
-                      color: ColorsApp.colorSecondary,
+        body: RefreshIndicatorCustom(
+          keyIndicator: _refreshIndicatorKey,
+          onRefresh: () async {
+            if (typeFilter == 'all') {
+              initData();
+            } else {
+              filterData(filter: typeFilter, type: typeFilter);
+            }
+          },
+          child: Padding(
+            padding:
+                const EdgeInsets.only(top: 20, left: 20, right: 20, bottom: 20),
+            child: ListView(children: [
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    ButtonRoundedWidget(
+                      'Todos',
+                      isActive: typeFilter == 'all',
+                      onPressed: () {
+                        initData();
+                      },
                     ),
-                  )
-                : SizedBox(
-                    height: MediaQuery.of(context).size.height - 102,
-                    child: ListView.separated(
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemBuilder: (context, index) {
-                          final order = items[index];
-                          return _ItemWidget(
-                            order: order,
-                            onTap: (order) {
-                              final service =
-                                  SProvider.Provider.of<ProcessService>(context,
-                                      listen: false);
+                    ButtonRoundedWidget(
+                      'Pendientes',
+                      isActive: typeFilter == 'Pendiente',
+                      onPressed: () {
+                        filterData(filter: 'Pendiente', type: 'Pendiente');
+                      },
+                    ),
+                    ButtonRoundedWidget(
+                      'Completado',
+                      isActive: typeFilter == 'Completado',
+                      onPressed: () {
+                        filterData(filter: 'Completado', type: 'Completado');
+                      },
+                    ),
+                    ButtonRoundedWidget(
+                      'Horneando',
+                      isActive: typeFilter == 'Horneando',
+                      onPressed: () {
+                        filterData(filter: 'Horneando', type: 'Horneando');
+                      },
+                    ),
+                  ],
+                ),
+              ),
+              const SpaceHeight(5),
+              Visibility(
+                  visible: isLoading == false && items.isEmpty,
+                  child: MessageLottie(
+                      asset: 'no_data', message: 'Pedidos encontrados 0')),
+              isLoading
+                  ? Center(
+                      child: CircularProgressIndicator(
+                        color: ColorsApp.colorSecondary,
+                      ),
+                    )
+                  : SizedBox(
+                      height: MediaQuery.of(context).size.height - 102,
+                      child: ListView.separated(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemBuilder: (context, index) {
+                            final order = items[index];
+                            return _ItemWidget(
+                              order: order,
+                              onTap: (order) {
+                                final service =
+                                    SProvider.Provider.of<ProcessService>(
+                                        context,
+                                        listen: false);
 
-                              service.orderId = order.id!;
+                                service.orderId = order.id!;
 
-                              Navigator.pushReplacementNamed(
-                                  context, MyRoutes.rStateProcess);
-                            },
-                          );
-                        },
-                        separatorBuilder: (context, index) =>
-                            const SpaceHeight(20),
-                        itemCount: items.length),
-                  )
-          ]),
+                                Navigator.pushReplacementNamed(
+                                    context, MyRoutes.rStateProcess);
+                              },
+                            );
+                          },
+                          separatorBuilder: (context, index) =>
+                              const SpaceHeight(20),
+                          itemCount: items.length),
+                    ),
+            ]),
+          ),
         ),
       ),
     );

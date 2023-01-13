@@ -17,7 +17,7 @@ class OrderDetailPage extends StatelessWidget with RenderPage {
     return ThemeCustomWidget(
         child: Scaffold(
             appBar: appBarRender(
-                title: 'Detalle de la orden',
+                title: 'Detalle de pedido',
                 leading: backLeadingRender(context, MyRoutes.rLOCAL)),
             body: Stack(children: [
               backgroundImageRender(context),
@@ -54,9 +54,20 @@ class OrderDetailPage extends StatelessWidget with RenderPage {
 
   Padding _payment(BuildContext context, OrderService provider) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 20),
+      padding: const EdgeInsets.only(right: 20, left: 20, bottom: 20),
       child: ButtonWidget(
+          prefix: Icon(
+            Icons.paid,
+            color: ColorsApp.colorLight,
+          ),
           onPressed: () {
+            if (provider.details.isEmpty) {
+              NotificationsService.showSnackbar(
+                  'El pedido no puede estar vacio',
+                  state: StateNotification.error);
+              return;
+            }
+
             Navigator.pushReplacementNamed(context, MyRoutes.rPAYMENT);
           },
           text: 'Pagar S/. ${provider.total.toStringAsFixed(2)}'),
@@ -64,6 +75,6 @@ class OrderDetailPage extends StatelessWidget with RenderPage {
   }
 
   Center _title() {
-    return const Center(child: TitleWidget('Ingrese el peso', fontSize: 20));
+    return const Center(child: TitleWidget('Calcule el precio', fontSize: 20));
   }
 }

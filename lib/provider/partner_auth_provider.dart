@@ -30,7 +30,7 @@ class PartnerAuthProvider extends ChangeNotifier {
     required String officeHours,
   }) async {
     try {
-      if (this.userId == null) {
+      if (userId == null) {
         return 'No se pudo completar....';
       }
       Map<String, dynamic> data = {
@@ -45,14 +45,19 @@ class PartnerAuthProvider extends ChangeNotifier {
       final res = await supabase.from('locals').insert(data).select().single();
 
       Map<String, dynamic> dataProfile = {
-        'user_id': this.userId,
+        'user_id': userId,
         'local_id': res['id'],
         'rol': 'admin',
       };
-      final resProfile = await supabase.from('profile').insert(dataProfile);
-      storage.write(key: 'token', value: this.userId);
+      await supabase.from('profile').insert(dataProfile);
+
+      storage.write(key: 'token', value: userId);
       Preferences.rolApp = 'partner';
       Preferences.localName = name;
+      Preferences.localId = res['id'];
+      Preferences.localImage =
+          'https://cdn.pixabay.com/photo/2019/04/26/07/14/store-4156934_960_720.png';
+
       return null;
     } catch (e) {
       print('Error ${e.toString()}');
@@ -71,7 +76,8 @@ class PartnerAuthProvider extends ChangeNotifier {
 
       if (user != null) {
         print("USER: ${user.id}");
-        this.userId = user.id;
+        userId = user.id;
+        Preferences.email = email;
         notifyListeners();
         return null;
       } else {

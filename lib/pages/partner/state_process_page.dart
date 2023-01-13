@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:horno/models/index.dart';
 import 'package:horno/routes/index.dart';
 import 'package:horno/services/index.dart';
@@ -35,8 +36,7 @@ class StateProcessPage extends StatelessWidget with RenderPage {
                       child: TextWidget("No existe una orden pendiente"),
                     );
                   }
-
-                  print("stages : ${order.stages}");
+                  final stages = order.details!.length + 1;
 
                   return Stack(children: [
                     ListView(children: [
@@ -77,6 +77,12 @@ class StateProcessPage extends StatelessWidget with RenderPage {
                         padding: const EdgeInsets.only(bottom: 20),
                         child: ButtonWidget(
                           onPressed: () async {
+                            if (order.stages! < stages) {
+                              NotificationsService.showSnackbar(
+                                  'Completa los pasos previos',
+                                  state: StateNotification.error);
+                              return;
+                            }
                             service.stagesCompleted = order.details!.length + 1;
 
                             final res = await service.saveProcess(
@@ -87,13 +93,13 @@ class StateProcessPage extends StatelessWidget with RenderPage {
                                   'Ya se envio la notificación',
                                   state: StateNotification.error);
                             } else {
-                              NotificationsService.showSnackbar(res);
+                              EasyLoading.showSuccess(res);
                             }
                           },
                           text: (service.state == 'Completado') ||
                                   (order.state == 'Completado')
                               ? 'Pedido Completado '
-                              : 'Confirmar pedido completado',
+                              : 'Terminar pedido',
                         ),
                       ),
                     )
@@ -193,7 +199,7 @@ class _ItemProcessWidgetState extends State<_ItemProcessWidget> {
                             'Ya se envio la notificación',
                             state: StateNotification.error);
                       } else {
-                        NotificationsService.showSnackbar(res);
+                        EasyLoading.showSuccess(res);
                       }
                     }),
               ],

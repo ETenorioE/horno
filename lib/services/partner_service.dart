@@ -77,7 +77,7 @@ class PartnerService extends ChangeNotifier {
           return 'Dato incorrectos';
         }
 
-        Preferences.localId = localId!;
+        Preferences.localId = localId;
 
         storage.write(key: 'token', value: user.id);
         _handleSetExternalUserId(user.id);
@@ -120,12 +120,13 @@ class PartnerService extends ChangeNotifier {
     try {
       final res = await supabase
           .from('profile')
-          .select('local_id, locals(name)')
+          .select('local_id, locals(name,image)')
           .eq('user_id', userId)
           .limit(1)
           .single();
 
       businessName = res['locals']['name'];
+      Preferences.localImage = res['locals']['image'];
       Preferences.localName = businessName!;
       notifyListeners();
       return res['local_id'];

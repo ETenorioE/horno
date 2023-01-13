@@ -29,7 +29,7 @@ class DayOrdersReportWidget extends StatelessWidget {
         TextWidget(
           messageText(ordersDay),
           fontSize: 20,
-          color: ColorsApp.colorTitle.withOpacity(.6),
+          color: ColorsApp.colorSecondary,
         )
       ],
     );
@@ -38,11 +38,11 @@ class DayOrdersReportWidget extends StatelessWidget {
   String messageText(int ordersDay) {
     switch (ordersDay) {
       case 0:
-        return 'pedidos nuevos';
+        return 'pedidos nuevos hoy';
       case 1:
-        return 'pedido nuevo';
+        return 'pedido nuevo hoy';
       default:
-        return 'nuevos pedidos';
+        return 'nuevos pedidos hoy';
     }
   }
 

@@ -12,7 +12,7 @@ class TextWidget2 extends StatelessWidget {
     return Text(
       text,
       textAlign: TextAlign.justify,
-      style: GoogleFonts.openSans(
+      style: GoogleFonts.roboto(
         fontSize: 18,
         color: ColorsApp.colorText,
         fontWeight: FontWeight.bold,

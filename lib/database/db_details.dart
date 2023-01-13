@@ -79,4 +79,10 @@ class DBDetails {
 
     return await db!.delete(table, where: '$columnId=?', whereArgs: [id]);
   }
+
+  static Future<int?> deleteByOrderId(int id) async {
+    Database? db = await DbApp.instance.database;
+
+    return await db!.delete(table, where: '$columnOrderId=?', whereArgs: [id]);
+  }
 }

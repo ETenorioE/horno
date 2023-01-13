@@ -23,12 +23,6 @@ class ItemServicePartnerWidget extends StatelessWidget {
           motion: const ScrollMotion(),
           children: [
             SlidableAction(
-              backgroundColor: ColorsApp.colorSecondary,
-              onPressed: (context) => onPressedEdit(),
-              icon: Icons.edit,
-              label: 'Editar',
-            ),
-            SlidableAction(
               backgroundColor: ColorsApp.colorError,
               onPressed: (context) => onPressedDelete(),
               icon: Icons.delete,

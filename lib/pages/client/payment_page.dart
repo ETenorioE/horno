@@ -60,8 +60,6 @@ class PaymentPage extends StatelessWidget with RenderPage {
               );
 
               if (response.state == StateProcess.success) {
-                EasyLoading.instance.backgroundColor = ColorsApp.colorSuccess;
-
                 await provider.clearData();
 
                 EasyLoading.showSuccess(response.msg);
@@ -69,9 +67,8 @@ class PaymentPage extends StatelessWidget with RenderPage {
                 // ignore: use_build_context_synchronously
                 Navigator.pushReplacementNamed(context, MyRoutes.rLOCAL);
               } else {
-                EasyLoading.instance.backgroundColor = ColorsApp.colorError;
-
-                EasyLoading.showError(response.msg);
+                NotificationsService.showSnackbar(response.msg,
+                    state: StateNotification.error);
               }
             },
             text: 'Confirmar'));

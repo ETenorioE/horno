@@ -4,7 +4,6 @@ import 'package:horno/preferences/index.dart';
 import 'package:horno/routes/index.dart';
 import 'package:horno/services/index.dart';
 import 'package:horno/widgets/index.dart';
-import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 
 class HistoryPage extends StatefulWidget {
@@ -17,6 +16,11 @@ class HistoryPage extends StatefulWidget {
 class _HistoryPageState extends State<HistoryPage> with RenderPage {
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
       GlobalKey<RefreshIndicatorState>();
+  Future<void> refresh() async {
+    await context.read<PartnerService>().findLocalById();
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<PaymentService>(context);
@@ -27,7 +31,7 @@ class _HistoryPageState extends State<HistoryPage> with RenderPage {
         drawer: const CustomDrawer(),
         body: RefreshIndicatorCustom(
           onRefresh: () async {
-            setState(() {});
+            await refresh();
           },
           keyIndicator: _refreshIndicatorKey,
           child: Stack(
@@ -38,37 +42,53 @@ class _HistoryPageState extends State<HistoryPage> with RenderPage {
                 child: FutureBuilder(
                   future: provider.findAllByUserId(),
                   builder: (context, snapshot) {
-                    if (snapshot.hasData) {
-                      final list = snapshot.data;
+                    switch (snapshot.connectionState) {
+                      case ConnectionState.none:
+                      case ConnectionState.waiting:
+                      case ConnectionState.active:
+                        return Align(
+                          alignment: Alignment.center,
+                          child: CircularProgressIndicator(
+                            color: ColorsApp.colorLight,
+                          ),
+                        );
+                      case ConnectionState.done:
+                        {
+                          if (snapshot.hasData) {
+                            final list = snapshot.data;
 
-                      if (list == null || list.isEmpty) {
-                        return MessageLottie(
-                            message: 'No tienes un historial de pedidos',
-                            colorText: ColorsApp.colorLight,
-                            asset: 'empty_box');
-                      }
+                            if (list == null || list.isEmpty) {
+                              return Center(
+                                child: MessageLottie(
+                                    message:
+                                        'No tienes un historial de pedidos',
+                                    colorText: ColorsApp.colorLight,
+                                    asset: 'empty_box'),
+                              );
+                            }
 
-                      return ListView.builder(
-                        itemCount: list.length,
-                        itemBuilder: (context, index) {
-                          final order = list[index];
-                          return _ItemHistoryWidget(
-                            order: order,
-                            onTap: () {
-                              Preferences.orderId = order.id!;
-                              Navigator.pushReplacementNamed(
-                                  context, MyRoutes.rMyORDER);
-                            },
-                          );
-                        },
-                      );
-                    } else {
-                      return Align(
-                        alignment: Alignment.center,
-                        child: CircularProgressIndicator(
-                          color: ColorsApp.colorSecondary,
-                        ),
-                      );
+                            return ListView.builder(
+                              itemCount: list.length,
+                              itemBuilder: (context, index) {
+                                final order = list[index];
+                                return _ItemHistoryWidget(
+                                  order: order,
+                                  onTap: () {
+                                    Preferences.orderId = order.id!;
+                                    Navigator.pushReplacementNamed(
+                                        context, MyRoutes.rMyORDER);
+                                  },
+                                );
+                              },
+                            );
+                          } else {
+                            return Center(
+                              child: MessageLottie(
+                                  message: 'Historial de pedidos vacio.',
+                                  asset: 'empty_box'),
+                            );
+                          }
+                        }
                     }
                   },
                 ),
