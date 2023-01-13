@@ -35,8 +35,7 @@ class StateProcessPage extends StatelessWidget with RenderPage {
                       child: TextWidget("No existe una orden pendiente"),
                     );
                   }
-
-                  print("stages : ${order.stages}");
+                  final stages = order.details!.length + 1;
 
                   return Stack(children: [
                     ListView(children: [
@@ -76,24 +75,33 @@ class StateProcessPage extends StatelessWidget with RenderPage {
                       child: Padding(
                         padding: const EdgeInsets.only(bottom: 20),
                         child: ButtonWidget(
-                          onPressed: () async {
-                            service.stagesCompleted = order.details!.length + 1;
+                          onPressed: order.stages! < stages
+                              ? null
+                              : () async {
+                                  if (order.stages! < stages) {
+                                    NotificationsService.showSnackbar(
+                                        'Completa los paso previos',
+                                        state: StateNotification.error);
+                                    return;
+                                  }
+                                  service.stagesCompleted =
+                                      order.details!.length + 1;
 
-                            final res = await service.saveProcess(
-                                type: TypeMessage.completed,
-                                isConfirmed: order.state == 'Completado');
-                            if (res == null) {
-                              NotificationsService.showSnackbar(
-                                  'Ya se envio la notificación',
-                                  state: StateNotification.error);
-                            } else {
-                              NotificationsService.showSnackbar(res);
-                            }
-                          },
+                                  final res = await service.saveProcess(
+                                      type: TypeMessage.completed,
+                                      isConfirmed: order.state == 'Completado');
+                                  if (res == null) {
+                                    NotificationsService.showSnackbar(
+                                        'Ya se envio la notificación',
+                                        state: StateNotification.error);
+                                  } else {
+                                    NotificationsService.showSnackbar(res);
+                                  }
+                                },
                           text: (service.state == 'Completado') ||
                                   (order.state == 'Completado')
                               ? 'Pedido Completado '
-                              : 'Confirmar pedido completado',
+                              : 'Terminar pedido',
                         ),
                       ),
                     )

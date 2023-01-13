@@ -7,21 +7,18 @@ class ButtonWidget extends StatelessWidget {
   final String? text;
   final Widget? prefix;
   final Widget? suffix;
-  final void Function() onPressed;
+  final void Function()? onPressed;
   const ButtonWidget(
-      {super.key,
-      this.text,
-      required this.onPressed,
-      this.prefix,
-      this.suffix});
+      {super.key, this.text, this.onPressed, this.prefix, this.suffix});
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
         height: 58,
         child: MaterialButton(
+            disabledColor: ColorsApp.colorPrimary,
             color: ColorsApp.colorSecondary,
-            onPressed: () => onPressed(),
+            onPressed: () => onPressed == null ? null : onPressed!(),
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
             child: Row(
