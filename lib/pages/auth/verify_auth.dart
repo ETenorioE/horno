@@ -26,7 +26,7 @@ class VerifyAuthScreen extends StatelessWidget {
           if (snapshot.data == '') {
             Future.microtask(() {
               Navigator.pushNamedAndRemoveUntil(
-                  context, MyRoutes.rTYPE_ROL, (route) => false);
+                  context, MyRoutes.rTypeRol, (route) => false);
             });
           } else {
             Future.microtask(() {

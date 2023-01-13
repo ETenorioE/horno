@@ -73,21 +73,19 @@ class PaymentService extends ChangeNotifier {
 
     try {
       dynamic response;
+      final query = supabase.from('orders').select('*,details(*)');
 
       if (id == null) {
-        response = await supabase
-            .from('orders')
-            .select('*,details(*)')
+        response = await query
             .eq('client_id', Preferences.userId)
             .order('id', ascending: false)
             .limit(1)
             .single();
       } else {
-        response = await supabase
-            .from('orders')
-            .select('*,details(*)')
+        response = await query
             .eq('id', id)
             .eq('client_id', Preferences.userId)
+            .limit(1)
             .single();
       }
 
@@ -95,16 +93,20 @@ class PaymentService extends ChangeNotifier {
 
       return {'order': orderSave, 'state': 'success'};
     } catch (e) {
+      print("Query: $e");
       return {'order': null, 'state': 'error'};
     }
   }
 
-  Future<List<OrderModel>> findAll() async {
+  Future<List<OrderModel>> findAllByUserId() async {
     final supabase = Supabase.instance.client;
     List<OrderModel> list = [];
 
-    final List<dynamic> response =
-        await supabase.from('orders').select('*').order('id', ascending: false);
+    final List<dynamic> response = await supabase
+        .from('orders')
+        .select('*')
+        .eq('client_id', Preferences.userId)
+        .order('id', ascending: false);
 
     for (var item in response) {
       final order = OrderModel.fromMapSave(item);

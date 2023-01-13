@@ -29,8 +29,8 @@ class _RegisterBusinessPageState extends State<RegisterBusinessPage> {
         child: Center(
           child: Padding(
             padding: EdgeInsets.only(
-              left: Medidas.mypadding,
-              right: Medidas.mypadding,
+              left: MeasuresApp.myPadding,
+              right: MeasuresApp.myPadding,
             ),
             child: SingleChildScrollView(
               child: Column(
@@ -126,7 +126,8 @@ class _BusinessFormState extends State<_BusinessForm> with RenderPage {
               height: 58,
               child: MaterialButton(
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(Medidas.myborderbutton),
+                  borderRadius:
+                      BorderRadius.circular(MeasuresApp.myBorderButton),
                 ),
                 disabledColor: ColorsApp.colorPrimary,
                 elevation: 1,

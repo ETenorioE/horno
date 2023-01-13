@@ -64,4 +64,48 @@ class LocalModel {
         "services": List<dynamic>.from(services.map((x) => x.toJson())),
         "contacts": List<dynamic>.from(contacts.map((x) => x.toJson())),
       };
+
+  String get stateAttentionText {
+    try {
+      final now = DateTime.now();
+
+      final hourStarIndex = officeHours.indexOf(':');
+      final hourStar = officeHours.substring(0, hourStarIndex + 3).trim();
+
+      final hourEndIndex = officeHours.indexOf(':', hourStarIndex + 1);
+      final hourEnd =
+          officeHours.substring(hourEndIndex - 2, hourEndIndex + 3).trim();
+
+      bool isGreater = isGreaterThenAttention(hourStar, now);
+      bool isLess = isLessThenAttention(hourEnd, now);
+
+      return isGreater == isLess ? 'Abierto' : 'Cerrado';
+    } catch (_) {
+      return '';
+    }
+  }
+
+  bool isGreaterThenAttention(String time, DateTime now) {
+    List<String> values = time.split(':');
+    final hour = int.parse(values[0]);
+    final minute = int.parse(values[1]);
+
+    DateTime date = DateTime(now.year, now.month, now.day, hour, minute);
+
+    return now.compareTo(date) > 0;
+  }
+
+  bool isLessThenAttention(String time, DateTime now) {
+    List<String> values = time.split(':');
+    int hour = int.parse(values[0]);
+    final minute = int.parse(values[1]);
+
+    if (hour < 12) {
+      hour += 12;
+    }
+
+    DateTime date = DateTime(now.year, now.month, now.day, hour, minute);
+
+    return now.compareTo(date) < 0;
+  }
 }

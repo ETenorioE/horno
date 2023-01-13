@@ -12,7 +12,10 @@ import 'package:onesignal_flutter/onesignal_flutter.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  await Supabase.initialize(url: BaseService.sURL, anonKey: BaseService.apiKey);
+  await Supabase.initialize(
+      url: BaseService.sURL,
+      anonKey: BaseService.apiKey,
+      localStorage: const EmptyLocalStorage());
 
   await Preferences.init();
 

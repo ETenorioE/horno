@@ -97,7 +97,7 @@ class _LoginFormState extends State<_LoginForm> {
                   style: TextStyle(
                       color: ColorsApp.colorTitle,
                       fontWeight: FontWeight.bold,
-                      fontSize: Medidas.mysize),
+                      fontSize: MeasuresApp.mySizeFont),
                 ),
               ],
             ),
@@ -130,7 +130,7 @@ class _LoginFormState extends State<_LoginForm> {
                   style: TextStyle(
                       color: ColorsApp.colorTitle,
                       fontWeight: FontWeight.bold,
-                      fontSize: Medidas.mysize),
+                      fontSize: MeasuresApp.mySizeFont),
                 ),
               ],
             ),
@@ -165,7 +165,8 @@ class _LoginFormState extends State<_LoginForm> {
               height: 58,
               child: MaterialButton(
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(Medidas.myborderbutton),
+                  borderRadius:
+                      BorderRadius.circular(MeasuresApp.myBorderButton),
                 ),
                 disabledColor: ColorsApp.colorPrimary,
                 elevation: 1,

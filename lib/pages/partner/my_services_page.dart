@@ -27,7 +27,7 @@ class MyServicesPage extends StatelessWidget with RenderPage {
           IconButton(
               onPressed: () {
                 Navigator.pushReplacementNamed(
-                    context, MyRoutes.rREGISTER_SERVICES);
+                    context, MyRoutes.rRegisterServices);
               },
               icon: const Icon(Icons.add))
         ]),
@@ -50,7 +50,7 @@ class MyServicesPage extends StatelessWidget with RenderPage {
                           onPressedEdit: () {
                             (context) {
                               Navigator.pushReplacementNamed(
-                                  context, MyRoutes.rREGISTER_SERVICES);
+                                  context, MyRoutes.rRegisterServices);
                             };
                           },
                           onPressedDelete: () {

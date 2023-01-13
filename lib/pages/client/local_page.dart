@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:horno/models/index.dart';
-import 'package:horno/pages/index.dart';
 import 'package:horno/routes/index.dart';
 import 'package:horno/services/index.dart';
 import 'package:horno/widgets/index.dart';
@@ -19,29 +18,51 @@ class LocalPage extends StatelessWidget {
         backgroundColor: ColorsApp.colorSecondary,
         bottomNavigationBar:
             BottomNavigationWidget(currentIndex: -1, context: context),
-        body: ListView(children: [
-          _header(context, provider.local),
-          _details(provider.local),
-          _services(),
-          Container(
-              height: 320,
-              padding: const EdgeInsets.only(top: 20, right: 20, left: 20),
-              color: ColorsApp.colorLight,
-              child: ListView.separated(
-                  itemCount: provider.local!.services.length,
-                  separatorBuilder: (context, index) => const SpaceHeight(20),
-                  itemBuilder: (context, index) {
-                    final service = provider.local!.services[index];
+        body: Stack(children: [
+          ListView(children: [
+            _header(context, provider.local),
+            _details(provider.local),
+            _services(),
+            Container(
+                height: MediaQuery.of(context).size.height * 0.4,
+                padding: const EdgeInsets.only(top: 20, right: 20, left: 20),
+                color: ColorsApp.colorLight,
+                child: ListView.separated(
+                    itemCount: provider.local!.services.length,
+                    separatorBuilder: (context, index) => const SpaceHeight(20),
+                    itemBuilder: (context, index) {
+                      final service = provider.local!.services[index];
 
-                    return ItemServiceWidget(
-                        service: service,
-                        onTap: () {
-                          orderProvider.createOrder(service, "1");
+                      return ItemServiceWidget(
+                          service: service,
+                          onTap: () {
+                            orderProvider.createOrder(service, "1");
 
-                          Navigator.pushReplacementNamed(
-                              context, MyRoutes.rOrderDetail);
-                        });
-                  }))
+                            Navigator.pushReplacementNamed(
+                                context, MyRoutes.rOrderDetail);
+                          });
+                    }))
+          ]),
+          Visibility(
+            visible: true,
+            child: Align(
+              alignment: Alignment.bottomCenter,
+              child: Padding(
+                padding: const EdgeInsets.only(right: 20, left: 20, bottom: 10),
+                child: ButtonWidget(
+                  prefix: Icon(
+                    Icons.shopping_cart,
+                    color: ColorsApp.colorLight,
+                  ),
+                  onPressed: () {
+                    Navigator.pushReplacementNamed(
+                        context, MyRoutes.rOrderDetail);
+                  },
+                  text: 'Ver mi pedido',
+                ),
+              ),
+            ),
+          )
         ]));
   }
 
@@ -81,8 +102,14 @@ class LocalPage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               TitleWidget(local!.name, fontSize: 18),
-              TitleWidget(local.stateAttention,
-                  fontSize: 16, color: ColorsApp.colorSuccess)
+              Visibility(
+                visible: local.stateAttentionText != '',
+                child: TitleWidget(local.stateAttentionText,
+                    fontSize: 16,
+                    color: local.stateAttentionText == 'Cerrado'
+                        ? ColorsApp.colorError
+                        : ColorsApp.colorSuccess),
+              )
             ],
           ),
           const SpaceHeight(10),

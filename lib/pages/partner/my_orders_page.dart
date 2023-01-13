@@ -115,7 +115,7 @@ class _MyOrdersPageState extends State<MyOrdersPage> with RenderPage {
                               service.orderId = order.id!;
 
                               Navigator.pushReplacementNamed(
-                                  context, MyRoutes.rSTATE_PROCESS);
+                                  context, MyRoutes.rStateProcess);
                             },
                           );
                         },

@@ -20,7 +20,7 @@ class _MyOrderPageState extends State<MyOrderPage> with RenderPage {
       GlobalKey<RefreshIndicatorState>();
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<PaymentService>(context);
+    final provider = Provider.of<PaymentService>(context, listen: false);
 
     return ThemeCustomWidget(
       child: Scaffold(
@@ -165,7 +165,7 @@ class _MyOrderPageState extends State<MyOrderPage> with RenderPage {
 
   SizedBox _listRender(OrderModel data) {
     return SizedBox(
-        height: 320,
+        height: MediaQuery.of(context).size.height * 0.5,
         child: ListView.separated(
             itemCount: data.details!.length,
             separatorBuilder: (context, index) => const SpaceHeight(13),
@@ -207,21 +207,13 @@ class _MyOrderPageState extends State<MyOrderPage> with RenderPage {
     );
   }
 
-  Row _header(OrderModel? data) {
+  Row _header(OrderModel? order) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [_textOrder(data), _textTime()],
-    );
-  }
-
-  IconAndTextWidget _textTime() {
-    return const IconAndTextWidget(text: '0:00:01', icon: Icons.av_timer);
-  }
-
-  TitleWidget _textOrder(OrderModel? data) {
-    return TitleWidget(
-      'Número de pedido #${data?.orderText}',
-      fontSize: 16,
+      children: [
+        TitleWidget('Pedido #${order!.orderText}', fontSize: 16),
+        IconAndTextWidget(text: order.timeText, icon: Icons.av_timer)
+      ],
     );
   }
 

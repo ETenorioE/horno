@@ -19,7 +19,7 @@ class StateProcessPage extends StatelessWidget with RenderPage {
             title: 'Estado del pedido',
             leading: IconButton(
                 onPressed: () {
-                  Navigator.pushReplacementNamed(context, MyRoutes.rMy_ORDERS);
+                  Navigator.pushReplacementNamed(context, MyRoutes.rMyOrders);
                 },
                 icon: const Icon(Icons.arrow_back))),
         body: Padding(
