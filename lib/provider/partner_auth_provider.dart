@@ -30,7 +30,7 @@ class PartnerAuthProvider extends ChangeNotifier {
     required String officeHours,
   }) async {
     try {
-      if (this.userId == null) {
+      if (userId == null) {
         return 'No se pudo completar....';
       }
       Map<String, dynamic> data = {
@@ -49,10 +49,13 @@ class PartnerAuthProvider extends ChangeNotifier {
         'local_id': res['id'],
         'rol': 'admin',
       };
-      final resProfile = await supabase.from('profile').insert(dataProfile);
-      storage.write(key: 'token', value: this.userId);
+      await supabase.from('profile').insert(dataProfile);
+
+      storage.write(key: 'token', value: userId);
       Preferences.rolApp = 'partner';
       Preferences.localName = name;
+      Preferences.localId = res['id'];
+
       return null;
     } catch (e) {
       print('Error ${e.toString()}');

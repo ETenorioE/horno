@@ -40,6 +40,8 @@ class AuthService extends ChangeNotifier {
     final supabase = Supabase.instance.client;
     Preferences.email = '';
     Preferences.userId = '';
+    Preferences.localId = 0;
+    Preferences.localName = '';
     await supabase.auth.signOut();
     await storage.deleteAll();
     _handleRemoveExternalUserId();
