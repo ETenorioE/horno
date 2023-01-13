@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:horno/database/index.dart';
 import 'package:horno/models/index.dart';
+import 'package:horno/preferences/index.dart';
 import 'package:horno/routes/index.dart';
 import 'package:horno/services/index.dart';
 import 'package:horno/widgets/index.dart';
@@ -12,7 +14,8 @@ class LocalPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final provider = Provider.of<LocalsService>(context);
 
-    final orderProvider = Provider.of<OrderService>(context, listen: false);
+    final detailsOrder = context
+        .select<OrderService, List<DetailDbModel>>((value) => value.details);
 
     return Scaffold(
         backgroundColor: ColorsApp.colorSecondary,
@@ -24,8 +27,8 @@ class LocalPage extends StatelessWidget {
             _details(provider.local),
             _services(),
             Container(
-                height: MediaQuery.of(context).size.height * 0.4,
-                padding: const EdgeInsets.only(top: 20, right: 20, left: 20),
+                height: MediaQuery.of(context).size.height * 0.5,
+                padding: const EdgeInsets.only(top: 20, right: 10, left: 10),
                 color: ColorsApp.colorLight,
                 child: ListView.separated(
                     itemCount: provider.local!.services.length,
@@ -36,15 +39,16 @@ class LocalPage extends StatelessWidget {
                       return ItemServiceWidget(
                           service: service,
                           onTap: () {
-                            orderProvider.createOrder(service, "1");
-
+                            context
+                                .read<OrderService>()
+                                .createOrder(service, Preferences.userId);
                             Navigator.pushReplacementNamed(
                                 context, MyRoutes.rOrderDetail);
                           });
                     }))
           ]),
           Visibility(
-            visible: true,
+            visible: detailsOrder.isNotEmpty,
             child: Align(
               alignment: Alignment.bottomCenter,
               child: Padding(
