@@ -45,9 +45,7 @@ class _MyOrdersPageState extends State<MyOrdersPage> with RenderPage {
       }
     }).subscribe(
       (state, [p1]) async {
-        setState(() {
-          isRealtime = state == 'SUBSCRIBED';
-        });
+        isRealtime = state == 'SUBSCRIBED';
       },
     );
 

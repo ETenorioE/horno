@@ -16,7 +16,7 @@
       </intent>
     </queries>
    <application
-        android:label="horno"
+        android:label="BakeApp"
         android:name="${applicationName}"
         android:icon="@mipmap/launcher_icon">
         <activity
