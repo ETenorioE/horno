@@ -1,4 +1,3 @@
-import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:horno/database/index.dart';
 import 'package:horno/models/index.dart';
@@ -79,7 +78,7 @@ class OrderService extends ChangeNotifier {
 
   Future clearData() async {
     await DBOrders.deleteRows(order!);
-
+    await DBDetails.deleteByOrderId(order!.id!);
     order = null;
     total = 0;
     details = [];

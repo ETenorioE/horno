@@ -42,6 +42,8 @@ class AuthService extends ChangeNotifier {
     Preferences.userId = '';
     Preferences.localId = 0;
     Preferences.localName = '';
+    Preferences.localImage =
+        'https://cdn.pixabay.com/photo/2019/04/26/07/14/store-4156934_960_720.png';
     await supabase.auth.signOut();
     await storage.deleteAll();
     _handleRemoveExternalUserId();

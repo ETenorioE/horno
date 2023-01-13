@@ -42,17 +42,21 @@ class _MyOrderPageState extends State<MyOrderPage> with RenderPage {
                 final data = snapshot.data;
 
                 if (data == null) {
-                  return MessageLottie(
-                      message: 'No existe el pedido pendiente',
-                      asset: 'empty_box');
+                  return Center(
+                    child: MessageLottie(
+                        message: 'No existe el pedido, intente mas tarde',
+                        asset: 'empty_box'),
+                  );
                 }
 
                 final order = data['order'];
 
                 if (order == null) {
-                  return MessageLottie(
-                      message: 'No existe el pedido pendiente',
-                      asset: 'empty_box');
+                  return Center(
+                    child: MessageLottie(
+                        message: 'No existe el pedido, intente mas tarde',
+                        asset: 'empty_box'),
+                  );
                 }
 
                 return Stack(children: [

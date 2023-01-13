@@ -42,10 +42,12 @@ class _HistoryPageState extends State<HistoryPage> with RenderPage {
                       final list = snapshot.data;
 
                       if (list == null || list.isEmpty) {
-                        return MessageLottie(
-                            message: 'No tienes un historial de pedidos',
-                            colorText: ColorsApp.colorLight,
-                            asset: 'empty_box');
+                        return Center(
+                          child: MessageLottie(
+                              message: 'No tienes un historial de pedidos',
+                              colorText: ColorsApp.colorLight,
+                              asset: 'empty_box'),
+                        );
                       }
 
                       return ListView.builder(

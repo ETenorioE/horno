@@ -15,6 +15,7 @@ class NotificationsService {
 
     final snackBar = SnackBar(
       backgroundColor: backgroundColor,
+      dismissDirection: DismissDirection.up,
       shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
               topLeft: Radius.circular(10), topRight: Radius.circular(10))),

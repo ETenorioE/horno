@@ -31,13 +31,10 @@ class _LocalsPageState extends State<LocalsPage> with RenderPage {
               FocusManager.instance.primaryFocus!.unfocus();
             }
           },
-          child: RefreshIndicator(
-            key: _refreshIndicatorKey,
-            color: ColorsApp.colorLight,
-            backgroundColor: ColorsApp.colorSecondary,
-            strokeWidth: 4.0,
+          child: RefreshIndicatorCustom(
+            keyIndicator: _refreshIndicatorKey,
             onRefresh: () async {
-              await service.getAll(withLoading: false);
+              service.getAll();
             },
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10),

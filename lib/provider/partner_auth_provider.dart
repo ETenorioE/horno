@@ -55,6 +55,8 @@ class PartnerAuthProvider extends ChangeNotifier {
       Preferences.rolApp = 'partner';
       Preferences.localName = name;
       Preferences.localId = res['id'];
+      Preferences.localImage =
+          'https://cdn.pixabay.com/photo/2019/04/26/07/14/store-4156934_960_720.png';
 
       return null;
     } catch (e) {

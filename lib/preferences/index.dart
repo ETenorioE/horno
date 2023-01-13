@@ -9,6 +9,8 @@ class Preferences {
   static String _rolApp = 'client';
   static int _localId = 0;
   static String _localName = '';
+  static final String _localImage =
+      'https://cdn.pixabay.com/photo/2019/04/26/07/14/store-4156934_960_720.png';
   static int _orderId = 0;
 
   static Future init() async {
@@ -40,6 +42,14 @@ class Preferences {
   static set localId(int localId) {
     _localId = localId;
     _prefs.setInt('localId', localId);
+  }
+
+  static String get localImage {
+    return _prefs.getString('localImage') ?? _localImage;
+  }
+
+  static set localImage(String localImage) {
+    _prefs.setString('localImage', localImage);
   }
 
   static int get orderId {

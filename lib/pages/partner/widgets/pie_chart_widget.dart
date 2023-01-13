@@ -66,9 +66,9 @@ class PieChart2State extends State<PieChartWidget> {
       return "+0%";
     }
 
-    double percentage = (widget.revenuePrevious / widget.revenue) * 100;
+    double percentage = (rest / widget.revenue) * 100;
 
-    return "+$percentage%";
+    return "+${percentage.toStringAsPrecision(2)}%";
   }
 
   List<PieChartSectionData> showingSections() {

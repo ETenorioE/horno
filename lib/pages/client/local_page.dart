@@ -7,9 +7,16 @@ import 'package:horno/services/index.dart';
 import 'package:horno/widgets/index.dart';
 import 'package:provider/provider.dart';
 
-class LocalPage extends StatelessWidget {
+class LocalPage extends StatefulWidget {
   const LocalPage({super.key});
 
+  @override
+  State<LocalPage> createState() => _LocalPageState();
+}
+
+class _LocalPageState extends State<LocalPage> {
+  final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
+      GlobalKey<RefreshIndicatorState>();
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<LocalsService>(context);
@@ -21,56 +28,73 @@ class LocalPage extends StatelessWidget {
         backgroundColor: ColorsApp.colorSecondary,
         bottomNavigationBar:
             BottomNavigationWidget(currentIndex: -1, context: context),
-        body: Stack(children: [
-          ListView(children: [
-            _header(context, provider.local),
-            _details(provider.local),
-            _services(),
-            Container(
-                height: MediaQuery.of(context).size.height * 0.5,
-                padding: const EdgeInsets.only(top: 20, right: 10, left: 10),
-                color: ColorsApp.colorLight,
-                child: ListView.separated(
-                    itemCount: provider.local!.services.length,
-                    separatorBuilder: (context, index) => const SpaceHeight(20),
-                    itemBuilder: (context, index) {
-                      final service = provider.local!.services[index];
-
-                      return ItemServiceWidget(
-                          service: service,
-                          onTap: () {
-                            context
-                                .read<OrderService>()
-                                .createOrder(service, Preferences.userId);
-                            Navigator.pushReplacementNamed(
-                                context, MyRoutes.rOrderDetail);
-                          });
-                    }))
-          ]),
-          Visibility(
-            visible: detailsOrder.isNotEmpty,
-            child: Align(
-              alignment: Alignment.bottomCenter,
-              child: Padding(
-                padding: const EdgeInsets.only(right: 20, left: 20, bottom: 10),
-                child: ButtonWidget(
-                  prefix: Icon(
-                    Icons.shopping_cart,
+        body: RefreshIndicatorCustom(
+          keyIndicator: _refreshIndicatorKey,
+          onRefresh: () async {
+            provider.findLocalById();
+          },
+          child: Stack(children: [
+            ListView(children: [
+              _header(context, provider.local),
+              _details(provider.local),
+              _servicesHeader(),
+              Visibility(
+                visible: provider.isLoading,
+                child: Container(
+                    height: MediaQuery.of(context).size.height * 0.5,
+                    padding:
+                        const EdgeInsets.only(top: 20, right: 10, left: 10),
                     color: ColorsApp.colorLight,
+                    child: const CircularProgressCustom()),
+              ),
+              Container(
+                  height: MediaQuery.of(context).size.height * 0.5,
+                  padding: const EdgeInsets.only(top: 20, right: 10, left: 10),
+                  color: ColorsApp.colorLight,
+                  child: ListView.separated(
+                      itemCount: provider.local!.services.length,
+                      separatorBuilder: (context, index) =>
+                          const SpaceHeight(20),
+                      itemBuilder: (context, index) {
+                        final service = provider.local!.services[index];
+
+                        return ItemServiceWidget(
+                            service: service,
+                            onTap: () {
+                              context
+                                  .read<OrderService>()
+                                  .createOrder(service, Preferences.userId);
+                              Navigator.pushReplacementNamed(
+                                  context, MyRoutes.rOrderDetail);
+                            });
+                      }))
+            ]),
+            Visibility(
+              visible: detailsOrder.isNotEmpty,
+              child: Align(
+                alignment: Alignment.bottomCenter,
+                child: Padding(
+                  padding:
+                      const EdgeInsets.only(right: 20, left: 20, bottom: 10),
+                  child: ButtonWidget(
+                    prefix: Icon(
+                      Icons.shopping_cart,
+                      color: ColorsApp.colorLight,
+                    ),
+                    onPressed: () {
+                      Navigator.pushReplacementNamed(
+                          context, MyRoutes.rOrderDetail);
+                    },
+                    text: 'Ver mi pedido',
                   ),
-                  onPressed: () {
-                    Navigator.pushReplacementNamed(
-                        context, MyRoutes.rOrderDetail);
-                  },
-                  text: 'Ver mi pedido',
                 ),
               ),
-            ),
-          )
-        ]));
+            )
+          ]),
+        ));
   }
 
-  Container _services() {
+  Container _servicesHeader() {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
       decoration: BoxDecoration(

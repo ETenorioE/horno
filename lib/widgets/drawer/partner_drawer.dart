@@ -21,10 +21,10 @@ class DrawerPartner extends StatelessWidget {
             DrawerHeader(
               child: Row(
                 children: [
-                  const CircleAvatar(
+                  CircleAvatar(
                     radius: 30,
-                    backgroundImage: NetworkImage(
-                        'https://cdn.pixabay.com/photo/2019/04/26/07/14/store-4156934_960_720.png'),
+                    backgroundColor: ColorsApp.colorSecondary,
+                    backgroundImage: NetworkImage(Preferences.localImage),
                   ),
                   const SpaceWidth(20),
                   Column(

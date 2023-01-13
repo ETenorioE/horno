@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:horno/models/index.dart';
 import 'package:horno/routes/index.dart';
 import 'package:horno/services/index.dart';
@@ -75,29 +76,26 @@ class StateProcessPage extends StatelessWidget with RenderPage {
                       child: Padding(
                         padding: const EdgeInsets.only(bottom: 20),
                         child: ButtonWidget(
-                          onPressed: order.stages! < stages
-                              ? null
-                              : () async {
-                                  if (order.stages! < stages) {
-                                    NotificationsService.showSnackbar(
-                                        'Completa los paso previos',
-                                        state: StateNotification.error);
-                                    return;
-                                  }
-                                  service.stagesCompleted =
-                                      order.details!.length + 1;
+                          onPressed: () async {
+                            if (order.stages! < stages) {
+                              NotificationsService.showSnackbar(
+                                  'Completa los pasos previos',
+                                  state: StateNotification.error);
+                              return;
+                            }
+                            service.stagesCompleted = order.details!.length + 1;
 
-                                  final res = await service.saveProcess(
-                                      type: TypeMessage.completed,
-                                      isConfirmed: order.state == 'Completado');
-                                  if (res == null) {
-                                    NotificationsService.showSnackbar(
-                                        'Ya se envio la notificación',
-                                        state: StateNotification.error);
-                                  } else {
-                                    NotificationsService.showSnackbar(res);
-                                  }
-                                },
+                            final res = await service.saveProcess(
+                                type: TypeMessage.completed,
+                                isConfirmed: order.state == 'Completado');
+                            if (res == null) {
+                              NotificationsService.showSnackbar(
+                                  'Ya se envio la notificación',
+                                  state: StateNotification.error);
+                            } else {
+                              EasyLoading.showSuccess(res);
+                            }
+                          },
                           text: (service.state == 'Completado') ||
                                   (order.state == 'Completado')
                               ? 'Pedido Completado '
@@ -201,7 +199,7 @@ class _ItemProcessWidgetState extends State<_ItemProcessWidget> {
                             'Ya se envio la notificación',
                             state: StateNotification.error);
                       } else {
-                        NotificationsService.showSnackbar(res);
+                        EasyLoading.showSuccess(res);
                       }
                     }),
               ],

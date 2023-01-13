@@ -23,20 +23,29 @@ class LocalsService extends ChangeNotifier {
   bool get isLoading => _isLoading;
 
   LocalsService() {
-    locals.clear();
-    temps.clear();
-    getAll();
+    if (locals.isEmpty) {
+      getAll();
+    }
+  }
+
+  Future findLocalById() async {
+    isLoading = true;
+
+    final res = await _supabase
+        .from('locals')
+        .select('*,services(*),contacts(*)')
+        .eq('id', local!.id)
+        .limit(1)
+        .single();
+
+    local = LocalModel.fromMap(res);
+    isLoading = false;
   }
 
   Future getAll({bool withLoading = true}) async {
-    if (locals.isNotEmpty) {
-      return;
-    }
-
     if (withLoading) {
       isLoading = true;
     }
-
     final List<dynamic> res = await _supabase
         .from('locals')
         .select('*,services(*),contacts(*)')

@@ -29,7 +29,7 @@ class DayOrdersReportWidget extends StatelessWidget {
         TextWidget(
           messageText(ordersDay),
           fontSize: 20,
-          color: ColorsApp.colorTitle.withOpacity(.6),
+          color: ColorsApp.colorSecondary,
         )
       ],
     );

@@ -21,7 +21,6 @@ class _MyOrdersPageState extends State<MyOrdersPage> with RenderPage {
   bool isLoading = false;
   bool isRealtime = false;
   String typeFilter = 'all';
-
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
       GlobalKey<RefreshIndicatorState>();
   final channel = supabase.channel('my_channel');
@@ -46,6 +45,7 @@ class _MyOrdersPageState extends State<MyOrdersPage> with RenderPage {
     }).subscribe(
       (state, [p1]) async {
         isRealtime = state == 'SUBSCRIBED';
+        print('listen $state');
       },
     );
 
@@ -109,14 +109,16 @@ class _MyOrdersPageState extends State<MyOrdersPage> with RenderPage {
         body: RefreshIndicatorCustom(
           keyIndicator: _refreshIndicatorKey,
           onRefresh: () async {
-            initData();
+            if (typeFilter == 'all') {
+              initData();
+            } else {
+              filterData(filter: typeFilter, type: typeFilter);
+            }
           },
           child: Padding(
             padding:
                 const EdgeInsets.only(top: 20, left: 20, right: 20, bottom: 20),
             child: ListView(children: [
-              InputFilterWidget(onChanged: (p0) {}, hintText: 'Buscar pedido'),
-              const SpaceHeight(5),
               SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Row(
@@ -131,23 +133,23 @@ class _MyOrdersPageState extends State<MyOrdersPage> with RenderPage {
                     ),
                     ButtonRoundedWidget(
                       'Pendientes',
-                      isActive: typeFilter == 'pending',
+                      isActive: typeFilter == 'Pendiente',
                       onPressed: () {
-                        filterData(filter: 'Pendiente', type: 'pending');
+                        filterData(filter: 'Pendiente', type: 'Pendiente');
                       },
                     ),
                     ButtonRoundedWidget(
                       'Completado',
-                      isActive: typeFilter == 'completed',
+                      isActive: typeFilter == 'Completado',
                       onPressed: () {
-                        filterData(filter: 'Completado', type: 'completed');
+                        filterData(filter: 'Completado', type: 'Completado');
                       },
                     ),
                     ButtonRoundedWidget(
                       'Horneando',
-                      isActive: typeFilter == 'baking',
+                      isActive: typeFilter == 'Horneando',
                       onPressed: () {
-                        filterData(filter: 'Horneando', type: 'backing');
+                        filterData(filter: 'Horneando', type: 'Horneando');
                       },
                     ),
                   ],

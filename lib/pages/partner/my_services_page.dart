@@ -48,7 +48,7 @@ class _MyServicesPageState extends State<MyServicesPage> with RenderPage {
                 .findAllByLocalId(enableLoading: true);
           },
           child: Padding(
-            padding: const EdgeInsets.all(20),
+            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
             child: isLoading
                 ? const CircularProgressCustomWidget()
                 : isLoading == false && services.isEmpty

@@ -21,7 +21,9 @@ class HomePartner extends StatelessWidget with RenderPage {
         drawer: const DrawerPartner(),
         body: RefreshIndicatorCustom(
           onRefresh: () async {
-            context.read<ReportProvider>().findReportByLocalId();
+            context
+                .read<ReportProvider>()
+                .findReportByLocalId(activePrev: true);
           },
           keyIndicator: refreshIndicatorKey,
           child: Stack(children: [

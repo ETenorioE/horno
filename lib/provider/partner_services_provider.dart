@@ -58,7 +58,7 @@ class PartnerServicesProvider extends BaseProvider {
     }
   }
 
-  Future<String?> save(BuildContext context) async {
+  Future<String?> save() async {
     Map<String, dynamic> data = {
       'name': name,
       'service_id': 1,
@@ -74,14 +74,13 @@ class PartnerServicesProvider extends BaseProvider {
           await supabase.from('services').insert(data).select('id').single();
       id = res['id'];
     } catch (e) {
-      print(e);
       return 'No se pudo completar el proceso';
     }
     final pathImage = await _uploadImageStorage(id.toString());
 
     await _updateImage(id: id, path: pathImage);
 
-    findAllByLocalId();
+    //findAllByLocalId();
 
     activeCleanImage();
 
