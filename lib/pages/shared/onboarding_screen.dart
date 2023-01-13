@@ -121,15 +121,15 @@ final List<Onboard> data = [
   Onboard(
       image: 'assets/images/pavo.png',
       title: 'Solicite hornear',
-      descripcion: 'Mollit in do mollit aliqua proident ut.'),
+      descripcion: 'Nosotros nos ocupamos de hornear su pedido'),
   Onboard(
       image: 'assets/images/parlante.png',
       title: 'Nosotros te notificamos',
-      descripcion: 'Mollit in do mollit aliqua proident ut.'),
+      descripcion: 'Podras ver el progreso de tu pedido'),
   Onboard(
       image: 'assets/images/cell.png',
       title: 'Nuestra app de facil uso',
-      descripcion: 'Mollit in do mollit aliqua proident ut.'),
+      descripcion: ' Con rapidez en cualquier local más cercano'),
 ];
 
 class CustomOnboarding extends StatelessWidget {
