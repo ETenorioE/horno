@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:horno/pages/index.dart';
 
-import '../routes/index.dart';
+import '../../routes/index.dart';
 // import 'package:horno/widgets/index.dart';
 
 class OnboardingScreen extends StatefulWidget {
@@ -147,7 +147,7 @@ class CustomOnboarding extends StatelessWidget {
       children: [
         InkWell(
           onTap: () {
-            Navigator.pushReplacementNamed(context, MyRoutes.rTYPE_ROL);
+            Navigator.pushReplacementNamed(context, MyRoutes.rTypeRol);
           },
           child: Row(
             mainAxisAlignment: MainAxisAlignment.end,

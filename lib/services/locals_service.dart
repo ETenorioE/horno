@@ -1,8 +1,6 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:horno/models/index.dart';
 import 'package:horno/services/index.dart';
-import 'package:http/http.dart' as http;
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class LocalsService extends ChangeNotifier {
@@ -14,11 +12,6 @@ class LocalsService extends ChangeNotifier {
   LocalModel? local;
 
   final List<LocalModel> temps = [];
-
-  final Map<String, String> headers = {
-    'apikey': BaseService.apiKey,
-    'Authorization': BaseService.authorization
-  };
 
   bool _isLoading = false;
 
@@ -63,19 +56,6 @@ class LocalsService extends ChangeNotifier {
       isLoading = false;
     } else {
       notifyListeners();
-    }
-  }
-
-  void _processData(http.Response response, {bool isCached = false}) {
-    final List<dynamic> localsMap = json.decode(response.body);
-
-    for (var element in localsMap) {
-      final temp = LocalModel.fromMap(element);
-      locals.add(temp);
-
-      if (isCached) {
-        temps.add(temp);
-      }
     }
   }
 

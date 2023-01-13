@@ -27,7 +27,7 @@ class _RegisterServicesPageState extends State<RegisterServicesPage>
       child: Scaffold(
         appBar: appBarRender(
             title: 'Crear servicio',
-            leading: backLeadingRender(context, MyRoutes.rMY_SERVICES)),
+            leading: backLeadingRender(context, MyRoutes.rMyServices)),
         body: Padding(
           padding: const EdgeInsets.all(20.0),
           child: SingleChildScrollView(
@@ -159,7 +159,7 @@ class _RegisterServicesPageState extends State<RegisterServicesPage>
 
                                 // ignore: use_build_context_synchronously
                                 Navigator.pushReplacementNamed(
-                                    context, MyRoutes.rMY_SERVICES);
+                                    context, MyRoutes.rMyServices);
                               } else {
                                 EasyLoading.instance.backgroundColor =
                                     ColorsApp.colorError;

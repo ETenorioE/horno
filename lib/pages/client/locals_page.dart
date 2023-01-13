@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:horno/routes/index.dart';
 import 'package:horno/services/index.dart';
 import 'package:horno/widgets/index.dart';
-import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 // import 'package:avatar_circle_bapp/avatar_circle_bapp.dart';
 
@@ -20,7 +19,6 @@ class _LocalsPageState extends State<LocalsPage> with RenderPage {
   @override
   Widget build(BuildContext context) {
     final service = Provider.of<LocalsService>(context);
-    final height = MediaQuery.of(context).size.height;
 
     return ThemeCustomWidget(
       child: Scaffold(
@@ -109,7 +107,7 @@ class _LocalsPageState extends State<LocalsPage> with RenderPage {
           return LocalItemWidget(
               name: item.name,
               schedule: item.officeHours,
-              state: item.stateAttention,
+              state: item.stateAttentionText,
               image: item.banner,
               onTap: () {
                 service.setLocal(item);

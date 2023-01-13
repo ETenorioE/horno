@@ -11,8 +11,8 @@ class ColorsApp {
   static Color colorBlack = const Color(0xff252525);
 }
 
-class Medidas {
-  static double mypadding = 20;
-  static double mysize = 16;
-  static double myborderbutton = 15;
+class MeasuresApp {
+  static double myPadding = 20;
+  static double mySizeFont = 16;
+  static double myBorderButton = 15;
 }

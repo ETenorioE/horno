@@ -111,6 +111,7 @@ class CustomDrawer extends StatelessWidget {
   }
 }
 
+// ignore: must_be_immutable
 class _ListTileCustom extends StatelessWidget {
   final String text;
   final IconData icon;

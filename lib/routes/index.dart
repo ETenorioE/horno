@@ -6,7 +6,6 @@ class MyRoutes {
   static const String rLOCAL = '/local';
   static const String rHomePartner = '/home-partner';
   static const String rNOTIFY = '/notifications';
-  static const String rVOUCHER = '/voucher';
   static const String rLOGIN = '/login';
   static const String rMyORDER = '/my-order';
   static const String rABOUT = '/about';
@@ -15,13 +14,13 @@ class MyRoutes {
   static const String rHistoryOrder = '/records';
   static const String rONBOARD = '/onboard';
   static const String rVERIFY = '/verify';
-  static const String rTYPE_ROL = '/type-rol';
-  static const String rLOGIN_PARTNER = '/login-partner';
-  static const String rREGISTER_BUSINESS = '/register-business';
-  static const String rMy_ORDERS = '/my-orders';
-  static const String rSTATE_PROCESS = '/state-process';
-  static const String rREGISTER_SERVICES = '/register-services';
-  static const String rMY_SERVICES = '/my-services';
+  static const String rTypeRol = '/type-rol';
+  static const String rLoginPartner = '/login-partner';
+  static const String rRegisterBusiness = '/register-business';
+  static const String rMyOrders = '/my-orders';
+  static const String rStateProcess = '/state-process';
+  static const String rRegisterServices = '/register-services';
+  static const String rMyServices = '/my-services';
   static const String rRegisterClient = '/register-client';
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -32,8 +31,6 @@ class MyRoutes {
         return MaterialPageRoute(builder: (_) => const LocalPage());
       case ('/notifications'):
         return MaterialPageRoute(builder: (_) => const NotificationPage());
-      case ('/voucher'):
-        return MaterialPageRoute(builder: (_) => const VoucherPage());
       case ('/login'):
         return MaterialPageRoute(builder: (_) => const LoginClientPage());
       case ('/my-order'):

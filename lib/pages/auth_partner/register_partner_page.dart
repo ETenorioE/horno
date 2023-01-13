@@ -33,8 +33,8 @@ class _RegisterPartnerPageState extends State<RegisterPartnerPage> {
             child: Center(
                 child: Padding(
                     padding: EdgeInsets.only(
-                      left: Medidas.mypadding,
-                      right: Medidas.mypadding,
+                      left: MeasuresApp.myPadding,
+                      right: MeasuresApp.myPadding,
                     ),
                     child: SingleChildScrollView(
                         child: Column(
@@ -74,7 +74,7 @@ class _PartnerUserFormState extends State<_PartnerUserForm> with RenderPage {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             TitleWidget('Email',
-                color: ColorsApp.colorTitle, fontSize: Medidas.mysize),
+                color: ColorsApp.colorTitle, fontSize: MeasuresApp.mySizeFont),
             const SpaceHeight(5),
             TextFormField(
               autofocus: false,
@@ -97,7 +97,7 @@ class _PartnerUserFormState extends State<_PartnerUserForm> with RenderPage {
             TitleWidget(
               'Contraseña',
               color: ColorsApp.colorTitle,
-              fontSize: Medidas.mysize,
+              fontSize: MeasuresApp.mySizeFont,
             ),
             const SpaceHeight(5),
             TextFormField(
@@ -125,7 +125,7 @@ class _PartnerUserFormState extends State<_PartnerUserForm> with RenderPage {
             TitleWidget(
               'Confirmar contraseña',
               color: ColorsApp.colorTitle,
-              fontSize: Medidas.mysize,
+              fontSize: MeasuresApp.mySizeFont,
             ),
             const SpaceHeight(5),
             TextFormField(
@@ -155,7 +155,8 @@ class _PartnerUserFormState extends State<_PartnerUserForm> with RenderPage {
               height: 58,
               child: MaterialButton(
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(Medidas.myborderbutton),
+                  borderRadius:
+                      BorderRadius.circular(MeasuresApp.myBorderButton),
                 ),
                 disabledColor: ColorsApp.colorPrimary,
                 elevation: 1,

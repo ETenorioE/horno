@@ -39,7 +39,7 @@ class TypeRolPage extends StatelessWidget {
                       onTap: () {
                         Preferences.rolApp = 'partners';
                         Navigator.pushReplacementNamed(
-                            context, MyRoutes.rLOGIN_PARTNER);
+                            context, MyRoutes.rLoginPartner);
                       },
                       text: 'Socio',
                       icon: Icons.group,

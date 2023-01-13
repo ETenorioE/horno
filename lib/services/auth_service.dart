@@ -6,9 +6,9 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 class AuthService extends ChangeNotifier {
   final storage = const FlutterSecureStorage();
-  final supabase = Supabase.instance.client;
 
   Future<String?> createUser(String email, String password) async {
+    final supabase = Supabase.instance.client;
     try {
       final AuthResponse res =
           await supabase.auth.signUp(email: email, password: password);
@@ -37,6 +37,7 @@ class AuthService extends ChangeNotifier {
   }
 
   Future logout() async {
+    final supabase = Supabase.instance.client;
     Preferences.email = '';
     Preferences.userId = '';
     await supabase.auth.signOut();
@@ -54,5 +55,15 @@ class AuthService extends ChangeNotifier {
     OneSignal.shared.removeExternalUserId().then((results) {
       print("External user id removed: $results");
     });
+  }
+
+  Future<String> getInitialAuthState() async {
+    try {
+      final initialSession = await SupabaseAuth.instance.initialSession;
+      return initialSession == null ? '' : initialSession.accessToken;
+    } catch (e) {
+      print(e);
+      return '';
+    }
   }
 }
