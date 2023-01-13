@@ -79,7 +79,7 @@ class PieChart2State extends State<PieChartWidget> {
       switch (i) {
         case 0:
           return PieChartSectionData(
-            color: ColorsApp.colorTitle,
+            color: ColorsApp.colorSecondary,
             value: widget.revenue,
             radius: radius,
             title: '',
@@ -91,7 +91,7 @@ class PieChart2State extends State<PieChartWidget> {
           );
         case 1:
           return PieChartSectionData(
-            color: ColorsApp.colorLight,
+            color: ColorsApp.colorPrimary,
             value: widget.revenue - widget.revenuePrevious,
             title: '',
             radius: radius,

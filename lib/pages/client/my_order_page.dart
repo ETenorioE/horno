@@ -18,87 +18,96 @@ class MyOrderPage extends StatefulWidget {
 class _MyOrderPageState extends State<MyOrderPage> with RenderPage {
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
       GlobalKey<RefreshIndicatorState>();
+  OrderModel? _order;
+
+  Future initData() async {
+    final res = await context
+        .read<PaymentService>()
+        .findById(Preferences.orderId == 0 ? null : Preferences.orderId);
+
+    return res;
+  }
+
+  Future refreshData() async {
+    final res = await context
+        .read<PaymentService>()
+        .findById(Preferences.orderId == 0 ? null : Preferences.orderId);
+    setState(() {
+      _order = res['order'];
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<PaymentService>(context, listen: false);
-
     return ThemeCustomWidget(
       child: Scaffold(
         appBar: appBarRender(title: "Mi Pedido"),
-        body: RefreshIndicator(
-          key: _refreshIndicatorKey,
-          color: ColorsApp.colorLight,
-          backgroundColor: ColorsApp.colorSecondary,
-          strokeWidth: 4.0,
+        body: RefreshIndicatorCustom(
+          keyIndicator: _refreshIndicatorKey,
           onRefresh: () async {
-            setState(() {});
+            await refreshData();
           },
-          child: FutureBuilder(
-            future: provider.findById(Preferences.orderId == 0
-                ? provider.orderId
-                : Preferences.orderId),
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                final data = snapshot.data;
+          child: Stack(children: [
+            backgroundImageRender(context),
+            Padding(
+              padding: _paddingPage(),
+              child: Container(
+                padding: _paddingCard(),
+                decoration: _decorationCard(),
+                child: FutureBuilder(
+                  future: initData(),
+                  builder: (context, snapshot) {
+                    switch (snapshot.connectionState) {
+                      case ConnectionState.none:
+                      case ConnectionState.waiting:
+                      case ConnectionState.active:
+                        return Align(
+                          alignment: Alignment.center,
+                          child: CircularProgressIndicator(
+                            color: ColorsApp.colorSecondary,
+                          ),
+                        );
+                      case ConnectionState.done:
+                        final data = snapshot.data;
 
-                if (data == null) {
-                  return Center(
-                    child: MessageLottie(
-                        message: 'No existe el pedido, intente mas tarde',
-                        asset: 'empty_box'),
-                  );
-                }
+                        if (data == null) {
+                          return Center(
+                            child: MessageLottie(
+                                message:
+                                    'No existe el pedido, intente mas tarde',
+                                asset: 'empty_box'),
+                          );
+                        }
+                        final order = data["order"];
+                        if (order == null) {
+                          return Center(
+                            child: MessageLottie(
+                                message:
+                                    'No existe el pedido, intente mas tarde',
+                                asset: 'empty_box'),
+                          );
+                        }
 
-                final order = data['order'];
-
-                if (order == null) {
-                  return Center(
-                    child: MessageLottie(
-                        message: 'No existe el pedido, intente mas tarde',
-                        asset: 'empty_box'),
-                  );
-                }
-
-                return Stack(children: [
-                  backgroundImageRender(context),
-                  Padding(
-                      padding: _paddingPage(),
-                      child: Container(
-                          padding: _paddingCard(),
-                          decoration: _decorationCard(),
-                          child: SingleChildScrollView(
-                              child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                _header(order),
-                                const SpaceHeight(23),
-                                _notifyState(order),
-                                const SpaceHeight(22),
-                                _messageStateOrder(order),
-                                const SpaceHeight(22),
-                                _titleDetails(),
-                                const SpaceHeight(15),
-                                _listRender(order)
-                              ])))),
-                  _footer(order)
-                ]);
-              } else if (snapshot.hasError) {
-                return Center(
-                  child: TextWidget(
-                    'No se pudo recuperar la orden, intente mas tarde',
-                    color: ColorsApp.colorError,
-                  ),
-                );
-              } else {
-                return Align(
-                  alignment: Alignment.center,
-                  child: CircularProgressIndicator(
-                    color: ColorsApp.colorSecondary,
-                  ),
-                );
-              }
-            },
-          ),
+                        return SingleChildScrollView(
+                            child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                              _header(order),
+                              const SpaceHeight(23),
+                              _notifyState(order!),
+                              const SpaceHeight(22),
+                              _messageStateOrder(order!),
+                              const SpaceHeight(22),
+                              _titleDetails(),
+                              const SpaceHeight(15),
+                              _listRender(order!)
+                            ]));
+                    }
+                  },
+                ),
+              ),
+            ),
+          ]),
         ),
         drawer: const CustomDrawer(),
         bottomNavigationBar:
@@ -169,7 +178,7 @@ class _MyOrderPageState extends State<MyOrderPage> with RenderPage {
 
   SizedBox _listRender(OrderModel data) {
     return SizedBox(
-        height: MediaQuery.of(context).size.height * 0.5,
+        height: MediaQuery.of(context).size.height * 0.6,
         child: ListView.separated(
             itemCount: data.details!.length,
             separatorBuilder: (context, index) => const SpaceHeight(13),
